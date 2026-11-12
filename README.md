@@ -15,6 +15,7 @@ BIX 2026 세무 팀의 **발표용 웹 프로토타입**이에요. 질문 다섯
 | `build.py` | TAX 계산 엔진과 `data/` 자료를 `src.html`에 끼워 `index.html`을 만들어요 |
 | `data/demo-core.json` | 데모 자료. Core의 해운대 바삭치킨·광안 소금빵 자료를 그대로 받아 둔 사본 |
 | `data/wage-table-2026.json` | 근로소득 간이세액표 원본 (소득세법 시행령 별표2, 2026.2.27 개정) — 직원 원천세 계산용 |
+| `data/answers.json` | AI 상담 "직접 쓴 답" — 질문에 키워드가 있으면 Core AI 대신 이 답을 바로 보여 줘요. `{부가세}` 같은 자리는 사이트 계산 숫자로 바뀌어요. 고친 뒤 `python3 build.py` |
 | `tools/snapshot.py` | 배포된 사이트로 Core 자료를 다시 받아 `data/demo-core.json`을 새로 만들어요 (키 필요 없음) |
 | `index.html` | 실제로 열리는 페이지 (자동 생성, 직접 고치지 않기) |
 | `api/core.js` | Vercel 서버 함수. 팀 키를 서버에만 두고 Core에 대신 물어봐요 |

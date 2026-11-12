@@ -27,5 +27,8 @@ demo = (here / "data" / "demo-core.json").read_text(encoding="utf-8").replace("<
 # 직원 월급 원천세: 근로소득 간이세액표(2026.2.27 개정) 원본 표
 wage = (here / "data" / "wage-table-2026.json").read_text(encoding="utf-8")
 assert "/*@@WAGE@@*/" in src
-(here / "index.html").write_text(src.replace("/*@@ENGINE@@*/", engine).replace("/*@@DEMO@@*/null", demo).replace("/*@@WAGE@@*/null", wage), encoding="utf-8")
+# AI 상담에서 바로 보여 줄 직접 쓴 답 (사람이 고치는 파일)
+answers = (here / "data" / "answers.json").read_text(encoding="utf-8").replace("</", "<\\/")
+assert "/*@@ANSWERS@@*/null" in src
+(here / "index.html").write_text(src.replace("/*@@ENGINE@@*/", engine).replace("/*@@DEMO@@*/null", demo).replace("/*@@WAGE@@*/null", wage).replace("/*@@ANSWERS@@*/null", answers), encoding="utf-8")
 print("index.html 생성:", len(engine.splitlines()), "줄 엔진 포함 (출처:", tax, ")")
