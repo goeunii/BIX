@@ -164,11 +164,15 @@ input[type=range]{width:100%;accent-color:var(--b);margin-top:8px}
 .cd.sel{box-shadow:0 0 0 2px var(--b) inset;background:#fff}.cd:hover{background:#f0f0f5}
 .cd b u{text-decoration:none;font-size:10px;font-weight:800;background:var(--r);color:#fff;border-radius:99px;min-width:15px;height:15px;display:inline-flex;align-items:center;justify-content:center;margin-left:3px;padding:0 3px;vertical-align:1px}
 .tdn{display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;background:var(--r);color:#fff;border-radius:99px;min-width:15px;height:15px;margin-right:4px}
+.td2w{border-bottom:1px solid var(--l)}.td2w:last-of-type{border-bottom:0}.td2w .td2{border-bottom:0}
+.td2w.star{background:var(--ab);border-radius:12px;padding:0 4px 0 8px;margin:2px 0;border-bottom-color:transparent}
+.td2w.done .t{color:#aeaeb2;text-decoration:line-through}.td2w.done .ck{background:#c7c7cc;border-color:#c7c7cc}.td2w.done .pill{opacity:.5}
+.tri{flex:0 0 30px;height:30px;border-radius:8px;color:var(--s);font-size:17px;transition:transform .15s}.tri:hover{background:#f2f2f7}.tri.on{transform:rotate(180deg);color:var(--b)}
+.tdx{margin:-4px 0 10px 30px;padding:10px 12px;background:#f5f5f7;border-radius:10px;font-size:13px;color:var(--s);line-height:1.55}.tdx b{color:var(--t)}.tdx p{margin:6px 0 0}.tdx button{color:var(--b);font-weight:700;margin-top:6px;font-size:13px}
+.top .rt.hrt{flex-direction:column;align-items:stretch;min-width:320px}.dgb{display:flex;align-items:center;gap:14px;padding:20px 20px;border-radius:18px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06);text-align:left;width:100%}.dgb em{font-style:normal;font-size:34px}.dgb b{display:block;font-size:20px;margin-bottom:2px}.dgb small{color:var(--s);font-size:13px}.dgb:hover b{color:var(--b)}
 .td2{gap:8px;padding:11px 0}.td2 .t{font-size:15px;color:var(--t)}.td2 .ck{flex:0 0 22px;width:22px;height:22px;border-radius:50%;border:2px solid #c7c7cc;color:#fff;font-size:13px;font-weight:800;display:inline-flex;align-items:center;justify-content:center}
-.td2.done .ck{background:var(--g);border-color:var(--g)}.td2.done .t{color:#aeaeb2;text-decoration:line-through}
-.td2 .ib{flex:0 0 30px;height:30px;border-radius:8px;font-size:15px;color:#c7c7cc;filter:grayscale(1);opacity:.75}.td2 .ib:hover{background:#f2f2f7;opacity:1}.td2 .ib.on{filter:none;opacity:1;color:#f5a623;background:#fff;box-shadow:0 0 0 1.5px #f5a623 inset}
-.td2.star{background:var(--ab);border-radius:12px;padding-left:8px;padding-right:4px;margin:2px 0;border-bottom-color:transparent}
-.g3b{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.g3b .btn{padding-left:6px;padding-right:6px}.btn.onb{box-shadow:0 0 0 2px var(--b) inset;color:var(--b)}
+.td2 .ib{flex:0 0 28px;height:28px;font-size:18px;color:#d1d1d6}.td2 .ib:hover{color:#f5c26b}.td2 .ib.on{color:#f5a623}
+.g3b{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}.g3b .btn{padding-left:6px;padding-right:6px}.btn.onb{box-shadow:0 0 0 2px var(--b) inset;color:var(--b)}
 .lnk{display:block;color:var(--b);font-weight:700;font-size:14px;padding:3px 0}
 .calsel{margin-top:14px;border-top:1px solid var(--l);padding-top:12px}
 .db{background:var(--b)}
@@ -255,7 +259,7 @@ input[type=range]{width:100%;accent-color:var(--b);margin-top:8px}
   .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(250,250,252,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--l);padding:8px 4px calc(8px + env(safe-area-inset-bottom))}
   .tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:600;color:#8e8e93}
   .tabbar svg{width:25px;height:25px}.tabbar button.on{color:var(--b)}
-  .top h1{font-size:28px}.top .rt{margin-left:0;width:100%}.top .rt .btn{flex:1}
+  .top h1{font-size:28px}.top .rt{margin-left:0;width:100%}.top .rt .btn{flex:1}.top .rt.hrt{min-width:0}.top .rt.hrt .btn{flex:none}
   .g3,.g2,.g2.hm,.g2e,.bens{grid-template-columns:minmax(0,1fr);gap:12px}
   .g3{grid-template-columns:1fr 1fr}.g3 .big{grid-column:1/-1}
   .big{padding:20px}.big .v,.amt{font-size:32px;letter-spacing:-1px}
@@ -1637,7 +1641,7 @@ function loadingView() {
   if (S.err) return `<div class="top"><h1>앗, 문제가 생겼어요</h1></div><div class="card"><p>${esc(S.err)}</p><button class="btn p" data-reload>다시 불러오기</button> <button class="btn w" data-usedemo>데모 데이터로 보기</button></div>`;
   return `<div style="padding:160px 0;text-align:center" class="sub"><span class="spin"></span>가게 자료를 불러오는 중…</div>`;
 }
-const pageTop = (kicker, title, right = "") => `<div class="top"><div><div class="k">${kicker}</div><h1>${title}</h1></div>${right ? `<div class="rt noprint">${right}</div>` : ""}</div>`;
+const pageTop = (kicker, title, right = "", rc = "") => `<div class="top"><div><div class="k">${kicker}</div><h1>${title}</h1></div>${right ? `<div class="rt noprint ${rc}">${right}</div>` : ""}</div>`;
 const obNote = () => (S.fromOb ? `<div class="note noprint"><span>💡</span><div>입력하신 답(<b>${esc([S.ob.region, S.ob.ind, S.ob.vat !== "몰라요" ? S.ob.vat && S.ob.vat + "과세" : ""].filter(Boolean).join(" · "))}</b>)과 비슷한 <b>샘플 가게</b> 자료로 보여 드려요. ${S.user ? "" : `<button data-signup="save" style="color:var(--b);font-weight:700;text-decoration:underline">가입하면</button> 결과를 저장할 수 있어요.`}</div></div>` : "");
 
 /* --- 홈: 달력이 먼저 --- */
@@ -1689,31 +1693,32 @@ function calCard(todos) {
   for (let i = 0; i < first; i++) cells += `<div></div>`;
   for (let dd = 1; dd <= n; dd++) {
     const k = `${ym}-${String(dd).padStart(2, "0")}`, es = ev[k] || [], tn = (td[k] || []).length;
-    cells += `<button class="cd ${k === today ? "td" : ""} ${k === sel ? "sel" : ""} ${es.length ? "has" : ""}" data-calday="${k}"><b>${dd}${tn ? `<u title="이날까지 할 일 ${tn}개">${tn}</u>` : ""}</b>${es.slice(0, 2).map((e) => `<i class="${e.kind === "신고" ? "eb" : "ea"}">${esc(calShort(e.name))}</i>`).join("")}${es.length > 2 ? `<i class="ex">+${es.length - 2}</i>` : ""}</button>`;
+    cells += `<button class="cd ${k === today ? "td" : ""} ${k === sel ? "sel" : ""} ${es.length ? "has" : ""}" data-calday="${k}"><b>${dd}${tn ? `<u title="이날까지 확인할 일 ${tn}개">${tn}</u>` : ""}</b>${es.slice(0, 2).map((e) => `<i class="${e.kind === "신고" ? "eb" : "ea"}">${esc(calShort(e.name))}</i>`).join("")}${es.length > 2 ? `<i class="ex">+${es.length - 2}</i>` : ""}</button>`;
   }
   const list = sel ? ev[sel] || [] : [], tl = sel ? td[sel] || [] : [];
   return `<div class="card"><div class="h3row"><h3>${y}년 ${m}월</h3><div class="calnav"><button data-calm="-1" aria-label="이전 달">‹</button><button data-calm="0">오늘</button><button data-calm="1" aria-label="다음 달">›</button></div></div>
     <div class="calg">${"일월화수목금토".split("").map((w) => `<div class="w">${w}</div>`).join("")}${cells}</div>
-    <div class="small" style="margin-top:8px"><span class="tdn">2</span> 그날 신고 전에 끝낼 할 일 수</div>
+    <div style="display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap"><span class="small" style="flex:1"><span class="tdn">2</span> 그날 신고 전에 확인할 일 수</span><button class="btn w sm" data-ics>📅 내 캘린더에 넣기</button></div>
     <div class="calsel">${sel ? `<div class="k">${fd(sel)} · ${dday(sel)}</div>` + (list.map((i) => `<div class="row"><span class="dot ${i.kind === "신고" ? "db" : "da"}"></span><div class="t">${esc(i.name)}<small>${esc(i.what)}</small></div>${nt && nt.due === i.due && nt.name.startsWith(i.name.slice(0, 3)) ? `<b class="r">${amt(nt.lo, nt.hi)}</b>` : ""}</div>`).join("") || `<p class="small">이날은 일정이 없어요</p>`)
-      + (tl.length ? `<button class="row chev" data-tododay="${sel}"><span class="dot dr"></span><div class="t"><b>이날까지 할 일 ${tl.length}개</b><small>${esc(tl.slice(0, 2).map((x) => txShort(x.text)).join(" · "))}${tl.length > 2 ? " …" : ""}</small></div></button>` : "") : `<p class="small">이달은 세금 일정이 없어요</p>`}</div></div>`;
+      + (tl.length ? `<button class="row chev" data-tododay="${sel}"><span class="dot dr"></span><div class="t"><b>이날까지 확인할 일 ${tl.length}개</b><small>${esc(tl.slice(0, 2).map((x) => txShort(x.text)).join(" · "))}${tl.length > 2 ? " …" : ""}</small></div></button>` : "") : `<p class="small">이달은 세금 일정이 없어요</p>`}</div></div>`;
 }
 function todoRow(x) {
-  return `<div class="row td2 ${x.done ? "done" : ""} ${x.star ? "star" : ""}">
-    <button class="ck" data-tmark="done" data-tkey="${esc(x.key)}" aria-label="${x.done ? "안 했어요로 되돌리기" : "했어요"}" title="했어요">${x.done ? "✓" : ""}</button>
-    <button class="t" data-todo="${esc(x.key)}" style="text-align:left"><span class="dot ${x.lv === "need" ? "dr" : "da"}" style="margin-right:6px"></span>${esc(txShort(x.text))}${x.change ? ` <span class="pill pb" style="font-size:11px;padding:1px 7px">바뀐 기준</span>` : ""}<small>${x.due ? `${esc(x.dueName)} ${fd(x.due)} 전 · ` : ""}${esc(x.cat)}</small></button>
+  const open = S.todoOpen?.[x.key], long = txShort(x.text) !== x.text;
+  return `<div class="td2w ${x.done ? "done" : ""} ${x.star ? "star" : ""}"><div class="row td2">
+    <button class="ck" data-tmark="done" data-tkey="${esc(x.key)}" aria-label="${x.done ? "완료 취소" : "완료"}" title="${x.done ? "완료 취소" : "확인했어요"}">${x.done ? "✓" : ""}</button>
+    <button class="t" data-todo="${esc(x.key)}" style="text-align:left"><span class="dot ${x.done ? "dg" : x.lv === "need" ? "dr" : "da"}" style="margin-right:6px"></span>${esc(txShort(x.text))}${x.change ? ` <span class="pill pb" style="font-size:11px;padding:1px 7px">바뀐 기준</span>` : ""}</button>
+    <button class="tri ${open ? "on" : ""}" data-topen="${esc(x.key)}" aria-label="${open ? "설명 접기" : "설명 펼치기"}" aria-expanded="${!!open}">▾</button>
     <button class="ib ${x.star ? "on" : ""}" data-tmark="star" data-tkey="${esc(x.key)}" title="${x.star ? "강조 빼기" : "강조하기"}" aria-label="강조하기">★</button>
-    <button class="ib ${x.rep ? "on" : ""}" data-tmark="rep" data-tkey="${esc(x.key)}" title="${x.rep ? "보고서에서 빼기" : "세무사 보고서에 넣기"}" aria-label="세무사 보고서에 넣기">📄</button>
-  </div>`;
+  </div>${open ? `<div class="tdx">${x.due ? `<div><b>${esc(x.dueName)} ${fd(x.due)}</b> 신고 전에 · ${dday(x.due)}</div>` : ""}<div>${esc(x.cat)}${x.done ? " · 완료" : ""}</div>${long ? `<p>${esc(x.text)}</p>` : ""}<button data-todo="${esc(x.key)}">자세히 보기 ›</button></div>` : ""}</div>`;
 }
 function todoCard(todos) {
   const day = S.todoDay, list = day ? todos.filter((x) => x.due === day) : todos;
   const open = list.filter((x) => !x.done), done = list.filter((x) => x.done);
   const shown = S.todoAll || day ? open : open.slice(0, 5);
-  return `<div class="card"><div class="h3row"><h3>할 일 <span class="small">${open.length}개</span></h3>${day ? `<button class="small" style="color:var(--b);font-weight:700" data-tododay="">${fd(day)}까지 · 전체 보기 ✕</button>` : `<span class="small">★ 강조 · 📄 보고서에 넣기</span>`}</div>
-    ${shown.map(todoRow).join("") || `<div class="row"><div class="t sub">할 일이 없어요 👍</div></div>`}
+  return `<div class="card"><div class="h3row"><h3>확인할 일 <span class="small">${open.length}개</span></h3>${day ? `<button class="small" style="color:var(--b);font-weight:700" data-tododay="">${fd(day)}까지 · 전체 보기 ✕</button>` : `<span class="small">○ 확인 · ▾ 설명 · ★ 강조</span>`}</div>
+    ${shown.map(todoRow).join("") || `<div class="row"><div class="t sub">확인할 일이 없어요 👍</div></div>`}
     ${!day && open.length > 5 ? `<button class="small" style="color:var(--b);font-weight:700;padding-top:10px" data-todoall>${S.todoAll ? "접기" : `${open.length - 5}개 더 보기`}</button>` : ""}
-    ${done.length ? more(`했어요 ${done.length}개`, done.map(todoRow).join("")) : ""}
+    ${done.length ? `<div class="k" style="margin:14px 0 2px">완료 ${done.length}개</div>${done.map(todoRow).join("")}` : ""}
     <p class="small" style="margin:10px 0 0">세무조사·가산세로 이어질 수 있는 신호(기한·증빙·과세표준·법 변경·조사 대비)도 여기 같이 보여요.</p></div>`;
 }
 function todoModal(x) {
@@ -1725,8 +1730,7 @@ function todoModal(x) {
     ${ch ? `<div class="card pad" style="margin-top:10px;line-height:1.6"><b>무엇이 바뀌었나요?</b><div class="small" style="margin:6px 0 8px;color:var(--t)">${esc(ch[1])}</div>${ch[2].map(([l, u]) => `<a class="lnk" href="${esc(u)}" target="_blank" rel="noopener">${esc(l)} ↗</a>`).join("")}</div>` : ""}
     <div class="g3b">
       <button class="btn w ${x.star ? "onb" : ""}" data-tmark="star" data-tkey="${esc(x.key)}" data-tm="1">★ ${x.star ? "강조 빼기" : "강조하기"}</button>
-      <button class="btn w ${x.rep ? "onb" : ""}" data-tmark="rep" data-tkey="${esc(x.key)}" data-tm="1">📄 ${x.rep ? "보고서에서 빼기" : "보고서에 넣기"}</button>
-      <button class="btn w ${x.done ? "onb" : ""}" data-tmark="done" data-tkey="${esc(x.key)}" data-tm="1">✓ ${x.done ? "안 했어요" : "했어요"}</button>
+      <button class="btn w ${x.done ? "onb" : ""}" data-tmark="done" data-tkey="${esc(x.key)}" data-tm="1">✓ ${x.done ? "완료 취소" : "확인했어요"}</button>
     </div>
     ${x.act?.doc ? `<button class="btn w full" style="margin-top:8px" data-nav="docs" data-close>🗂️ 영수증 정리하러 가기</button>` : ""}
     <button class="btn p full" style="margin-top:8px" data-q="${esc(txShort(x.text) + " — 어떻게 하면 돼요?")}">✦ AI에게 자세히 묻기</button>`;
@@ -1734,7 +1738,7 @@ function todoModal(x) {
 function vHome() {
   const { g, nt, good } = facts(), todos = homeTodos();
   const need = todos.filter((x) => !x.done && x.lv === "need").length;
-  return pageTop(todayStr(), `안녕하세요, ${esc(userName())} 👋`, `<button class="btn w sm" data-ics>📅 내 캘린더에 넣기</button><button class="btn w sm" data-nav="report">📄 보고서</button>`) + obNote() + `
+  return pageTop(todayStr(), `안녕하세요, ${esc(userName())} 👋`, `<button class="dgb" data-diag><em>🩺</em><span style="flex:1"><b>가게 진단</b><small>${esc([g.entity && g.entity + "사업자", g.vat && g.vat + "과세", g.ind].filter(Boolean).join(" · "))}</small></span><span class="chev"></span></button><button class="btn w" data-nav="report">📄 세무사 상담 보고서</button>`, "hrt") + obNote() + `
     <div class="g2 hm">
       <div class="col">
         ${nt ? `<button class="big" data-nav="tax/${nt.view === "income" ? "income" : "vat"}" style="text-align:left"><div style="font-size:14px;opacity:.88;font-weight:600">다음에 낼 세금 · ${esc(nt.name)}</div><div class="v">${amt(nt.lo, nt.hi)}</div><div style="font-weight:600">${fd(nt.due)}까지 <span class="pill">${dday(nt.due)}</span></div><div style="font-size:13px;opacity:.82;margin-top:10px">계산 과정 보기 →</div></button>`
@@ -1744,8 +1748,6 @@ function vHome() {
           <div class="card stat"><div class="k">꼭 챙길 일</div><div class="v" style="color:${need ? "var(--r)" : "var(--g)"}">${need}개</div></div>
         </div>
         ${todoCard(todos)}
-        <button class="card" data-diag style="text-align:left;display:block;width:100%"><div class="h3row"><h3>🩺 가게 진단</h3><span class="small" style="color:var(--b);font-weight:700">자세히 ›</span></div>
-          <div class="small">${esc([g.entity && g.entity + "사업자", g.vat && g.vat + "과세", g.ind].filter(Boolean).join(" · "))}</div></button>
       </div>
       ${calCard(todos)}
     </div>`;
@@ -2002,8 +2004,7 @@ function vBen() {
 /* --- 세무사 보고서 --- */
 function vReport() {
   const { d, g, nt, good } = facts();
-  const tds = homeTodos().filter((x) => !x.done), picked = tds.some((x) => x.rep || x.star);
-  const ask = picked ? tds.filter((x) => x.rep || x.star) : tds.filter((x) => x.lv === "need").slice(0, 6), rest = tds.filter((x) => !ask.includes(x));
+  const tds = homeTodos();
   const b = S.biz, all = [...TX.data.benefitsNow, ...TX.data.benefitsPast];
   return pageTop("세무사 보고서", "세무사 상담용 요약", `<button class="btn p sm" data-print>🖨️ 인쇄 · PDF로 저장</button>`) + `
     <div class="rep">
@@ -2014,8 +2015,7 @@ function vReport() {
         ${upcoming(8).filter((i) => !nt || i.name !== nt.name).slice(0, 5).map((i) => `<tr><td>${esc(i.name)}</td><td>${fd(i.due)}</td><td class="n small">${dday(i.due)}</td></tr>`).join("")}</table>
       <h4>3. 받을 수 있는 혜택 (${good.length}개 가능성 높음)</h4><table><tr><th>혜택</th><th>귀속</th><th>판단</th><th>근거</th></tr>
         ${all.filter((x) => !/제외/.test(x.status)).map((x) => `<tr><td><b>${esc(x.name)}</b><div class="small">${esc(benLine(x))}</div></td><td>${x.year}</td><td>${esc(STAT(x.status)[1])}</td><td class="small">${esc(x.law.join(", "))}</td></tr>`).join("")}</table>
-      <h4>4. 세무사에게 물어볼 것 (${ask.length}개)</h4>${picked ? "" : `<p class="small noprint" style="margin:-4px 0 8px">홈 할 일에서 📄를 누르면 그 항목만 여기 들어가요. 지금은 꼭 챙길 것을 먼저 보여 드려요.</p>`}<table>${ask.map((x) => `<tr><td style="width:24%">${esc(x.cat)}</td><td>${x.star ? "⭐ <b>" : "☐ "}${esc(x.text)}${x.star ? "</b>" : ""}${x.change ? `<div class="small">바뀐 기준: ${esc(x.change[1])}</div>` : ""}</td></tr>`).join("") || `<tr><td>특이 사항 없음</td></tr>`}</table>
-      <h4>5. 그 밖에 챙길 일 (${rest.length}개)</h4><table>${rest.map((x) => `<tr><td style="width:24%">${esc(x.cat)}</td><td>${x.lv === "need" ? "🔴" : "🟡"} ${esc(txShort(x.text))}</td></tr>`).join("") || `<tr><td>없음</td></tr>`}</table>
+      <h4>4. 확인할 일 (${tds.filter((x) => !x.done).length}개${tds.some((x) => x.done) ? ` · 완료 ${tds.filter((x) => x.done).length}개` : ""})</h4><table>${tds.map((x) => `<tr><td style="width:24%">${esc(x.cat)}</td><td>${x.done ? "✅ <s>" : x.star ? "⭐ <b>" : x.lv === "need" ? "🔴 " : "🟡 "}${esc(x.text)}${x.done ? "</s> (완료)" : x.star ? "</b>" : ""}${x.due && !x.done ? `<div class="small">${esc(x.dueName)} ${fd(x.due)} 신고 전에</div>` : ""}${x.change ? `<div class="small">바뀐 기준: ${esc(x.change[1])}</div>` : ""}</td></tr>`).join("") || `<tr><td>특이 사항 없음</td></tr>`}</table>
       <p class="small" style="margin-top:22px">이 요약은 ${esc(b.biz_name)}의 입력 자료(${d.monthList[0]?.k || ""}~${d.monthList.at(-1)?.k || ""})로 자동 계산한 참고 자료예요. 계산 기준·근거 법령과 기준 연도(2026년)는 BIX 세무 팀 근거 문서를 따릅니다. 신고 전 세무사 확인이 필요해요.</p>
     </div>`;
 }
@@ -2162,6 +2162,7 @@ document.addEventListener("click", async (e) => {
   if (t("[data-pronew]")) { S.pro = {}; return openAi(); }
   if ((el = t("[data-tmark]"))) { const k = el.dataset.tkey; setMark(k, el.dataset.tmark); if (el.dataset.tm) { const x = homeTodos().find((y) => y.key === k); if (x) openOv(todoModal(x)); } return render(); }
   if ((el = t("[data-todo]"))) { const x = homeTodos().find((y) => y.key === el.dataset.todo); if (x?.due) { S.calYm = x.due.slice(0, 7); S.calDay = x.due; render(); } return x && openOv(todoModal(x)); }
+  if ((el = t("[data-topen]"))) { const k = el.dataset.topen; S.todoOpen = { ...S.todoOpen, [k]: !S.todoOpen?.[k] }; return render(); }
   if ((el = t("[data-tododay]"))) { S.todoDay = el.dataset.tododay || null; return render(); }
   if (t("[data-todoall]")) { S.todoAll = !S.todoAll; return render(); }
   if (t("[data-diag]")) return openOv(mDiag());
