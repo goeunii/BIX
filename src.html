@@ -351,13 +351,8 @@ const BIX = (() => {
 const DEMO = (() => {
   const SNAP = /*@@DEMO@@*/null;
   // 영수증 시연: 상표·용량이 붙은 이름을 어떻게 정리하는지 보여 주는 예시
-  const RECEIPT = { date: "2026-11-07", supplier: "다온 식자재 마트", payment: "card", total: 412500, lines: [
-    { raw: "하림 닭정육(냉장) 2kg×5", item: "닭정육", qty: 5, unit: "2kg", amount: 98000, tax: "면세" },
-    { raw: "곰표 중력밀가루 20kg", item: "밀가루", qty: 1, unit: "20kg", amount: 28500, tax: "면세" },
-    { raw: "CJ백설 바삭튀김가루 10kg", item: "튀김가루", qty: 2, unit: "10kg", amount: 56000, tax: "과세" },
-    { raw: "해표 콩기름 18L", item: "식용유", qty: 3, unit: "18L", amount: 186000, tax: "과세" },
-    { raw: "오뚜기 치킨양념소스 2kg", item: "양념소스", qty: 2, unit: "2kg", amount: 33000, tax: "과세" },
-    { raw: "양배추(국내산)", item: "양배추", qty: 3, unit: "통", amount: 11000, tax: "면세" }] };
+  const RECEIPT = ["2026-11-07|다온 식자재 마트|카드|412500", "*하림 닭정육(냉장) 2kg×5|98000|면세", "*곰표 중력밀가루 20kg|28500|면세", "CJ백설 바삭튀김가루 10kg|56000|과세",
+    "해표 콩기름 18L|186000|과세", "오뚜기 치킨양념소스 2kg|33000|과세", "*양배추(국내산)|11000|면세"].join("\n");
   return {
     today: SNAP?.today, list: SNAP?.list || [], tags: SNAP?.tags || {},
     read(id, tags, period) {
@@ -366,7 +361,7 @@ const DEMO = (() => {
     },
     async ask(q, images) {
       await new Promise((r) => setTimeout(r, 1100));
-      if (images) return { answer: JSON.stringify(RECEIPT) };
+      if (images) return { answer: RECEIPT };
       if (q.startsWith("통장 분류")) return { answer: JSON.stringify({ "(주)클린웨이": "수수료" }) };
       const A = {
         "의제": "의제매입세액공제는 닭·채소처럼 부가세가 없는 재료를 사서 음식을 만들어 팔 때, 산 금액의 일부를 부가세에서 빼 주는 제도예요.\n세금 화면의 '의제매입세액' 칸에 이번 기 금액을 다 계산해 두었어요.\n계산서나 카드 영수증이 있어야 인정받아요.\n정확한 금액은 세무사와 확인하세요.",
@@ -380,6 +375,7 @@ const DEMO = (() => {
         "카드": "카드·현금영수증·간편결제로 받은 매출의 1.3%를 부가세에서 빼 줘요(연 1,000만원까지, 2026년 공급분까지).\n세금 화면에 사장님 가게 금액을 계산해 두었어요.\n정확한 금액은 세무사와 확인하세요.",
       };
       const k = Object.keys(A).find((k) => q.includes(k));
+      if (q.startsWith("@@준비된답@@")) return { answer: k ? A[k] : "" };
       return { answer: k ? A[k] : "좋은 질문이에요. 지금 가게 자료를 보면, 다음 세금을 미리 준비하고 증빙(계산서·카드 영수증)을 잘 모아 두는 게 가장 중요해요.\n(데모 답변이에요. Core에 연결되면 실제 AI가 가게 숫자를 보고 답해요.)\n정확한 금액은 세무사와 확인하세요." };
     },
   };
@@ -474,14 +470,14 @@ const RC_RULES = [
   [/튀김\s*(가루|믹스)|바삭\S*가루|치킨\s*파우더|프리믹스/, "튀김가루", "과세", "재료"], [/부침\s*가루/, "부침가루", "과세", "재료"], [/빵\s*가루/, "빵가루", "과세", "재료"],
   [/전분|녹말/, "전분", "과세", "재료"],
   [/식용유|콩기름|대두유|카놀라|해바라기유|포도씨유|튀김유|옥수수유|올리브유|팜유/, "식용유", "과세", "재료"],
-  [/양념|소스|케[찹첩]|마요|간장|고추장|된장|드레싱|시즈닝|조미료|다시다/, "양념소스", "과세", "재료"],
+  [/양념|소스|케[찹첩챱]|마요|간장|고추장|된장|드레싱|시즈닝|조미료|다시다/, "양념소스", "과세", "재료"],
   [/설탕|물엿|올리고당|시럽/, "설탕", "과세", "재료"],
   [/맛소금|정제염/, "맛소금", "과세", "재료"], [/천일염|굵은\s*소금|꽃소금|소금/, "소금", "면세", "재료"],
   [/콜라/, "콜라", "과세", "음료·주류"], [/사이다/, "사이다", "과세", "음료·주류"], [/생맥/, "생맥주", "과세", "음료·주류"],
   [/맥주|소주|막걸리|와인|하이볼/, null, "과세", "음료·주류"], [/생수|탄산수|음료|주스|에이드/, null, "과세", "음료·주류"],
   [/원두|커피/, "원두", "과세", "재료"], [/버터|치즈|생크림|휘핑/, null, "과세", "재료"],
   [/닭\s*정육|순살|닭다리살|닭가슴살|정육/, "닭정육", "면세", "재료"],
-  [/생닭|육계|통닭|닭\s*\d+\s*호|닭고기|닭날개|닭봉|닭다리|(^|\s)닭(\s|$)/, "생닭", "면세", "재료"],
+  [/생닭|육계|통닭|삼계닭|영계|토종닭|닭\s*\d+\s*호|닭고기|닭날개|닭봉|닭다리|(^|\s)닭(\s|$)/, "생닭", "면세", "재료"],
   [/(중력|강력|박력)?\s*밀\s*가루|소맥분/, "밀가루", "면세", "재료"], [/고춧가루|고추가루/, "고춧가루", "면세", "재료"],
   [/계란|달걀|난각|특란|왕란|대란/, "계란", "면세", "재료"], [/두부/, "두부", "면세", "재료"], [/쌀(?!국수|과자|떡)/, "쌀", "면세", "재료"],
   [/양배추|양파|대파|쪽파|마늘|생강|청양고추|고추|당근|배추|상추|깻잎|감자|고구마|버섯|오이|애호박|호박|무우|채소|야채|사과|바나나|딸기|레몬|과일|부추/, null, "면세", "재료"],
@@ -493,7 +489,7 @@ function rcNorm(l, known) {
   const txt = `${raw} ${l.item || ""}`;
   let hit = null;
   for (const [re, name, tax, cat] of RC_RULES) { const m = txt.match(re); if (m) { hit = { name: name || m[0].trim(), tax, cat }; break; } }
-  let item = hit?.name || String(l.item || raw).replace(RC_BRAND, " ").replace(RC_SIZE, " ").replace(/\s+/g, " ").trim() || raw;
+  let item = hit?.name || String(l.item || raw).replace(/^[*※]+/, "").replace(RC_BRAND, " ").replace(RC_SIZE, " ").replace(/\s+/g, " ").trim() || raw;
   const k = known.find((k) => k === item) || known.find((k) => k.includes(item) || item.includes(k));
   if (k) item = k;
   const aiTax = l.tax === "면세" ? "면세" : l.tax === "과세" ? "과세" : null;
@@ -1171,14 +1167,22 @@ async function ask(q) {
   q = (q || "").trim(); if (!q || !TX.data) return;
   if (S.chat.at(-1)?.busy) return;
   S.chat.push({ me: true, t: q }, { busy: true }); openAi("ai");
-  const { d, g } = TX.data, nt = txNextTax(d, g);
+  const { d, g } = TX.data, { nt } = facts();
+  // Core는 AI 답을 1000토큰(생각하는 몫 포함)으로 묶어 둬서: 짧게 바로 답하게 하고, 비면 한 번 더, 그래도 비면 준비된 답
+  const opt = { context_tags: ["profile", "sales", "cogs", "hr", "expense", "tax"],
+    instructions: `바로 답하세요. 오래 고민하지 말고 짧게. 세무를 잘 모르는 소상공인 사장님께 쉬운 말로 3문장, 250자 이내. 꾸밈 기호(**, #, -) 없이. 숫자는 아래 계산 결과를 쓰고 새 금액을 만들지 마세요. 마지막 줄: '정확한 금액은 세무사와 확인하세요'.
+가게: ${g.entity}사업자, ${g.ind}, ${g.vat}과세${nt ? `\n다음 세금: ${nt.name}, ${nt.due}까지, 예상 약 ${man(nt.hi)}` : ""}
+혜택: ${TX.data.benefitsNow.map((b) => `${b.name}=${b.status}`).join(", ")}` };
+  let t = "";
   try {
-    const r = await BIX.ask(q, { context_tags: ["profile", "sales", "cogs", "hr", "expense", "tax"],
-      instructions: `세무 도우미 '돈워리택스'입니다. 세무를 잘 모르는 소상공인 사장님께 쉬운 말로 5문장 이내로 답하세요. 숫자는 아래 계산 결과를 기준으로 하고 확정 금액을 새로 만들지 마세요. 마지막 줄에 '정확한 금액은 세무사와 확인하세요'.
-가게: ${g.entity}사업자, ${g.ind}, ${g.vat}과세${nt ? `\n다음 세금: ${nt.name}, ${nt.due}까지, 예상 ${won(nt.lo)}~${won(nt.hi)}원` : ""}
-혜택: ${TX.data.benefitsNow.map((b) => `${b.name}=${b.status}`).join(", ")}` });
-    S.chat[S.chat.length - 1] = { t: (r?.answer || "").trim() || "AI가 답을 주지 않았어요. 잠시 뒤 다시 물어봐 주세요." };
-  } catch (ex) { S.chat[S.chat.length - 1] = { t: "답을 받지 못했어요: " + ex.message }; }
+    for (let k = 0; k < 2 && !t; k++) {
+      const r = await BIX.ask(q, opt);
+      t = (r?.answer || "").replace(/\*\*/g, "").trim();
+      if (t && r?.usage?.output_tokens >= 1000 && !/(요|다|세요)[.!]?\s*$/.test(t)) t += "…\n(답이 길어서 잘렸어요. 더 짧게 물어보거나 세무사 상담을 이용해 주세요)";
+    }
+    if (!t) { const c = (await DEMO.ask("@@준비된답@@" + q)).answer; t = c ? c + "\n(AI가 바빠서 준비된 답을 보여 드려요)" : "AI가 지금 답을 못 했어요. 조금 뒤 다시 물어보거나 '세무사 상담'을 이용해 주세요."; }
+  } catch (ex) { t = "답을 받지 못했어요: " + ex.message; }
+  S.chat[S.chat.length - 1] = { t };
   if (S.ov === "drawer" && (S.talk || "ai") === "ai") openAi();
 }
 
@@ -1295,19 +1299,29 @@ document.addEventListener("change", async (e) => {
   catch (ex) { S.rc = null; toast("영수증을 읽지 못했어요: " + ex.message); }
   render();
 });
-/* 영수증 읽기: AI가 줄마다 '영수증 표기 그대로(raw)'와 '상표·용량 뺀 품목(item)'을 주고, 규칙(RC_RULES)으로 한 번 더 맞춰요 */
+/* 영수증 읽기: AI는 영수증 글자를 '품목명|금액|면세·과세' 줄로 옮겨 적기만 하고(Core가 AI 답을 1000토큰으로 묶어 둬서 짧게),
+   상표·용량 떼기와 품목 묶기, 면세·과세 확인은 규칙(RC_RULES)이 해요 */
 async function readReceipt(file) {
   const known = knownItems();
-  const r = await BIX.ask('이 영수증을 읽어 JSON 하나로만 답하세요: {"date":"YYYY-MM-DD","supplier":"상호","payment":"card|cash_receipt|tax_invoice|invoice|cash|unknown","total":숫자,"lines":[{"raw":"영수증에 적힌 품목명 그대로","item":"상표·용량·원산지를 뺀 일반 품목명","qty":숫자,"unit":"단위","amount":숫자,"tax":"과세|면세"}]}', {
+  const r = await BIX.ask("영수증을 옮겨 적으세요. 다른 말 없이 아래 형식만.\n첫 줄: 날짜(YYYY-MM-DD)|상호|결제(카드/현금/현금영수증/계산서/모름)|합계금액\n품목마다 한 줄: 영수증에 적힌 품목명 그대로|그 줄 금액|면세 또는 과세\n숫자는 쉼표 없이.", {
     images: [file], max_tokens: 4000,
-    instructions: `영수증의 품목 줄을 하나도 빼지 말고 그대로 옮기세요. 숫자는 쉼표 없이, amount는 그 줄의 결제 금액(부가세 포함).
-item 규칙: 상표·제조사·용량·개수·원산지·냉장/냉동 표시는 빼고 일반 이름만 (예: '곰표 중력밀가루 20kg'→'밀가루', 'CJ백설 바삭튀김가루'→'튀김가루', '해표 콩기름 18L'→'식용유', '하림 닭정육 2kg'→'닭정육'). 같은 재료는 상표가 달라도 같은 이름.
-이 가게가 자주 사는 품목: ${known.join(", ") || "없음"} — 같은 것이면 이 이름을 그대로 쓰세요.
-tax: 영수증에 면세 표시(*, 면세, 비과세)가 있으면 그대로. 없으면 가공하지 않은 농·축·수산물(생닭·닭정육·채소·과일·쌀·계란·밀가루·고춧가루)은 면세, 튀김가루·부침가루·식용유·소스·설탕·음료·주류·포장재·공산품은 과세.` });
-  const a = r?.answer || "", j = JSON.parse(a.slice(a.indexOf("{"), a.lastIndexOf("}") + 1));
-  if (!Array.isArray(j.lines) || !j.lines.length) throw new Error("품목 줄을 찾지 못했어요");
-  j.lines = j.lines.map((l) => rcNorm(l, known));
-  return j;
+    instructions: "면세 표시(*, 면세)가 있으면 면세. 표시가 없으면 가공 안 한 농축수산물(생닭·정육·채소·쌀·계란·밀가루)만 면세, 나머지는 과세. 품목 줄은 하나도 빼지 마세요." });
+  try { return rcParse(r?.answer || "", known); }
+  catch (ex) {   // AI가 생각만 하다 답을 못 쓴 경우가 있어 한 번 더
+    const r2 = await BIX.ask("영수증 품목을 '품목명|금액|면세 또는 과세' 줄로만 옮겨 적으세요. 첫 줄은 날짜|상호|결제|합계.", { images: [file], max_tokens: 4000 });
+    return rcParse(r2?.answer || "", known);
+  }
+}
+function rcParse(text, known) {
+  const rows = text.replace(/```\w*/g, "").split("\n").map((l) => l.trim()).filter((l) => l.includes("|")).map((l) => l.split("|").map((x) => x.trim()));
+  if (!rows.length) throw new Error("AI가 영수증을 읽지 못했어요. 밝은 곳에서 다시 찍어 주세요");
+  const num = (x) => Math.round(Number(String(x || "").replace(/[^\d.-]/g, "")) || 0);
+  const hi = rows.findIndex((c) => /^\d{4}-\d{2}-\d{2}/.test(c[0]));
+  const h = hi >= 0 ? rows[hi] : [];
+  const pay = { 카드: "card", 현금: "cash", 현금영수증: "cash_receipt", 계산서: "invoice", 세금계산서: "tax_invoice" }[h[2]] || "unknown";
+  const lines = rows.filter((c, k) => k !== hi && c.length >= 2 && num(c[1])).map((c) => rcNorm({ raw: c[0], amount: num(c[1]), tax: /면세/.test(c[2] || "") ? "면세" : /과세/.test(c[2] || "") ? "과세" : null }, known));
+  if (!lines.length) throw new Error("품목 줄을 찾지 못했어요");
+  return { date: h[0]?.slice(0, 10) || "", supplier: h[1] || "", payment: pay, total: num(h[3]) || lines.reduce((a, l) => a + l.amount, 0), lines };
 }
 /* 통장: 계정 바꾸면 같은 이름 거래도 같이 */
 function bankSet(i, a) {
