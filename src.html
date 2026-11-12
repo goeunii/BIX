@@ -152,6 +152,51 @@ input[type=range]{width:100%;accent-color:var(--b);margin-top:8px}
 .aipill:hover{background:#000}
 .mtop,.tabbar{display:none}
 
+/* ---------- 달력 · 표 · 정리 ---------- */
+.calnav{display:flex;gap:4px}.calnav button{min-width:34px;height:32px;border-radius:9px;background:var(--bg);font-weight:700;padding:0 10px;font-size:14px}
+.calg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-top:10px}
+.calg .w{text-align:center;font-size:12px;color:var(--s);font-weight:600;padding:4px 0}
+.cd{min-height:66px;border-radius:12px;padding:6px 5px;display:flex;flex-direction:column;align-items:stretch;gap:3px;text-align:left;background:#fafafc}
+.cd b{font-size:13px;font-weight:600;color:#3a3a3c;padding-left:2px}
+.cd i{font-style:normal;font-size:10.5px;font-weight:700;border-radius:5px;padding:1px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cd .eb{background:var(--bb);color:var(--b)}.cd .ea{background:var(--ab);color:var(--a)}.cd .ex{color:var(--s);padding:0 2px}
+.cd.td b{background:var(--t);color:#fff;border-radius:99px;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;padding:0}
+.cd.sel{box-shadow:0 0 0 2px var(--b) inset;background:#fff}.cd:hover{background:#f0f0f5}
+.calsel{margin-top:14px;border-top:1px solid var(--l);padding-top:12px}
+.db{background:var(--b)}
+.det{margin-top:12px;border-top:1px solid var(--l);padding-top:10px}
+.det summary{cursor:pointer;list-style:none;color:var(--b);font-weight:700;font-size:14px}
+.det summary::-webkit-details-marker{display:none}.det summary::after{content:" ⌄"}.det[open] summary::after{content:" ⌃"}
+.detb{padding-top:10px}
+.scx{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+.tbl th{font-size:12px;color:var(--s);font-weight:600;text-align:right;padding:8px 6px;border-bottom:1px solid var(--l);white-space:nowrap}
+.tbl th small{display:block;font-weight:500}
+.tbl td{padding:10px 6px;border-bottom:1px solid var(--l);text-align:right;white-space:nowrap}
+.tbl th:first-child,.tbl td:first-child{text-align:left;white-space:normal}
+.tbl td small{display:block;color:var(--s);font-size:12px;font-weight:500}
+.tbl tr.tot td{font-weight:800;border-bottom:0}.tbl tr.off td{color:#aeaeb2}.tbl tr.hl td{background:var(--bb);font-weight:700}
+.tbl .up{color:var(--r)}.tbl .dn{color:var(--b)}
+.split{display:grid;grid-template-columns:1fr 1.25fr;gap:16px;margin-top:8px}
+.half{background:#fafafc;border-radius:16px;padding:14px 16px}.half.ex{background:#f3fbf6}
+.half .hh{font-weight:700;font-size:14px;margin-bottom:6px;display:flex;gap:8px;align-items:center}
+.halves button.on,.qchip.on{background:var(--t);color:#fff;box-shadow:none}
+.calc .row.off .t,.calc .row.off .r{color:#aeaeb2}
+.sel{height:38px;border-radius:10px;border:1px solid var(--l);padding:0 8px;font:inherit;font-size:14px;background:#fff;color:var(--t)}
+.sel.warn{border-color:var(--r);color:var(--r)}.sel.off{color:#8e8e93}
+.sw{margin-left:8px;font-size:12px;font-weight:700;color:var(--b);background:var(--bb);border-radius:8px;padding:4px 8px}
+.rcl .r{display:flex;align-items:center}
+.whr{display:grid;grid-template-columns:1.2fr 1.3fr 1fr;gap:8px 10px;align-items:end;padding:14px 0;border-bottom:1px solid var(--l)}
+.whr .t{grid-column:1/3;grid-row:1}.whr .whv{grid-column:3;grid-row:1}.whr label .sel,.whr label .inp{width:100%}
+.whr .t small{display:block;color:var(--s);font-size:12px;margin-top:2px}
+.whr label{font-size:12px;color:var(--s);font-weight:600;display:flex;flex-direction:column;gap:4px}
+.whr .inp.sm{height:38px;font-size:14px;padding:0 10px;border-radius:10px}
+.whv{text-align:right;font-weight:800;font-size:16px}.whv small{display:block;color:var(--s);font-size:12px;font-weight:500}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.stat .v.sm{font-size:24px}
+.bkr .r{display:flex;flex-direction:column;align-items:flex-end;gap:6px}.bkr .in{color:var(--g)}
+.bkc{display:flex;align-items:center}
+.ta{height:96px;padding:12px 16px;resize:none;margin-top:14px;line-height:1.5}
+
 /* ---------- 겹쳐 뜨는 창 ---------- */
 .dim{position:fixed;inset:0;background:rgba(0,0,0,.32);z-index:50;animation:fi .2s}
 @keyframes fi{from{opacity:0}}
@@ -214,6 +259,12 @@ input[type=range]{width:100%;accent-color:var(--b);margin-top:8px}
   .drawer{top:auto;height:88vh;width:100%;border-radius:22px 22px 0 0;animation:up .26s cubic-bezier(.2,.8,.2,1)}
   .rep{padding:20px 16px}
   .seg{display:flex}.seg button{flex:1;padding:8px 6px}
+  .cd{min-height:48px;padding:5px 2px;align-items:center}.cd i{font-size:0;width:6px;height:6px;padding:0;border-radius:50%}.cd .eb{background:var(--b)}.cd .ea{background:var(--y)}.cd .ex{display:none}
+  .cd b{padding:0}
+  .split{grid-template-columns:1fr}.g4{grid-template-columns:1fr 1fr;gap:12px}
+  .whr{grid-template-columns:1.2fr 1.3fr 1fr}
+  .tbl{font-size:13px}.tbl th,.tbl td{padding:9px 4px}
+  .bkr{flex-wrap:wrap}.bkr .r{width:100%;flex-direction:row;justify-content:space-between;align-items:center;margin-left:0}.bkc .sel{max-width:190px}
 }
 @media print{
   body{background:#fff}
@@ -274,7 +325,7 @@ const BIX = (() => {
   return {
     get mode() { return mode; }, get me() { return me; }, get business() { return business; }, tags,
     setBusiness(b) { business = b; },
-    useDemo() { mode = "demo"; me = null; DEMO.tagNames.forEach(([k, v]) => tags.set(k, { code: k, name_ko: v })); },
+    useDemo() { mode = "demo"; me = null; Object.entries(DEMO.tags).forEach(([k, v]) => tags.set(k, { code: k, name_ko: v })); },
     /** 서버 함수(/api/core)가 살아 있으면 Core 모드로 바꿔요 */
     async connect() {
       if (location.protocol === "file:") throw new Error("파일로 열어서 데모 데이터로 보여요");
@@ -287,76 +338,46 @@ const BIX = (() => {
       if (mode === "demo") return DEMO.read(business.business_id, t, period);
       return (await call("records.read", { business_id: business.business_id, tags: t, period })).data;
     },
-    async ask(question, { instructions, images, context_tags } = {}) {
+    async ask(question, { instructions, images, context_tags, max_tokens } = {}) {
       if (mode === "demo") return DEMO.ask(question, images);
       const imgs = images ? await Promise.all([...images].slice(0, 1).map(toImage)) : undefined;
-      return (await call("ai.ask", { question, business_id: business.business_id, instructions, context_tags, images: imgs })).data;
+      return (await call("ai.ask", { question, business_id: business.business_id, instructions, context_tags, images: imgs, max_tokens }, 90000)).data;
     },
   };
 })();
 
-/* ---------- 데모 데이터: 해운대 바삭치킨(일반·음식점) · 광안 소금빵(간이·카페) ---------- */
+/* ---------- 데모 데이터: Core에서 받아 둔 해운대 바삭치킨(일반·음식점) · 광안 소금빵(간이·카페) ----------
+   tools/snapshot.py 가 배포된 /api/core로 Core 자료를 받아 data/demo-core.json 에 저장하고, build.py 가 아래에 끼워요. */
 const DEMO = (() => {
-  const per = (ym) => { const [y, m] = ym.split("-").map(Number); return { period_start: `${ym}-01`, period_end: new Date(Date.UTC(y, m, 0)).toISOString().slice(0, 10) }; };
-  const mk = (tag, ym, v, vat) => ({ tag, value: v, vat_amount: vat, supply_amount: vat == null ? null : v - vat, ...per(ym) });
-  const E = (n, v) => ({ tag: "hr.employee", item_key: n, value: v });
-  const P = (o) => Object.entries(o).map(([k, v]) => ({ tag: "profile." + k, value: v }));
-  function build(simple) {
-    const recs = [], ops = [], extra = [];
-    for (const y of [2025, 2026]) for (let m = 1; m <= 12; m++) {
-      if (y === 2026 && m > 10) break;
-      const ym = `${y}-${String(m).padStart(2, "0")}`;
-      if (simple) {
-        if (y === 2025 && m < 5) continue;
-        recs.push(mk("sales.card", ym, 7600000), mk("sales.cash", ym, 200000), mk("cogs.material", ym, 2500000), mk("expense.rent", ym, 1500000), { tag: "hr.pay.salary", value: 400000, ...per(ym) });
-        continue;
-      }
-      recs.push(mk("sales.card", ym, 24200000, 2200000), mk("sales.delivery_app", ym, 11000000, 1000000), mk("cogs.material", ym, 1650000, 150000), mk("cogs.material_agri", ym, 5280000, 0),
-        { tag: "hr.pay.salary", value: 6000000, ...per(ym) }, { tag: "hr.pay.freelance", value: 3600000, ...per(ym) },
-        mk("expense.rent", ym, 2200000, 200000), mk("expense.vehicle", ym, 330000, 30000), mk("expense.other", ym, 550000, 50000), mk("expense.fee_card", ym, 300000, 0));
-      ops.push({ tag: "ops.purchase", item_key: "생닭", value: 4400000, detail: { supplier: "동백 육계 가공장", tax: "면세" }, ...per(ym) },
-        { tag: "ops.purchase", item_key: "식용유", value: 1100000, detail: { supplier: "다온 식자재 마트", tax: "과세" }, ...per(ym) });
-      extra.push({ tag: "ops.sales", item_key: "후라이드", value: m === 3 && y === 2026 ? 30000000 : 35200000, ...per(ym) });
-    }
-    if (!simple) recs.push(mk("sales.cash", "2026-10", 1100000, 100000));
-    ops.push({ tag: "ops.supplier", item_key: "동백 육계 가공장", value: { evidence: "계산서" } }, { tag: "ops.supplier", item_key: "다온 식자재 마트", value: { evidence: "세금계산서" } });
-    const base = simple
-      ? [...P({ entity_type: "개인", vat_type: "간이", industry: "카페", opened_on: "2025-05-01", region: "부산 수영구", owner_birth_year: 1983, status: "영업중" }),
-        E("주말 알바", { type: "단시간", weekly_hours: 12, insurance: "미가입", hired_on: "2025-06-01" })]
-      : [...P({ entity_type: "개인", vat_type: "일반", industry: "음식점", opened_on: "2024-03-01", region: "부산 해운대구", owner_birth_year: 1996, status: "영업중" }), { tag: "tax.bookkeeping", value: "간편장부" },
-        E("청년 정규직 A", { type: "정규직", youth: "예", insurance: "전부 가입", hired_on: "2025-02-01", weekly_hours: 40 }), E("청년 정규직 B", { type: "정규직", youth: "예", insurance: "전부 가입", hired_on: "2025-04-01", weekly_hours: 40 }),
-        E("알바 A", { type: "단시간", weekly_hours: 20, insurance: "전부 가입", hired_on: "2024-05-01" }),
-        E("배달 기사 A", { type: "프리랜서", weekly_hours: 40, withholding: "3.3%", insurance: "미가입", hired_on: "2025-01-01" }), E("배달 기사 B", { type: "프리랜서", weekly_hours: 40, withholding: "3.3%", insurance: "미가입", hired_on: "2025-01-01" })];
-    const derived = simple ? [] : [{ tag: "derived.bookkeeping_duty", value: "간편장부대상자" }, { tag: "derived.headcount", value: 3 }];
-    return { recs, ops, extra, base, derived };
-  }
-  const data = { "demo-a": build(false), "demo-b": build(true) };
+  const SNAP = /*@@DEMO@@*/null;
+  // 영수증 시연: 상표·용량이 붙은 이름을 어떻게 정리하는지 보여 주는 예시
+  const RECEIPT = { date: "2026-11-07", supplier: "다온 식자재 마트", payment: "card", total: 412500, lines: [
+    { raw: "하림 닭정육(냉장) 2kg×5", item: "닭정육", qty: 5, unit: "2kg", amount: 98000, tax: "면세" },
+    { raw: "곰표 중력밀가루 20kg", item: "밀가루", qty: 1, unit: "20kg", amount: 28500, tax: "면세" },
+    { raw: "CJ백설 바삭튀김가루 10kg", item: "튀김가루", qty: 2, unit: "10kg", amount: 56000, tax: "과세" },
+    { raw: "해표 콩기름 18L", item: "식용유", qty: 3, unit: "18L", amount: 186000, tax: "과세" },
+    { raw: "오뚜기 치킨양념소스 2kg", item: "양념소스", qty: 2, unit: "2kg", amount: 33000, tax: "과세" },
+    { raw: "양배추(국내산)", item: "양배추", qty: 3, unit: "통", amount: 11000, tax: "면세" }] };
   return {
-    list: [
-      { business_id: "demo-a", biz_name: "해운대 바삭치킨", industry: "음식점", vat_type: "일반", region: "부산 해운대구", is_sim: true },
-      { business_id: "demo-b", biz_name: "광안 소금빵", industry: "카페", vat_type: "간이", region: "부산 수영구", is_sim: true },
-    ],
-    tagNames: [["expense.rent", "임차료"], ["expense.vehicle", "차량유지비"], ["expense.other", "기타 경비"], ["expense.fee_card", "카드수수료"], ["sales.card", "카드매출"], ["sales.cash", "현금매출"], ["sales.delivery_app", "배달앱 매출"], ["cogs.material", "원재료비"], ["cogs.material_agri", "농축수산물 원재료"], ["hr.pay.salary", "급여"], ["hr.pay.freelance", "프리랜서 용역비"]],
-    read(id, tags) {
-      const x = data[id];
-      if (tags.includes("profile")) return { records: x.base, derived: [] };
-      if (tags.includes("derived")) return { records: [], derived: x.derived };
-      if (tags.includes("ops.purchase")) return { records: x.ops };
-      if (tags.includes("finance.interest")) return { records: x.extra };
-      return { records: x.recs, derived: [] };
+    today: SNAP?.today, list: SNAP?.list || [], tags: SNAP?.tags || {},
+    read(id, tags, period) {
+      const x = SNAP?.reads?.[id]?.[tags.join(",") + "|" + (period || "")];
+      return x ? JSON.parse(JSON.stringify(x)) : { records: [], derived: [] };
     },
     async ask(q, images) {
       await new Promise((r) => setTimeout(r, 1100));
-      if (images) return { answer: '{"date":"2026-11-07","supplier":"다온 식자재 마트","payment":"card","total":235500,"lines":[{"item":"튀김가루","qty":2,"unit":"10kg","amount":56000,"tax":"과세"},{"item":"식용유","qty":2,"unit":"18L","amount":124000,"tax":"과세"},{"item":"양념소스","qty":3,"unit":"2kg","amount":45000,"tax":"과세"},{"item":"양배추","qty":3,"unit":"통","amount":10500,"tax":"면세"}]}' };
+      if (images) return { answer: JSON.stringify(RECEIPT) };
+      if (q.startsWith("통장 분류")) return { answer: JSON.stringify({ "(주)클린웨이": "수수료" }) };
       const A = {
-        "의제": "의제매입세액공제는 닭·채소처럼 부가세가 없는 재료(면세 농축수산물)를 사서 음식을 만들어 팔 때, 산 금액의 일부를 부가세에서 빼 주는 제도예요.\n사장님 가게는 매달 생닭을 많이 사서 이번 반기에 꽤 큰 금액을 줄일 수 있어요.\n계산서나 카드 영수증이 꼭 있어야 인정받아요.\n정확한 금액은 세무사와 확인하세요.",
-        "줄이": "지금 바로 할 수 있는 건 세 가지예요.\n1) 재료를 살 때 계산서·카드로 결제해 증빙 남기기\n2) 노란우산공제 가입 검토 (소득공제)\n3) 작년에 늘어난 청년 직원으로 통합고용세액공제 챙기기\n정확한 금액은 세무사와 확인하세요.",
-        "프리랜서": "배달 기사님께 돈을 줄 때 3.3%(소득세 3% + 지방세 0.3%)를 떼고 드린 뒤, 그 돈을 다음 달 10일까지 대신 내는 거예요(원천징수).\n그리고 다음 달 말일까지 간이지급명세서를 내야 해요.\n다만 주 40시간 고정 근무라면 사실상 직원으로 볼 수 있어 주의가 필요해요.\n정확한 판단은 세무사·노무사와 확인하세요.",
+        "의제": "의제매입세액공제는 닭·채소처럼 부가세가 없는 재료를 사서 음식을 만들어 팔 때, 산 금액의 일부를 부가세에서 빼 주는 제도예요.\n세금 화면의 '의제매입세액' 칸에 이번 기 금액을 다 계산해 두었어요.\n계산서나 카드 영수증이 있어야 인정받아요.\n정확한 금액은 세무사와 확인하세요.",
+        "줄이": "지금 바로 할 수 있는 건 세 가지예요.\n1) 재료를 살 때 계산서·카드로 결제해 증빙 남기기\n2) 노란우산공제 가입 검토 (소득공제)\n3) 혜택 화면에서 '받을 수 있어요' 항목 챙기기\n정확한 금액은 세무사와 확인하세요.",
+        "프리랜서": "배달 기사님께 돈을 줄 때 3.3%(소득세 3% + 지방세 0.3%)를 떼고 드린 뒤, 그 돈을 다음 달 10일까지 대신 내는 거예요(원천징수).\n다음 달 말일까지 간이지급명세서도 내야 해요.\n주 40시간 고정 근무라면 직원으로 볼 수 있어 주의가 필요해요.\n정확한 판단은 세무사·노무사와 확인하세요.",
         "3.3": "배달 기사님께 돈을 줄 때 3.3%(소득세 3% + 지방세 0.3%)를 떼고 드린 뒤, 그 돈을 다음 달 10일까지 대신 내는 거예요(원천징수).\n정확한 판단은 세무사와 확인하세요.",
-        "노란우산": "노란우산공제는 사장님을 위한 퇴직금 같은 적금이에요.\n1년에 낸 돈을 소득에서 최대 600만원(소득에 따라 다름)까지 빼 줘서 종합소득세가 줄어요.\n'만약에' 칸에서 금액을 바꿔 보면 얼마나 줄어드는지 바로 볼 수 있어요.\n정확한 금액은 세무사와 확인하세요.",
-        "창업": "청년(만 34세 이하)이 창업한 가게는 개업 후 5년 동안 소득세를 최대 100% 감면받을 수 있어요(조세특례제한법 제6조).\n사장님 가게는 2024년에 열어서 2028년까지 해당될 수 있어요.\n신고할 때 감면 신청서를 꼭 같이 내야 해요.\n정확한 판단은 세무사와 확인하세요.",
-        "놓친": "작년에 받을 수 있었는데 못 받은 혜택은 '경정청구'로 5년 안에 돌려받을 수 있어요.\n혜택 화면의 '작년에 놓친 혜택'에서 준비할 서류를 확인하고 세무사에게 맡기면 돼요.\n정확한 금액은 세무사와 확인하세요.",
+        "노란우산": "노란우산공제는 사장님을 위한 퇴직금 같은 적금이에요.\n1년에 낸 돈을 소득에서 최대 600만원(소득에 따라 다름)까지 빼 줘서 종합소득세가 줄어요.\n'만약에' 칸에서 금액을 바꿔 보면 바로 계산돼요.\n정확한 금액은 세무사와 확인하세요.",
+        "창업": "청년(만 34세 이하)이 창업한 가게는 개업 후 5년 동안 소득세를 감면받을 수 있어요(조세특례제한법 제6조).\n사장님 가게는 2024년에 열어서 2028년까지 해당될 수 있어요.\n신고할 때 감면 신청서를 꼭 같이 내야 해요.\n정확한 판단은 세무사와 확인하세요.",
+        "놓친": "작년에 받을 수 있었는데 못 받은 혜택은 '경정청구'로 5년 안에 돌려받을 수 있어요.\n혜택 화면의 '작년에 놓친 혜택'에서 서류를 확인하고 세무사에게 맡기면 돼요.\n정확한 금액은 세무사와 확인하세요.",
         "필요경비": "필요경비는 장사하려고 쓴 돈이에요. 재료비, 월세, 직원 급여, 카드 수수료 같은 것이죠.\n매출에서 필요경비를 뺀 만큼에만 세금이 붙어서, 증빙을 잘 모을수록 세금이 줄어요.\n정확한 금액은 세무사와 확인하세요.",
+        "카드": "카드·현금영수증·간편결제로 받은 매출의 1.3%를 부가세에서 빼 줘요(연 1,000만원까지, 2026년 공급분까지).\n세금 화면에 사장님 가게 금액을 계산해 두었어요.\n정확한 금액은 세무사와 확인하세요.",
       };
       const k = Object.keys(A).find((k) => q.includes(k));
       return { answer: k ? A[k] : "좋은 질문이에요. 지금 가게 자료를 보면, 다음 세금을 미리 준비하고 증빙(계산서·카드 영수증)을 잘 모아 두는 게 가장 중요해요.\n(데모 답변이에요. Core에 연결되면 실제 AI가 가게 숫자를 보고 답해요.)\n정확한 금액은 세무사와 확인하세요." };
@@ -368,6 +389,196 @@ const DEMO = (() => {
 /*@@ENGINE@@*/
 /* ======================= ENGINE 끝 ======================= */
 
+/* ======================= 화면용 추가 계산 (돈워리택스) ======================= */
+/* 근로소득 간이세액표: 소득세법 시행령 [별표 2] <개정 2026.2.27.> (2026.3.1. 이후 지급분) — data/wage-table-2026.json 원본 표 */
+const WAGE = /*@@WAGE@@*/null;
+function wageTax(pay, fam = 1, kids = 0) {
+  if (!WAGE || !(pay > 0)) return 0;
+  fam = Math.max(1, Math.round(fam));
+  const col = (v, f) => (f <= 11 ? v[f - 1] : Math.max(0, v[10] - (v[9] - v[10]) * (f - 11)));   // 11명 넘으면 별표2 제4호
+  const k = pay / 1000; let t;
+  if (k < WAGE.rows[0][0]) t = 0;
+  else if (k < 10000) { const r = WAGE.rows.find((r) => k >= r[0] && k < r[1]); t = r ? col(r.slice(2), fam) : 0; }
+  else {
+    const b = col(WAGE.at10000, fam);
+    t = pay === 10000000 ? b
+      : pay <= 14000000 ? b + (pay - 10000000) * 0.98 * 0.35 + 25000
+      : pay <= 28000000 ? b + 1397000 + (pay - 14000000) * 0.98 * 0.38
+      : pay <= 30000000 ? b + 6610600 + (pay - 28000000) * 0.98 * 0.40
+      : pay <= 45000000 ? b + 7394600 + (pay - 30000000) * 0.40
+      : pay <= 87000000 ? b + 13394600 + (pay - 45000000) * 0.42
+      : b + 31034600 + (pay - 87000000) * 0.45;
+  }
+  const kd = kids <= 0 ? 0 : kids === 1 ? WAGE.kids[0] : kids === 2 ? WAGE.kids[1] : WAGE.kids[1] + WAGE.kids[2] * (kids - 2);   // 8~20세 자녀 (별표2 제3호)
+  return Math.max(0, Math.floor((t - kd) / 10) * 10);
+}
+const tenth = (n) => Math.floor((n * 0.1) / 10) * 10;   // 지방소득세 10% (10원 미만 버림)
+// 월급 추정: 시급이면 (주 근무시간 + 주휴) × 365/7 ÷ 12 (주 15시간 이상이면 주휴 = 근무시간 ÷ 5) — 근로기준법 제55조
+const monthPay = (s) => (s.wage_type === "시급" ? Math.round((s.wage * ((+s.weekly_hours || 0) + ((+s.weekly_hours || 0) >= 15 ? s.weekly_hours / 5 : 0)) * 365) / 7 / 12 / 10) * 10 : +s.wage || 0);
+
+/* ---------- 부가세(일반과세) 다 계산하기: 재료는 품목별, 의제매입은 한도까지, 카드공제는 배달앱 포함 ----------
+   의제매입세액 한도율: 개인 음식점업 과세표준 1억 이하 75% · 2억 이하 70% · 2억 초과 60% (부가가치세법 제42조 제5항, 시행령 제84조 — 2026년 기준, 신고 전 재확인)
+   신용카드매출전표 등 발행세액공제: 1.3%, 연 1,000만원 (부가가치세법 제46조, 2026.12.31 공급분까지). 배달앱 온라인 결제분도 판매대행 자료로 포함 */
+const DEEMED_LIMIT = [[100000000, 0.75], [200000000, 0.7], [Infinity, 0.6]];
+const isPack = (n) => /박스|상자|봉투|봉지|비닐|용기|컵|뚜껑|빨대|포장|랩|호일|쇼핑백|젓가락|냅킨|물티슈/.test(n);
+function vatPlus(d, g, hf) {
+  const R = TX_RULES, v = txVat(d, g, hf);
+  const inHalf = (r) => { const k = txMonth(r); return k && txHalfKey(k) === hf.key; };
+  const items = {};
+  for (const r of d.purchases.filter(inHalf)) {
+    const name = r.item_key || "기타", ex = r.detail?.tax === "면세";
+    const sup = d.suppliers[r.detail?.supplier] || {};
+    const x = (items[name] ||= { name, ex, pack: isPack(name), supply: 0, vat: 0, total: 0, supplier: r.detail?.supplier, ok: ex ? sup.evidence === "계산서" : sup.evidence === "세금계산서" });
+    const vat = ex ? 0 : r.vat_amount != null && r.supply_amount != null ? r.vat_amount : Math.round(r.value / 11);
+    x.total += r.value; x.vat += vat; x.supply += r.value - vat;
+  }
+  const list = Object.values(items).sort((a, b) => b.total - a.total);
+  const exp = v.rows.filter((r) => !/^재료 매입|^면세 재료/.test(r.label)).map((r) => ({ ...r, vat: r.cls === "none" ? 0 : r.vat }));
+  let agri = list.filter((x) => x.ex).reduce((a, x) => a + x.total, 0);
+  if (!list.length) agri = d.recs.filter((r) => inHalf(r) && r.tag === "cogs.material_agri").reduce((a, r) => a + r.value, 0);
+  // 과세표준(부가세 뺀 과세 매출)
+  const base = v.salesRows.filter((x) => x.tag !== "sales.exempt").reduce((a, x) => a + x.amount - x.vat, 0);
+  const periodEnd = `${hf.y}-${hf.h === 1 ? "06-30" : "12-31"}`;
+  const food = g.entity === "개인" && (g.ind === "음식점" || g.ind === "카페");
+  const rate = base <= R.deemedRestaurantLowBase && periodEnd <= R.deemedPreferUntil ? R.deemedRateRestaurant : R.deemedRateRestaurantHigh;
+  const limitRate = DEEMED_LIMIT.find(([lim]) => base <= lim)[1];
+  const deemedRaw = food ? Math.round(agri * rate) : 0, cap = Math.round(base * limitRate * rate);
+  const deemed = Math.min(deemedRaw, cap);
+  // 카드 공제: 카드·현금영수증·간편결제 + 배달앱
+  const tagSum = (half, tags) => d.recs.filter((r) => { const k = txMonth(r); return k && txHalfKey(k) === half && tags.includes(r.tag); }).reduce((a, r) => a + r.value, 0);
+  const CT = ["sales.card", "sales.cash_receipt", "sales.easy_pay"];
+  const cardA = tagSum(hf.key, CT), cardB = tagSum(hf.key, ["sales.delivery_app"]);
+  const cardOn = g.entity === "개인" && periodEnd <= R.cardCredit.until && !(d.pyTaxable != null && d.pyTaxable / 1.1 > R.cardCredit.maxPrevSupply);
+  const used = hf.h === 2 ? Math.min(R.cardCredit.yearLimit, Math.round((tagSum(`${hf.y}-1`, CT) + tagSum(`${hf.y}-1`, ["sales.delivery_app"])) * R.cardCredit.rate)) : 0;
+  const cardRaw = Math.round((cardA + cardB) * R.cardCredit.rate);
+  const left = Math.max(0, R.cardCredit.yearLimit - used);
+  // 매입세액: 공제되는 것(ok) / 증빙 확인(check)
+  const inOk = list.filter((x) => !x.ex && x.ok).reduce((a, x) => a + x.vat, 0) + exp.filter((r) => r.cls === "ok").reduce((a, r) => a + r.vat, 0);
+  const inCk = list.filter((x) => !x.ex && !x.ok).reduce((a, x) => a + x.vat, 0) + exp.filter((r) => r.cls === "check").reduce((a, r) => a + r.vat, 0);
+  const before = v.outVat - inOk - deemed;
+  const card = cardOn ? Math.min(cardRaw, left, Math.max(0, before)) : 0;   // 카드 공제는 낼 세금까지만
+  const pay = before - card - v.prepaid;
+  return { v, hf, list, exp, agri, base, rate, limitRate, cap, deemedRaw, deemed, food, cardA, cardB, cardRaw, used, left, cardOn, card, inOk, inCk, outVat: v.outVat, pay, payIfOk: pay - inCk,
+    sales: v.salesRows.reduce((a, x) => a + x.amount, 0), months: v.months, prepaid: v.prepaid, due: v.due };
+}
+const halfName = (h) => `${h.y}년 ${h.h}기`;
+const halfMonths = (h) => (h.h === 1 ? "1~6월" : "7~12월");
+
+/* ---------- 영수증 품목 정리: 상표·용량을 떼고 같은 품목으로 묶기 ----------
+   면세: 가공하지 않은 농·축·수산물 (부가가치세법 제26조 제1항 제1호, 시행령 제34조) — 밀가루·고춧가루 같은 단순 가공도 면세
+   과세: 튀김가루(혼합)·식용유·소스·설탕·음료·주류·포장재 등 */
+const RC_RULES = [
+  [/박스|상자/, "박스", "과세", "포장재"], [/봉투|봉지|비닐|쇼핑백/, "봉투", "과세", "포장재"], [/용기|컵|뚜껑|빨대|포장|랩|호일|젓가락|냅킨|물티슈/, null, "과세", "포장재"],
+  [/세제|수세미|고무장갑|키친타[올월]|휴지|행주|위생장갑/, null, "과세", "소모품"],
+  [/치킨\s*무|단무지|피클/, "치킨무", "과세", "재료"],
+  [/튀김\s*(가루|믹스)|바삭\S*가루|치킨\s*파우더|프리믹스/, "튀김가루", "과세", "재료"], [/부침\s*가루/, "부침가루", "과세", "재료"], [/빵\s*가루/, "빵가루", "과세", "재료"],
+  [/전분|녹말/, "전분", "과세", "재료"],
+  [/식용유|콩기름|대두유|카놀라|해바라기유|포도씨유|튀김유|옥수수유|올리브유|팜유/, "식용유", "과세", "재료"],
+  [/양념|소스|케[찹첩]|마요|간장|고추장|된장|드레싱|시즈닝|조미료|다시다/, "양념소스", "과세", "재료"],
+  [/설탕|물엿|올리고당|시럽/, "설탕", "과세", "재료"],
+  [/맛소금|정제염/, "맛소금", "과세", "재료"], [/천일염|굵은\s*소금|꽃소금|소금/, "소금", "면세", "재료"],
+  [/콜라/, "콜라", "과세", "음료·주류"], [/사이다/, "사이다", "과세", "음료·주류"], [/생맥/, "생맥주", "과세", "음료·주류"],
+  [/맥주|소주|막걸리|와인|하이볼/, null, "과세", "음료·주류"], [/생수|탄산수|음료|주스|에이드/, null, "과세", "음료·주류"],
+  [/원두|커피/, "원두", "과세", "재료"], [/버터|치즈|생크림|휘핑/, null, "과세", "재료"],
+  [/닭\s*정육|순살|닭다리살|닭가슴살|정육/, "닭정육", "면세", "재료"],
+  [/생닭|육계|통닭|닭\s*\d+\s*호|닭고기|닭날개|닭봉|닭다리|(^|\s)닭(\s|$)/, "생닭", "면세", "재료"],
+  [/(중력|강력|박력)?\s*밀\s*가루|소맥분/, "밀가루", "면세", "재료"], [/고춧가루|고추가루/, "고춧가루", "면세", "재료"],
+  [/계란|달걀|난각|특란|왕란|대란/, "계란", "면세", "재료"], [/두부/, "두부", "면세", "재료"], [/쌀(?!국수|과자|떡)/, "쌀", "면세", "재료"],
+  [/양배추|양파|대파|쪽파|마늘|생강|청양고추|고추|당근|배추|상추|깻잎|감자|고구마|버섯|오이|애호박|호박|무우|채소|야채|사과|바나나|딸기|레몬|과일|부추/, null, "면세", "재료"],
+];
+const RC_BRAND = /곰표|대한제분|씨제이|CJ|백설|오뚜기|청정원|대상|해표|사조|동원|하림|마니커|체리부로|목우촌|풀무원|롯데|삼양|큐원|코카콜라|펩시|칠성|하이트|카스|진로|매일|서울우유|남양|빙그레|노브랜드|피코크|이츠웰|해찬들|샘표|몽고|국내산|수입산|냉장|냉동|\([^)]*\)|\[[^\]]*\]/gi;
+const RC_SIZE = /\d+(\.\d+)?\s*(kg|g|ml|l|ℓ|개입|입|개|봉|팩|ea|호|매)\b|[×xX*]\s*\d+/gi;
+function rcNorm(l, known) {
+  const raw = String(l.raw || l.item || "").trim();
+  const txt = `${raw} ${l.item || ""}`;
+  let hit = null;
+  for (const [re, name, tax, cat] of RC_RULES) { const m = txt.match(re); if (m) { hit = { name: name || m[0].trim(), tax, cat }; break; } }
+  let item = hit?.name || String(l.item || raw).replace(RC_BRAND, " ").replace(RC_SIZE, " ").replace(/\s+/g, " ").trim() || raw;
+  const k = known.find((k) => k === item) || known.find((k) => k.includes(item) || item.includes(k));
+  if (k) item = k;
+  const aiTax = l.tax === "면세" ? "면세" : l.tax === "과세" ? "과세" : null;
+  return { raw, item, qty: l.qty, unit: l.unit, amount: Math.round(+l.amount || 0), tax: hit?.tax || aiTax || "과세", cat: hit?.cat || (isPack(item) ? "포장재" : "재료"), by: hit ? "규칙" : "AI", diff: !!(hit && aiTax && hit.tax !== aiTax), known: !!k };
+}
+const knownItems = () => [...new Set((TX.data?.d.purchases || []).map((r) => r.item_key).filter(Boolean))];
+
+/* ---------- 통장 내역 계정 분류: 받는 사람 이름으로 대충 나누고, 사장님이 아닌 건 고쳐요 ---------- */
+const ACCTS = ["매출 입금", "재료비", "포장재", "임차료", "관리비", "공과금(전기·가스·수도)", "통신비", "4대보험(사업주)", "보험료", "인건비", "외주 용역비", "세금", "광고비", "소모품비", "수수료", "카드대금(중복 주의)", "개인 지출(경비 아님)", "대표 자금(매출 아님)", "이자 수입", "확인 필요"];
+const NOT_EXP = ["매출 입금", "카드대금(중복 주의)", "개인 지출(경비 아님)", "대표 자금(매출 아님)", "이자 수입", "확인 필요"];
+const BANK_OUT = [
+  [/대표|본인|생활비|적금|개인/, "개인 지출(경비 아님)"], [/카드\s*대금|카드\s*결제|카드값/, "카드대금(중복 주의)"],
+  [/포장재|포장/, "포장재"], [/육계|정육|청과|농협|하나로|수산|축산|식자재|마트|반찬|제분|유제품|유업|원두|음료|주류|상회|도매/, "재료비"],
+  [/월세|임대료|건물주|임차/, "임차료"], [/관리비|관리사무소/, "관리비"], [/한국전력|한전|전기|도시가스|가스|상수도|수도/, "공과금(전기·가스·수도)"],
+  [/KT|케이티|SK브로드|LG유플|텔레콤|인터넷|통신/, "통신비"], [/건강보험|국민연금|고용보험|근로복지|산재|4대/, "4대보험(사업주)"], [/화재|손해보험|생명|보험/, "보험료"],
+  [/용역|기사|3\.3/, "외주 용역비"], [/급여|월급|알바|상여|직원/, "인건비"], [/국세|세무서|부가세|지방세|구청|시청|위택스|홈택스|국고/, "세금"],
+  [/광고|네이버|카카오|당근/, "광고비"], [/쿠팡|다이소|오피스|소모품/, "소모품비"],
+];
+const BANK_IN = [[/이자/, "이자 수입"], [/대표|본인|대출/, "대표 자금(매출 아님)"]];
+function bankGuess(name, inflow) {
+  for (const [re, a] of inflow ? BANK_IN : BANK_OUT) if (re.test(name)) return a;
+  return inflow ? "매출 입금" : "확인 필요";
+}
+function bankSample(d) {
+  const ym = d.monthList.at(-1)?.k; if (!ym) return [];
+  const [y, m] = ym.split("-").map(Number);
+  const at = (day) => `${ym}-${String(Math.min(day, new Date(Date.UTC(y, m, 0)).getUTCDate())).padStart(2, "0")}`;
+  const sum = (pred) => d.recs.filter((r) => txMonth(r) === ym && pred(r.tag)).reduce((a, r) => a + r.value, 0);
+  const rows = [], add = (day, name, amt, inflow, memo = "") => { if (amt > 0) rows.push({ date: at(day), name, amount: Math.round(amt), inflow, memo }); };
+  const card = sum((t) => t === "sales.card");
+  add(3, "KB국민카드 가맹점대금", card * 0.55, true); add(4, "신한카드 가맹점대금", card * 0.45, true);
+  add(5, "우아한형제들 배민 정산", sum((t) => t === "sales.delivery_app") * 0.9, true, "수수료 뗀 금액");
+  add(6, "토스페이먼츠 정산", sum((t) => t === "sales.easy_pay"), true); add(28, "현금 입금(ATM)", sum((t) => t === "sales.cash"), true);
+  const bySup = {};
+  d.purchases.filter((r) => txMonth(r) === ym).forEach((r) => { const s = r.detail?.supplier || "거래처"; bySup[s] = (bySup[s] || 0) + r.value; });
+  Object.entries(bySup).forEach(([s, v], i) => add(10, s, v, false, "재료 대금"));
+  add(1, "박○○(건물주) 월세", sum((t) => t === "expense.rent"), false); add(2, "○○빌딩 관리사무소", sum((t) => t === "expense.maintenance"), false);
+  add(18, "한국전력공사", sum((t) => t === "expense.electricity"), false); add(19, "부산도시가스", sum((t) => t === "expense.gas"), false);
+  add(20, "부산시 상수도사업본부", sum((t) => t === "expense.water"), false); add(21, "KT 인터넷·전화", sum((t) => t === "expense.telecom"), false);
+  add(10, "국민건강보험공단", sum((t) => t === "hr.insurance_employer"), false, "4대보험 사업주 부담"); add(15, "삼성화재 화재보험", sum((t) => t === "expense.insurance"), false);
+  const pay = sum((t) => /^hr\.pay\.(salary|weekly_holiday|overtime|bonus)$/.test(t));
+  const st = d.staff.length ? d.staff : [{ name: "직원", wage: 1 }]; const tot = st.reduce((a, s) => a + monthPay(s), 0) || 1;
+  st.forEach((s) => add(25, `${s.name} 급여`, (pay * monthPay(s)) / tot, false));
+  const fl = sum((t) => t === "hr.pay.freelance"); (d.freelancers || []).forEach((f) => add(25, `${f.name || f.item_key || "배달 기사"} 용역비`, (fl / Math.max(1, d.freelancers.length)) * 0.967, false, "3.3% 떼고"));
+  add(12, "네이버 광고", sum((t) => t === "expense.advertising"), false); add(14, "쿠팡 (소모품)", sum((t) => t === "expense.supplies"), false);
+  add(15, "신한카드 카드대금", sum((t) => t === "expense.other" || t === "expense.repair") + 380000, false);
+  add(26, "대표 개인계좌 생활비 이체", 2000000, false); add(22, "(주)클린웨이", 132000, false, "정기 방역");
+  return rows.sort((a, b) => (a.date < b.date ? -1 : 1));
+}
+/* 은행 엑셀·CSV → [{date,name,amount,inflow,memo}] (머리글에서 날짜·내용·출금·입금 칸을 찾아요) */
+function bankParse(table) {
+  const hi = table.slice(0, 15).findIndex((r) => r.some((c) => /거래일|날짜|일자|일시/.test(String(c))));
+  if (hi < 0) throw new Error("날짜 칸을 찾지 못했어요. 은행에서 받은 원본 엑셀·CSV를 올려 주세요");
+  const H = table[hi].map((c) => String(c).replace(/\s/g, ""));
+  const f = (re) => H.findIndex((c) => re.test(c));
+  const pick = (...res) => { for (const re of res) { const i = f(re); if (i >= 0) return i; } return -1; };
+  const cD = f(/거래일|날짜|일자|일시/), cN = pick(/받는|보낸|거래처|상대|의뢰인|송금인|입금자/, /기재내용/, /내용/, /적요/), cM = pick(/메모|비고/, /적요/);
+  const cO = f(/출금|찾으신|지급/), cI = f(/입금|맡기신|받은/), cA = f(/^금액|거래금액/), cK = f(/구분|입출/);
+  const num = (x) => Number(String(x ?? "").replace(/[^\d.-]/g, "")) || 0;
+  const out = [];
+  for (const r of table.slice(hi + 1)) {
+    const name = String(r[cN] ?? "").trim(); if (!name && !r[cD]) continue;
+    let o = cO >= 0 ? num(r[cO]) : 0, i = cI >= 0 ? num(r[cI]) : 0;
+    if (cO < 0 && cI < 0 && cA >= 0) { const a = num(r[cA]); if (cK >= 0 && /입금/.test(r[cK])) i = Math.abs(a); else if (cK >= 0) o = Math.abs(a); else if (a < 0) o = -a; else i = a; }
+    if (!o && !i) continue;
+    let dt = r[cD]; if (typeof dt === "number") dt = new Date(Math.round((dt - 25569) * 86400000)).toISOString().slice(0, 10);
+    dt = String(dt).replace(/[./]/g, "-").slice(0, 10);
+    out.push({ date: dt, name: name || "(이름 없음)", amount: Math.round(o || i), inflow: !o, memo: cM >= 0 && cM !== cN ? String(r[cM] ?? "") : "" });
+  }
+  if (!out.length) throw new Error("거래 내역을 읽지 못했어요");
+  return out;
+}
+function csvRows(text) {
+  const rows = []; let row = [], cur = "", q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) { if (c === '"' && text[i + 1] === '"') { cur += '"'; i++; } else if (c === '"') q = false; else cur += c; }
+    else if (c === '"') q = true; else if (c === ",") { row.push(cur); cur = ""; } else if (c === "\n" || c === "\r") { if (c === "\r" && text[i + 1] === "\n") i++; row.push(cur); rows.push(row); row = []; cur = ""; } else cur += c;
+  }
+  if (cur || row.length) { row.push(cur); rows.push(row); }
+  return rows;
+}
+const loadScript = (src) => new Promise((ok, no) => { const s = document.createElement("script"); s.src = src; s.onload = ok; s.onerror = () => no(new Error("엑셀 읽기 도구를 불러오지 못했어요")); document.head.appendChild(s); });
+
+
 /* ---------- 상태 ---------- */
 const S = {
   view: "landing", page: "home", taxSeg: "vat", benSeg: "now", half: null,
@@ -375,7 +586,7 @@ const S = {
   user: store.get("user") || null,          // 가짜 가입 정보 { name, via }
   biz: store.get("biz") || null,             // 보고 있는 가게
   fromOb: store.get("fromOb") || false,      // 질문에 답해서 고른 샘플인지
-  list: null, chat: [], rc: null, loading: false, err: null, ov: null, su: null, matchAt: 0,
+  list: null, chat: [], rc: null, docSeg: "rc", talk: "ai", pro: {}, bank: null, wh: null, iy: null, cmp: null, calYm: null, calDay: null, loading: false, err: null, ov: null, su: null, matchAt: 0,
 };
 const saveUser = () => { if (!S.user) return; store.set("user", S.user); store.set("biz", S.biz); store.set("ob", S.ob); store.set("fromOb", S.fromOb); };
 
@@ -383,7 +594,7 @@ const saveUser = () => { if (!S.user) return; store.set("user", S.user); store.s
 const DOW = "일월화수목금토";
 const fd = (iso) => { if (!iso) return ""; const t = new Date(iso + "T00:00:00"); return `${t.getMonth() + 1}월 ${t.getDate()}일(${DOW[t.getDay()]})`; };
 const man = (n) => { if (n == null) return "—"; const a = Math.abs(n); const s = a >= 10000 ? `${Math.round(a / 10000).toLocaleString("ko-KR")}만원` : `${won(a)}원`; return n < 0 ? `${s} 환급` : s; };
-const amt = (lo, hi) => (hi == null ? "—" : lo == null || Math.round(lo / 10000) === Math.round(hi / 10000) ? `약 ${man(hi)}` : `${man(Math.max(lo, 0)).replace("원", "")}~${man(hi)}`);
+const amt = (lo, hi) => (hi == null ? "—" : `약 ${man(Math.max(hi, 0))}`);   // 범위 대신 한 숫자 (증빙 확인 몫은 화면에 따로 적어요)
 const TODAY = () => BIX.me?.today || new Date().toISOString().slice(0, 10);
 const days = (iso) => Math.round((Date.parse(iso) - Date.parse(TODAY())) / 86400000);
 const dday = (iso) => { const n = days(iso); return n === 0 ? "오늘" : n > 0 ? `D-${n}` : `D+${-n}`; };
@@ -396,23 +607,26 @@ const ICON = {
   home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>',
   tax: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
   ben: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18M12 8c-2-4-6-4-6-1s6 1 6 1c2-4 6-4 6-1s-6 1-6 1"/></svg>',
+  docs: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6" stroke-linecap="round"/></svg>',
   cal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
   more: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>',
 };
-const NAV = [["home", "🏠", "홈"], ["tax", "🧾", "세금"], ["ben", "🎁", "혜택"], ["cal", "📅", "일정·영수증"], ["risk", "⚠️", "위험 점검"], ["report", "📄", "세무사 보고서"]];
+const NAV = [["home", "🏠", "홈"], ["tax", "🧾", "세금"], ["ben", "🎁", "혜택"], ["docs", "🗂️", "영수증·통장"], ["risk", "⚠️", "위험 점검"], ["report", "📄", "세무사 보고서"]];
 
 /* ---------- 주소(#/home 등)로 화면 고르기 ---------- */
-const PAGES = ["home", "tax", "ben", "cal", "risk", "report", "more"];
+const PAGES = ["home", "tax", "ben", "docs", "risk", "report", "more"];
 function route() {
   const [a, b] = location.hash.replace(/^#\/?/, "").split("/");
   const prev = S.view + S.page;
   if (!a) S.view = "landing";
   else if (a === "start") { S.view = "ob"; }
   else if (a === "match") S.view = S.biz ? "match" : "ob";
+  else if (a === "cal") { S.view = "app"; S.page = "home"; }   // 예전 주소: 달력은 홈으로 옮겼어요
   else if (PAGES.includes(a)) {
     S.view = "app"; S.page = a;
     if (a === "tax" && ["vat", "income", "wh"].includes(b)) S.taxSeg = b;
     if (a === "ben" && ["now", "past"].includes(b)) S.benSeg = b;
+    if (a === "docs") S.docSeg = b === "bank" ? "bank" : "rc";
   } else S.view = "landing";
   closeOv();
   if (prev !== S.view + S.page) window.scrollTo(0, 0);
@@ -467,7 +681,12 @@ function facts() {
   const { d, g, benefitsNow, benefitsPast, risks } = TX.data;
   const good = [...benefitsNow, ...benefitsPast].filter((b) => /가능성 높음/.test(b.status));
   const riskItems = risks.flatMap((c) => c.items.map((i) => ({ ...i, cat: c.name }))).filter((i) => i.level !== "정상");
-  return { d, g, nt: txNextTax(d, g), good, riskItems, riskCats: risks.filter((c) => c.items.some((i) => i.level !== "정상")), todos: txTodos(d, g) };
+  let nt = txNextTax(d, g);
+  if (nt?.view === "vat" && g.vat === "일반") {
+    const hf = txHalves(d).find((h) => (h.h === 1 ? `${h.y}-07` : `${h.y + 1}-01`) === nt.due.slice(0, 7));
+    if (hf) { const x = vatPlus(d, g, hf); nt = { ...nt, lo: x.payIfOk, hi: x.pay }; }
+  }
+  return { d, g, nt, good, riskItems, riskCats: risks.filter((c) => c.items.some((i) => i.level !== "정상")), todos: txTodos(d, g) };
 }
 function upcoming(n = 99) {
   const seen = new Set();
@@ -568,17 +787,19 @@ function shell(inner) {
     <button class="logo" data-nav="" style="padding:4px 8px"><i>₩</i>돈워리택스</button>
     <button class="store" data-picker><span class="k">보고 있는 가게 ${S.fromOb ? "· 비슷한 샘플" : ""}</span><b>${esc(S.biz?.biz_name || "…")} ⌄</b>${esc(bizSub(S.biz))}</button>
     ${NAV.map(([k, e, l]) => `<button class="nv ${S.page === k ? "on" : ""}" data-nav="${k}"><em>${e}</em>${l}${k === "risk" && cnt ? `<span class="cnt">${cnt}</span>` : ""}</button>`).join("")}
+    <div class="k" style="margin:14px 12px 4px">상담</div>
+    <button class="nv" data-ai="ai"><em>✦</em>AI 상담</button><button class="nv" data-ai="pro"><em>👩‍💼</em>세무사 상담</button>
     <div class="bt">${S.user ? `<b style="color:var(--t)">${esc(S.user.name)} 사장님</b> · ${esc(S.user.via)}<br>결과가 저장돼 있어요 · <button data-logout>로그아웃</button>` : `게스트로 보는 중<br><button data-signup="save">가입하고 저장하기 →</button>`}
       <div style="margin-top:8px"><span class="mode ${BIX.mode === "core" ? "live" : ""}">${BIX.mode === "core" ? "● Core 실시간 자료" : "데모 데이터"}</span></div></div>
   </aside>`;
-  const tabs = [["home", "홈"], ["tax", "세금"], ["ben", "혜택"], ["cal", "일정"], ["more", "더보기"]];
+  const tabs = [["home", "홈"], ["tax", "세금"], ["ben", "혜택"], ["docs", "정리"], ["more", "더보기"]];
   const onTab = ["risk", "report"].includes(S.page) ? "more" : S.page;
   return `<div class="app">${side}
     <main class="main">
       <div class="mtop"><button class="logo" data-nav="" style="font-size:17px"><i style="width:26px;height:26px;font-size:14px">₩</i>돈워리택스</button><button class="sb" data-picker>${esc(S.biz?.biz_name || "…")} ⌄</button></div>
       ${inner}
     </main>
-    <button class="aipill" data-ai>✦ AI에게 물어보기</button>
+    <button class="aipill" data-ai="ai">✦ AI 상담</button>
     <nav class="tabbar">${tabs.map(([k, l]) => `<button class="${onTab === k ? "on" : ""}" data-nav="${k}">${ICON[k]}${l}</button>`).join("")}</nav>
   </div>`;
 }
@@ -589,107 +810,287 @@ function loadingView() {
 const pageTop = (kicker, title, right = "") => `<div class="top"><div><div class="k">${kicker}</div><h1>${title}</h1></div>${right ? `<div class="rt noprint">${right}</div>` : ""}</div>`;
 const obNote = () => (S.fromOb ? `<div class="note noprint"><span>💡</span><div>입력하신 답(<b>${esc([S.ob.region, S.ob.ind, S.ob.vat !== "몰라요" ? S.ob.vat && S.ob.vat + "과세" : ""].filter(Boolean).join(" · "))}</b>)과 비슷한 <b>샘플 가게</b> 자료로 보여 드려요. ${S.user ? "" : `<button data-signup="save" style="color:var(--b);font-weight:700;text-decoration:underline">가입하면</button> 결과를 저장할 수 있어요.`}</div></div>` : "");
 
-/* --- 홈 --- */
+/* --- 홈: 달력이 먼저 --- */
+const calShort = (n) => /부가/.test(n) ? "부가세" : /중간예납/.test(n) ? "중간예납" : /종합소득세/.test(n) ? "종소세" : /원천세/.test(n) ? "원천세" : /지급명세서/.test(n) ? "지급명세서" : /사업장현황/.test(n) ? "현황신고" : n.replace(/\s.*/, "").slice(0, 5);
+function calCard() {
+  const today = TODAY(), ym = S.calYm || today.slice(0, 7);
+  const [y, m] = ym.split("-").map(Number);
+  const first = new Date(Date.UTC(y, m - 1, 1)).getUTCDay(), n = new Date(Date.UTC(y, m, 0)).getUTCDate();
+  const ev = {}; TX.data.cal.forEach((i) => { if (i.due.startsWith(ym)) (ev[i.due] ||= []).push(i); });
+  const keys = Object.keys(ev).sort();
+  const sel = S.calDay?.startsWith(ym) ? S.calDay : keys.find((k) => k >= today) || keys[0] || null;
+  const nt = facts().nt;
+  let cells = "";
+  for (let i = 0; i < first; i++) cells += `<div></div>`;
+  for (let dd = 1; dd <= n; dd++) {
+    const k = `${ym}-${String(dd).padStart(2, "0")}`, es = ev[k] || [];
+    cells += `<button class="cd ${k === today ? "td" : ""} ${k === sel ? "sel" : ""} ${es.length ? "has" : ""}" data-calday="${k}"><b>${dd}</b>${es.slice(0, 2).map((e) => `<i class="${e.kind === "신고" ? "eb" : "ea"}">${esc(calShort(e.name))}</i>`).join("")}${es.length > 2 ? `<i class="ex">+${es.length - 2}</i>` : ""}</button>`;
+  }
+  const list = sel ? ev[sel] || [] : [];
+  return `<div class="card"><div class="h3row"><h3>${y}년 ${m}월</h3><div class="calnav"><button data-calm="-1" aria-label="이전 달">‹</button><button data-calm="0">오늘</button><button data-calm="1" aria-label="다음 달">›</button></div></div>
+    <div class="calg">${"일월화수목금토".split("").map((w) => `<div class="w">${w}</div>`).join("")}${cells}</div>
+    <div class="calsel">${sel ? `<div class="k">${fd(sel)} · ${dday(sel)}</div>` + (list.map((i) => `<div class="row"><span class="dot ${i.kind === "신고" ? "db" : "da"}"></span><div class="t">${esc(i.name)}<small>${esc(i.what)}</small></div>${nt && nt.due === i.due && nt.name.startsWith(i.name.slice(0, 3)) ? `<b class="r">${amt(nt.lo, nt.hi)}</b>` : ""}</div>`).join("") || `<p class="small">이날은 일정이 없어요</p>`) : `<p class="small">이달은 세금 일정이 없어요</p>`}</div></div>`;
+}
 function vHome() {
-  const { g, nt, good, riskItems, riskCats, todos } = facts();
-  const up = upcoming(5);
-  return pageTop(todayStr(), `안녕하세요, ${esc(userName())} 👋`, `<button class="btn w sm" data-ics>📅 캘린더에 추가</button><button class="btn w sm" data-nav="report">📄 보고서 받기</button>`) + obNote() + `
-    <div class="g3">
-      ${nt ? `<button class="big" data-nav="tax/${nt.view === "income" ? "income" : "vat"}" style="text-align:left"><div style="font-size:14px;opacity:.88;font-weight:600">다음에 낼 세금 · ${esc(nt.name)}</div><div class="v">${amt(nt.lo, nt.hi)}</div><div style="font-weight:600">${fd(nt.due)}까지 <span class="pill">${dday(nt.due)}</span></div><div style="font-size:13px;opacity:.82;margin-top:12px;line-height:1.5">${esc(nt.note || "")} · 계산 과정 보기 →</div></button>`
-        : `<div class="card"><b>곧 낼 세금이 없어요</b><p class="small">자료가 더 쌓이면 미리 계산해 드려요.</p></div>`}
-      <button class="card stat" data-nav="ben" style="text-align:left"><div class="k">받을 수 있는 혜택</div><div class="v" style="color:var(--g)">${good.length}개</div><div class="small" style="margin-top:8px">${esc(good.slice(0, 2).map((b) => b.name.replace(/세액|중소기업/g, "")).join(" · ") || "확인할 혜택을 보세요")}</div></button>
-      <button class="card stat" data-nav="risk" style="text-align:left"><div class="k">챙길 위험 신호</div><div class="v" style="color:${riskItems.length ? "var(--r)" : "var(--g)"}">${riskItems.length}개</div><div class="small" style="margin-top:8px">${esc(riskCats.slice(0, 2).map((c) => c.name).join(" · ") || "문제 없어요")}</div></button>
-    </div>
+  const { g, nt, good, riskItems, todos } = facts();
+  return pageTop(todayStr(), `안녕하세요, ${esc(userName())} 👋`, `<button class="btn w sm" data-ics>📅 내 캘린더에 넣기</button><button class="btn w sm" data-nav="report">📄 보고서</button>`) + obNote() + `
     <div class="g2">
-      <div class="card"><h3>할 일</h3>
-        ${todos.slice(0, 6).map((x, i) => `<button class="row" data-todo="${i}"><span class="dot ${x.lv === "need" ? "dr" : "da"}"></span><div class="t">${esc(txShort(x.text))}</div><span class="pill ${x.lv === "need" ? "pr" : "pa"}">${x.lv === "need" ? "꼭 챙기세요" : "확인해 보세요"}</span></button>`).join("") || `<div class="row"><div class="t sub">지금은 할 일이 없어요 👍</div></div>`}
-      </div>
+      ${calCard()}
       <div class="col">
-        <div class="card"><div class="h3row"><h3>다가오는 일정</h3><button class="small" data-nav="cal" style="color:var(--b);font-weight:700">전체 보기</button></div>
-          ${up.map((i) => `<div class="row"><span class="pill ${days(i.due) <= 30 ? "pb" : "px"}" style="margin-right:10px;min-width:48px;text-align:center">${+i.due.slice(5, 7)}/${+i.due.slice(8)}</span><div class="t">${esc(i.name)}</div><span class="small">${dday(i.due)}</span></div>`).join("") || `<p class="small">다가오는 일정이 없어요</p>`}
+        ${nt ? `<button class="big" data-nav="tax/${nt.view === "income" ? "income" : "vat"}" style="text-align:left"><div style="font-size:14px;opacity:.88;font-weight:600">다음에 낼 세금 · ${esc(nt.name)}</div><div class="v">${amt(nt.lo, nt.hi)}</div><div style="font-weight:600">${fd(nt.due)}까지 <span class="pill">${dday(nt.due)}</span></div><div style="font-size:13px;opacity:.82;margin-top:10px">계산 과정 보기 →</div></button>`
+          : `<div class="card"><b>곧 낼 세금이 없어요</b></div>`}
+        <div class="g2e">
+          <button class="card stat" data-nav="ben" style="text-align:left"><div class="k">받을 혜택</div><div class="v" style="color:var(--g)">${good.length}개</div></button>
+          <button class="card stat" data-nav="risk" style="text-align:left"><div class="k">위험 신호</div><div class="v" style="color:${riskItems.length ? "var(--r)" : "var(--g)"}">${riskItems.length}개</div></button>
+        </div>
+        <div class="card"><h3>할 일</h3>
+          ${todos.slice(0, 4).map((x, i) => `<button class="row" data-todo="${i}"><span class="dot ${x.lv === "need" ? "dr" : "da"}"></span><div class="t">${esc(txShort(x.text))}</div><span class="chev"></span></button>`).join("") || `<div class="row"><div class="t sub">할 일이 없어요 👍</div></div>`}
         </div>
         <button class="card" data-diag style="text-align:left;display:block;width:100%"><div class="h3row"><h3>🩺 가게 진단</h3><span class="small" style="color:var(--b);font-weight:700">자세히 ›</span></div>
-          <div class="small">${esc([g.entity && g.entity + "사업자", g.vat && g.vat + "과세", g.ind].filter(Boolean).join(" · "))}</div>
-          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">${g.taxes.filter((t) => t.status === "해당").map((t) => `<span class="pill pb">${esc(t.name)}</span>`).join("")}</div></button>
+          <div class="small">${esc([g.entity && g.entity + "사업자", g.vat && g.vat + "과세", g.ind].filter(Boolean).join(" · "))}</div></button>
       </div>
     </div>`;
 }
 
-/* --- 세금 --- */
+const more = (label, html) => `<details class="det"><summary>${label}</summary><div class="detb">${html}</div></details>`;
+const W = (n) => (n == null ? "" : `${n < 0 ? "− " : ""}${won(Math.abs(n))}`);
+function vTax() {
+  const { d, g } = TX.data;
+  const segs = [["vat", "부가세"], ["income", "종합소득세"], ["wh", "원천세"]];
+  const body = S.taxSeg === "vat" ? (g.vat === "간이" ? taxSimple(d, g) : g.vat === "일반" ? taxVat(d, g) : `<div class="card">과세유형이 입력되지 않았어요.</div>`)
+    : S.taxSeg === "income" ? taxIncome(d, g) : taxWh(d, g);
+  return pageTop("세금", segs.find(([k]) => k === S.taxSeg)[1]) + `<div class="seg">${segs.map(([k, l]) => `<button class="${S.taxSeg === k ? "on" : ""}" data-nav="tax/${k}">${l}</button>`).join("")}</div>` + body;
+}
+function curHalf(d) { const hs = txHalves(d); return hs.find((x) => x.key === txHalfKey(TODAY().slice(0, 7))) || hs[0]; }
+function taxVat(d, g) {
+  const hs = txHalves(d);
+  if (!hs.length) return `<div class="card">매출 자료가 없어요.</div>`;
+  const hf = curHalf(d), x = vatPlus(d, g, hf);
+  const mat = x.list.filter((i) => !i.pack), pack = x.list.filter((i) => i.pack);
+  const exM = mat.filter((i) => i.ex), txM = mat.filter((i) => !i.ex);
+  const sum = (a, k) => a.reduce((s, i) => s + i[k], 0);
+  const head = `<div class="card"><div class="k">${halfName(hf)} 부가세 (${halfMonths(hf)})</div><div class="amt">약 ${man(x.pay)}</div>
+      <div style="font-weight:600">${fd(x.due)}까지 <span class="pill pb">${dday(x.due)}</span></div>
+      <p class="small" style="margin:10px 0 0">${x.months.length < 6 ? `${x.months.length}개월 자료로 계산 · ` : ""}${x.inCk ? `영수증 확인되면 ${man(x.inCk)} 더 줄어요` : "공제 다 반영했어요"}</p>
+      <div class="halves" style="margin:16px 0 0"><span class="small" style="align-self:center;margin-right:2px">지난 기와 비교</span>${hs.filter((h) => h.key !== hf.key).map((h) => `<button data-cmp="${h.key}">${halfName(h)}</button>`).join("")}</div></div>`;
+  const calc = `<div class="card"><h3>이렇게 계산했어요</h3>${calcRows([
+    ["매출세액", x.outVat, "", `매출 ${man(x.sales)}의 부가세`],
+    ["매입세액", -x.inOk, "", "재료·경비 살 때 낸 부가세"],
+    x.deemed ? ["의제매입세액", -x.deemed, "", `면세 재료 ${man(x.agri)} × ${x.rate > 0.08 ? "9/109" : "8/108"}`] : null,
+    x.card ? ["카드매출 세액공제", -x.card, "", `카드·배달앱 매출 ${man(x.cardA + x.cardB)} × 1.3%`] : null,
+    x.prepaid ? ["이미 낸 예정고지", -x.prepaid] : null, ["낼 세금", x.pay, "tot"]])}
+    ${more("공제 계산 자세히", `
+      <div class="k">의제매입세액</div><div class="calc">${calcRows([["면세 재료 매입가액", x.agri], ["× 공제율", null, "", x.rate > 0.08 ? "9/109 (과세표준 2억 이하 개인 음식점)" : "8/108"], ["= 공제 계산액", x.deemedRaw],
+        ["한도", x.cap, "", `과세표준 ${man(x.base)} × 한도율 ${Math.round(x.limitRate * 100)}% × 공제율`], ["= 인정액", x.deemed, "tot", x.deemed === x.deemedRaw ? "한도 안이라 전부 인정" : "한도까지만 인정"]])}</div>
+      <div class="k" style="margin-top:14px">카드매출 세액공제</div><div class="calc">${calcRows([["카드·현금영수증·간편결제", x.cardA], ["배달앱 매출", x.cardB, "", "앱으로 결제된 금액 (만나서 현금 결제분은 빼요)"], ["× 1.3%", x.cardRaw],
+        x.used ? ["올해 1기에 쓴 한도", -x.used, "", "연 1,000만원 한도"] : null, ["= 인정액", x.card, "tot", x.cardOn ? (x.card < x.cardRaw ? "한도·낼 세금까지만 인정" : "전부 인정") : "대상 아님"]])}</div>
+      <p class="small">근거: 부가가치세법 제42조·시행령 제84조(의제매입, 한도율 75·70·60%), 제46조(카드 1.3%·연 1,000만원, 2026년 공급분까지). 2026년 기준이에요.</p>`)}</div>`;
+  const tbl = (rows, cols, foot) => `<div class="scx"><table class="tbl"><tr>${cols.map((c) => `<th>${c}</th>`).join("")}</tr>${rows.join("")}${foot || ""}</table></div>`;
+  const exRows = exM.map((i) => `<tr><td>${esc(i.name)}${i.ok ? "" : `<small>계산서 확인</small>`}</td><td>${W(i.total)}</td><td>${W(Math.round(i.total * x.rate))}</td></tr>`);
+  const txRows = txM.map((i) => `<tr><td>${esc(i.name)}${i.ok ? "" : `<small>세금계산서 확인</small>`}</td><td>${W(i.supply)}</td><td>${W(i.vat)}</td><td>${W(i.total)}</td></tr>`);
+  const mats = `<div class="card" style="margin-top:16px"><div class="h3row"><h3>재료비</h3><span class="small">${halfName(hf)} · ${man(sum(mat, "total"))}</span></div>
+    <div class="split">
+      <div class="half ex"><div class="hh"><span class="pill pg">면세</span> 부가세 없음 → 의제매입 공제</div>${exM.length ? tbl(exRows, ["품목", "매입가액", "의제매입세액"], `<tr class="tot"><td>합계</td><td>${W(sum(exM, "total"))}</td><td>${W(Math.round(sum(exM, "total") * x.rate))}</td></tr>`) : `<p class="small">면세 재료가 없어요</p>`}</div>
+      <div class="half"><div class="hh"><span class="pill pb">과세</span> 부가세 포함 → 매입세액 공제</div>${txM.length ? tbl(txRows, ["품목", "매입가액", "매입세액", "합계"], `<tr class="tot"><td>합계</td><td>${W(sum(txM, "supply"))}</td><td>${W(sum(txM, "vat"))}</td><td>${W(sum(txM, "total"))}</td></tr>`) : `<p class="small">과세 재료가 없어요</p>`}</div>
+    </div></div>`;
+  const ex2 = x.exp.map((r) => `<tr class="${r.cls === "ok" || r.cls === "check" ? "" : "off"}"><td>${esc(r.label)}<small>${r.cls === "none" ? "면세라 부가세 없음" : r.cls === "no" ? "공제 안 돼요" : r.cls === "check" ? "영수증 확인" : ""}</small></td><td>${W(r.amount - r.vat)}</td><td>${W(r.vat)}</td><td>${W(r.amount)}</td></tr>`);
+  const packRows = pack.map((i) => `<tr><td>${esc(i.name)}</td><td>${W(i.supply)}</td><td>${W(i.vat)}</td><td>${W(i.total)}</td></tr>`);
+  const others = `<div class="card" style="margin-top:16px"><h3>포장재 · 경비</h3>${tbl([...packRows, ...ex2], ["항목", "매입가액", "매입세액", "합계"])}</div>`;
+  return `<div class="g2"><div class="col">${head}</div><div class="col">${calc}</div></div>${mats}${others}
+    <div style="margin-top:16px">${aiCard(["의제매입세액공제가 뭐예요?", "카드매출 세액공제는 어떻게 받아요?", "부가세를 줄이려면 뭘 하면 돼요?"])}</div>`;
+}
+function cmpModal() {
+  const { d, g } = TX.data, hs = txHalves(d), a = curHalf(d), b = hs.find((h) => h.key === S.cmp) || hs[1];
+  const A = vatPlus(d, g, a), B = vatPlus(d, g, b);
+  const rows = [["매출", "sales"], ["매출세액", "outVat"], ["매입세액", "inOk"], ["의제매입세액", "deemed"], ["카드매출 세액공제", "card"], ["낼 세금", "pay"]];
+  return `<h3>부가세 비교</h3><p class="sub" style="margin:0 0 6px">${halfName(a)}는 ${A.months.length}개월치 자료예요</p>
+    <div class="halves" style="margin:10px 0 4px">${hs.filter((h) => h.key !== a.key).map((h) => `<button class="${h.key === b.key ? "on" : ""}" data-cmp="${h.key}">${halfName(h)}</button>`).join("")}</div>
+    <div class="card pad"><table class="tbl"><tr><th></th><th>${halfName(a)}<small>이번</small></th><th>${halfName(b)}</th><th>차이</th></tr>
+    ${rows.map(([l, k]) => { const df = A[k] - B[k]; return `<tr class="${k === "pay" ? "tot" : ""}"><td>${l}</td><td>${man(A[k])}</td><td>${man(B[k])}</td><td class="${df > 0 ? "up" : df < 0 ? "dn" : ""}">${df === 0 ? "—" : (df > 0 ? "▲ " : "▼ ") + man(Math.abs(df))}</td></tr>`; }).join("")}</table></div>
+    <p class="small" style="margin-top:12px">${A.months.length < 6 ? "이번 기는 아직 다 지나지 않아서 매출이 작게 보여요." : ""}</p>`;
+}
+function taxSimple(d, g) {
+  const ys = txYears(d); if (!ys.length) return `<div class="card">매출 자료가 없어요.</div>`;
+  const v = txSimpleVat(d, g, ys.includes(d.Y) ? d.Y : ys[0]);
+  if (v.rate == null) return `<div class="card">업종이 없어 계산할 수 없어요.</div>`;
+  const left = (v.exempt ? `<div class="card" style="background:var(--gb)"><b style="color:var(--g)">낼 세금이 없어요 (납부 면제)</b><p class="small">연 매출 4,800만원 미만이에요. 신고만 해요.</p></div>` : amtCard(`${v.y}년 부가세 (간이과세)`, v.low, v.high, v.due, `${v.months.length}개월 자료로 계산${v.inputCk ? ` · 영수증 확인되면 ${man(v.inputCk)} 더 줄어요` : ""}`))
+    + `<div class="card"><h3>이렇게 계산했어요</h3>${calcRows([["매출 (부가세 포함)", v.salesGross], ["× 업종 부가가치율 × 10%", null, "", `${Math.round(v.rate * 100)}% × 10%`], ["= 계산된 세액", v.tax], ["매입 공제", -v.inputOk, "", `세금계산서 받은 매입 ${man(v.okBase)} × 0.5%`], v.card ? ["카드매출 세액공제", -v.card, "", `카드 매출 ${man(v.cardBase)} × 1.3%`] : null, ["낼 세금", v.exempt ? 0 : v.high, "tot"]])}</div>`;
+  const right = `<div class="card"><h3>일반과세자였다면?</h3><p class="sub" style="margin:6px 0 0">약 <b>${man(v.genPay)}</b> · ${v.exempt || v.high <= v.genPay ? "지금이 유리해요" : "일반과세가 유리할 수도 있어요"}</p></div>`
+    + aiCard(["간이과세자는 뭐가 달라요?", "세금을 줄이려면 지금 뭘 하면 돼요?"]);
+  return `<div class="g2"><div class="col">${left}</div><div class="col">${right}</div></div>`;
+}
+function taxIncome(d, g) {
+  if (g.entity !== "개인") return `<div class="card">법인세 계산은 준비 중이에요.</div>`;
+  const ys = txYears(d); if (!ys.length) return `<div class="card">매출 자료가 없어요.</div>`;
+  const def = ys.includes(txIncomeYear(d, g)) ? txIncomeYear(d, g) : ys[0];
+  const iy = ys.includes(+S.iy) ? +S.iy : def;
+  const v = txIncome(d, g, iy), w = TX.whatif || {}, h = v.hi;
+  const due = g.faithful?.[iy]?.over ? txDue(iy + 1, 6, 30) : v.due;
+  const br = TX_RULES.incomeBrackets.find(([lim]) => lim == null || h.base <= lim);
+  const dep = +w.dependents || 0;
+  const loss = h.income < 0;
+  const ok = v.list.filter((x) => x.cls === "ok");
+  const head = `<div class="halves" style="margin-bottom:12px">${ys.slice(0, 3).map((y) => `<button class="${y === iy ? "on" : ""}" data-iy="${y}">${y}년${y === def ? " (다음 신고)" : ""}</button>`).join("")}</div>`
+    + amtCard(`${iy}년분 종합소득세 (지방세 포함)`, null, h.fin + h.local, due, `${v.partial ? `${v.months.length}개월 자료를 1년으로 늘려 계산 · ` : ""}${v.ckExp ? `영수증 확인되면 경비 ${man(v.ckExp)} 더 인정돼요` : "경비 다 반영했어요"}`,
+      h.red ? `<div class="good">🎉 창업 감면으로 ${man(h.red)} 줄었어요</div>` : loss ? `<div class="good">적자라 낼 세금이 없어요. 적자(결손금)는 15년 동안 다음 해 소득에서 빼요.</div>` : "");
+  const steps = `<div class="card"><h3>이렇게 계산했어요</h3>${calcRows([
+    ["① 수입 (매출, 부가세 뺀 금액)", v.revenue],
+    ["② 필요경비", -v.okExp, "", `${ok.length}개 항목 · 아래에서 자세히`],
+    ["③ 사업소득금액 (①−②)", h.income, "tot"],
+    ["④ 기본공제", -h.basic, "", `본인${dep ? ` + 부양가족 ${dep}명` : ""} × 150만원`],
+    h.pension ? ["⑤ 국민연금 보험료", -h.pension] : null,
+    h.yellow ? ["⑥ 노란우산공제", -h.yellow, "", `한도 ${man(h.yLimit)}`] : null,
+    ["⑦ 과세표준", h.base, "tot"],
+    ["⑧ 산출세액", h.tax, "", h.base > 0 ? `${man(h.base)} × ${Math.round(br[1] * 100)}% − 누진공제 ${man(br[2])}` : "과세표준이 0원"],
+    h.red ? ["⑨ 창업중소기업 감면", -h.red, "", `산출세액 × ${Math.round((v.st?.rate || 0) * 100)}% (조특법 제6조)`] : null,
+    h.cred ? ["⑩ 통합고용 세액공제", -h.cred] : null,
+    ["⑪ 결정세액", h.fin], ["⑫ 지방소득세", h.local, "", "결정세액 × 10%"], ["낼 세금 (⑪+⑫)", h.fin + h.local, "tot"]])}
+    ${more(`필요경비 ${ok.length}개 보기`, calcRows(v.list.map((x) => [x.name, x.amount, "", x.cls === "ok" ? "" : "영수증 확인 필요 · 위 계산에서 뺐어요"])))}
+    ${more("세율표 (2026년)", `<table class="tbl"><tr><th>과세표준</th><th>세율</th><th>누진공제</th></tr>${TX_RULES.incomeBrackets.map(([l, r, p], i, a) => `<tr class="${l === br[0] ? "hl" : ""}"><td>${i ? man(a[i - 1][0]) + " 초과" : ""} ${l ? man(l) + " 이하" : ""}</td><td>${Math.round(r * 100)}%</td><td>${man(p)}</td></tr>`).join("")}</table><p class="small">소득세법 제55조. 이미 낸 중간예납(11월 고지분)이 있으면 5월에 그만큼 빼고 내요.</p>`)}</div>`;
+  const right = `<div class="card"><h3>만약에…</h3><p class="small" style="margin:0">바꾸면 바로 다시 계산해요</p>
+      <div style="display:flex;justify-content:space-between;margin-top:18px;font-weight:700">노란우산공제 연 납입<span class="neg">${man(+w.yellow || 0)}</span></div>
+      <input type="range" min="0" max="6000000" step="500000" value="${+w.yellow || 0}" data-wi="yellow">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;font-weight:700">부양가족 (본인 빼고)
+        <select class="sel" data-wsel="dependents">${[0, 1, 2, 3, 4, 5, 6].map((n) => `<option value="${n}" ${n === dep ? "selected" : ""}>${n ? n + "명" : "없음"}</option>`).join("")}</select></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;font-weight:700">국민연금 (1년)
+        <select class="sel" data-wsel="pension">${[0, 1200000, 2400000, 3600000, 4800000].map((n) => `<option value="${n}" ${n === (+w.pension || 0) ? "selected" : ""}>${n ? man(n) : "없음"}</option>`).join("")}</select></div></div>`
+    + aiCard(["노란우산공제를 들면 세금이 얼마나 줄어요?", "필요경비가 뭐예요?", "창업 감면은 언제까지 받아요?"]);
+  return `<div class="g2"><div class="col">${head}${steps}</div><div class="col">${right}</div></div>`;
+}
+function taxWh(d, g) {
+  const st = d.staff || [];
+  S.wh ||= {};
+  const rows = st.map((s, i) => { const o = (S.wh[i] ||= { pay: monthPay(s), fam: 1, kids: 0 }); const t = wageTax(o.pay, o.fam, o.kids); return { s, i, o, t, l: tenth(t) }; });
+  const tot = rows.reduce((a, r) => a + r.t + r.l, 0);
+  const now = TODAY(), [y, m] = [+now.slice(0, 4), +now.slice(5, 7)], ny = m === 12 ? y + 1 : y, nm = m === 12 ? 1 : m + 1;
+  const sel = (i, k, max, lab) => `<select class="sel" data-whsel="${i}" data-k="${k}">${Array.from({ length: max }, (_, n) => n + (k === "fam" ? 1 : 0)).map((n) => `<option value="${n}" ${n === S.wh[i][k] ? "selected" : ""}>${lab(n)}</option>`).join("")}</select>`;
+  const emp = `<div class="card"><div class="h3row"><h3>직원 월급 원천세</h3><span class="small">${st.length}명</span></div>
+      <div class="amt" style="font-size:36px">월 ${won(tot)}원</div><div style="font-weight:600">${fd(txDue(ny, nm, 10))}까지 <span class="pill pb">${dday(txDue(ny, nm, 10))}</span></div>
+      <p class="small" style="margin:8px 0 14px">${m}월 급여분 · 소득세 + 지방소득세</p>
+      ${rows.map(({ s, i, o, t, l }) => `<div class="whr"><div class="t"><b>${esc(s.name)}</b><small>${esc(s.type || "")}${s.wage_type === "시급" ? ` · 시급 ${won(s.wage)}원 × 주 ${s.weekly_hours}시간` : ""}</small></div>
+        <label>월급<input class="inp sm" inputmode="numeric" data-whpay="${i}" value="${won(o.pay)}"></label>
+        <label>공제대상 가족${sel(i, "fam", 6, (n) => (n === 1 ? "1명 (본인)" : n + "명"))}</label>
+        <label>8~20세 자녀${sel(i, "kids", 4, (n) => (n ? n + "명" : "없음"))}</label>
+        <div class="whv">${t ? `${won(t + l)}원<small>소득세 ${won(t)} + 지방세 ${won(l)}</small>` : `0원<small>낼 세금 없음</small>`}</div></div>`).join("") || `<p class="small">직원 명부가 없어요</p>`}
+      ${more("어떻게 계산했나요?", `<p class="small" style="margin:0">근로소득 간이세액표(소득세법 시행령 별표2, 2026.2.27 개정·3월 지급분부터)에서 월급과 공제대상 가족 수로 찾은 값이에요. 공제대상 가족은 본인 포함 (배우자도 1명). 8~20세 자녀가 있으면 1명 20,830원, 2명 45,830원을 빼요. 지방소득세는 10%. 시급 직원은 주휴수당 포함 월급으로 어림했어요.</p><a class="small" style="color:var(--b);font-weight:700" href="https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?mi=6583&cntntsId=7862" target="_blank" rel="noopener">국세청 간이세액표 보기 ↗</a>`)}</div>`;
+  const fk = d.monthList.slice(-12).map((x) => x.k).reverse().find((k) => d.recs.some((r) => r.tag === "hr.pay.freelance" && txMonth(r) === k && r.value > 0));
+  let fr = "";
+  if (fk) {
+    // 사업소득 원천징수 3% + 지방소득세 0.3% (소득세법 제129조 ①3호, 지방세법 제103조의13) · 2026년 기준
+    const pay = d.recs.filter((r) => r.tag === "hr.pay.freelance" && txMonth(r) === fk).reduce((a, r) => a + r.value, 0);
+    const tax = Math.floor((pay * 0.03) / 10) * 10, loc = tenth(tax), [fy, fm] = fk.split("-").map(Number);
+    fr = `<div class="card"><h3>프리랜서 3.3%</h3><p class="small" style="margin:0 0 6px">마지막 지급: ${fy}년 ${fm}월</p>${calcRows([["용역비", pay], ["소득세 3%", tax], ["지방소득세 0.3%", loc], ["실제 드린 돈", pay - tax - loc, "tot"]])}
+      ${more("언제 내요?", `<p class="small" style="margin:0">준 달의 다음 달 10일까지 원천세를 내고, 다음 달 말일까지 간이지급명세서를 내요. 가족 수와 상관없이 3.3%예요.</p>`)}</div>`;
+  }
+  return `<div class="g2"><div class="col">${emp}</div><div class="col">${fr}${aiCard(["프리랜서한테 3.3%를 왜 떼요?", "직원 원천세는 언제 내요?", "공제대상 가족은 누구까지예요?"])}</div></div>`;
+}
+
+/* --- 영수증 · 통장 --- */
+function vDocs() {
+  const segs = [["rc", "🧾 영수증"], ["bank", "🏦 통장"]];
+  return pageTop("정리", S.docSeg === "bank" ? "통장 내역 정리" : "영수증 정리") + `<div class="seg">${segs.map(([k, l]) => `<button class="${S.docSeg === k ? "on" : ""}" data-nav="docs/${k}">${l}</button>`).join("")}</div>` + (S.docSeg === "bank" ? bankView() : rcView());
+}
+function rcView() {
+  const rc = S.rc;
+  return `<div class="card">${rc?.busy ? `<p><span class="spin"></span>AI가 영수증을 읽는 중…</p>` : rc?.data ? receiptView(rc.data)
+    : `<div style="text-align:center;padding:18px 0"><div style="font-size:44px">🧾</div><h3 style="margin:8px 0 4px">재료 영수증을 찍어 주세요</h3><p class="sub" style="margin:0 0 18px">상표가 달라도 같은 재료로 묶고, 면세·과세를 나눠요</p>
+      <label class="btn p" style="cursor:pointer;min-width:240px">📷 영수증 찍기 / 고르기<input type="file" accept="image/*" id="rcFile" hidden></label></div>`}</div>`;
+}
+function receiptView(r) {
+  const L = r.lines, ex = L.map((l, i) => [l, i]).filter(([l]) => l.tax === "면세"), tx = L.map((l, i) => [l, i]).filter(([l]) => l.tax !== "면세");
+  const s = (a) => a.reduce((t, [l]) => t + l.amount, 0), sum = s(ex) + s(tx);
+  const rate = TX_RULES.deemedRateRestaurant;
+  const txV = tx.reduce((t, [l]) => t + Math.round(l.amount / 11), 0);
+  const line = ([l, i]) => `<div class="row rcl"><div class="t"><b>${esc(l.item)}</b>${l.known ? ` <span class="pill px">우리 품목</span>` : ""}${l.diff ? ` <span class="pill pa">AI와 다름</span>` : ""}<small>${esc(l.raw)}</small></div>
+    <div class="r">${won(l.amount)}<button class="sw" data-rctax="${i}">${l.tax === "면세" ? "과세로" : "면세로"}</button></div></div>`;
+  return `<div class="h3row"><div><b style="font-size:17px">${esc(r.supplier || "거래처")}</b><div class="small">${fd(r.date)} · ${{ card: "카드", cash_receipt: "현금영수증", tax_invoice: "세금계산서", invoice: "계산서", cash: "현금" }[r.payment] || "결제 수단 모름"}</div></div><button class="btn w sm" data-rcreset>다시 찍기</button></div>
+    <div class="split" style="margin-top:12px">
+      <div class="half ex"><div class="hh"><span class="pill pg">면세</span> ${won(s(ex))}원</div>${ex.map(line).join("") || `<p class="small">없음</p>`}</div>
+      <div class="half"><div class="hh"><span class="pill pb">과세</span> ${won(s(tx))}원</div>${tx.map(line).join("") || `<p class="small">없음</p>`}</div>
+    </div>
+    <div class="card pad" style="background:var(--bg);margin-top:14px">${calcRows([["면세 재료", s(ex)], ["→ 의제매입세액 (9/109)", Math.round(s(ex) * rate)], ["과세 매입가액", s(tx) - txV], ["과세 매입세액", txV], ["합계", sum, "tot"]])}</div>
+    <p class="small" style="margin:10px 0 12px">${sum === Math.round(+r.total) ? "✅ 영수증 합계와 같아요" : `⚠️ 영수증 합계 ${won(r.total)}원과 달라요`} · 틀린 건 '면세로/과세로'를 눌러 고쳐요</p>
+    ${more("어떻게 나눴나요?", `<p class="small" style="margin:0">상표·용량·원산지를 떼고 같은 재료로 묶어요 (예: 곰표 중력밀가루 20kg → 밀가루). 가공 안 한 농·축·수산물(생닭·닭정육·채소·밀가루·계란)은 면세, 튀김가루·식용유·소스·음료·포장재는 과세예요 (부가가치세법 제26조). '규칙'으로 못 정한 건 AI 판단을 따라요.</p>`)}
+    <button class="btn p full" data-rcsave style="margin-top:12px">매입에 더하기</button>`;
+}
+function bankView() {
+  const b = S.bank;
+  const top = `<div class="card"><div class="h3row" style="flex-wrap:wrap;gap:10px"><div><h3>통장 내역으로 경비 나누기</h3><p class="small" style="margin:0">받는 사람 이름으로 나누고, 아닌 건 고쳐 주세요</p></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn w sm" data-banksample>샘플 통장 보기</button><label class="btn p sm" style="cursor:pointer">엑셀·CSV 올리기<input type="file" accept=".csv,.xlsx,.xls,text/csv" id="bankFile" hidden></label></div></div></div>`;
+  if (!b?.rows?.length) return top + `<div class="card" style="margin-top:16px;text-align:center;padding:40px 20px"><div style="font-size:44px">🏦</div><p class="sub">은행 앱·인터넷뱅킹에서 받은 거래내역 엑셀(또는 CSV)을 올려 주세요.<br>파일은 이 브라우저에서만 읽고 어디에도 보내지 않아요.</p></div>`;
+  const acc = (r, i) => b.over[i] || r.guess;
+  const tot = {}; b.rows.forEach((r, i) => { const a = acc(r, i); tot[a] = (tot[a] || 0) + r.amount; });
+  const inSum = b.rows.filter((r) => r.inflow).reduce((a, r) => a + r.amount, 0), outSum = b.rows.filter((r) => !r.inflow).reduce((a, r) => a + r.amount, 0);
+  const expSum = Object.entries(tot).filter(([a]) => !NOT_EXP.includes(a)).reduce((s, [, v]) => s + v, 0);
+  const ck = b.rows.filter((r, i) => acc(r, i) === "확인 필요").length;
+  const f = S.bankF || "all";
+  const shown = b.rows.map((r, i) => [r, i]).filter(([r, i]) => f === "all" || (f === "ck" ? acc(r, i) === "확인 필요" : f === "in" ? r.inflow : !r.inflow));
+  return top + `<div class="g4" style="margin-top:16px">
+      <div class="card stat"><div class="k">들어온 돈</div><div class="v sm">${man(inSum)}</div></div>
+      <div class="card stat"><div class="k">나간 돈</div><div class="v sm">${man(outSum)}</div></div>
+      <div class="card stat"><div class="k">경비로 볼 돈</div><div class="v sm" style="color:var(--b)">${man(expSum)}</div></div>
+      <div class="card stat"><div class="k">확인 필요</div><div class="v sm" style="color:${ck ? "var(--r)" : "var(--g)"}">${ck}건</div></div></div>
+    <div class="g2" style="margin-top:16px"><div class="card"><div class="h3row" style="flex-wrap:wrap;gap:8px"><h3>${esc(b.title)}</h3>
+        <div class="halves" style="margin:0">${[["all", "전체"], ["out", "나간 돈"], ["in", "들어온 돈"], ["ck", `확인 필요 ${ck}`]].map(([k, l]) => `<button class="${f === k ? "on" : ""}" data-bankf="${k}">${l}</button>`).join("")}</div></div>
+      ${shown.map(([r, i]) => { const a = acc(r, i), off = NOT_EXP.includes(a) && !r.inflow; return `<div class="row bkr"><div class="t"><b>${esc(r.name)}</b><small>${esc(r.date.slice(5).replace("-", "/"))}${r.memo ? " · " + esc(r.memo) : ""}${b.over[i] ? " · 고침" : ""}</small></div>
+        <div class="r"><div class="${r.inflow ? "in" : ""}">${r.inflow ? "+" : "−"}${won(r.amount)}</div>
+        <div class="bkc"><select class="sel ${a === "확인 필요" ? "warn" : off ? "off" : ""}" data-bankset="${i}">${ACCTS.map((x) => `<option ${x === a ? "selected" : ""}>${x}</option>`).join("")}</select>${!NOT_EXP.includes(a) ? `<button class="sw" data-banknot="${i}">아니에요</button>` : ""}</div></div></div>`; }).join("") || `<p class="small">해당 거래가 없어요</p>`}
+      ${ck ? `<button class="btn w full" data-bankai style="margin-top:12px">${S.bankBusy ? `<span class="spin"></span>AI가 보는 중…` : `✦ 확인 필요 ${ck}건 AI에게 물어보기`}</button>` : ""}</div>
+    <div class="card"><h3>계정별 합계</h3>${calcRows(Object.entries(tot).sort((a, c) => c[1] - a[1]).map(([a, v]) => [a, v, NOT_EXP.includes(a) ? "off" : "", ["매출 입금", "이자 수입", "대표 자금(매출 아님)"].includes(a) ? "들어온 돈" : NOT_EXP.includes(a) ? "경비 아님" : ""]))}
+      ${more("어떻게 나눴나요?", `<p class="small" style="margin:0">받는 사람 이름에 '한국전력·도시가스'가 있으면 공과금, '건강보험공단'이면 4대보험처럼 나눠요. 하나를 고치면 같은 이름 거래도 같이 바뀌어요. 카드대금은 카드 영수증으로 이미 잡힌 경비라 두 번 넣지 않아요. 대표 생활비 이체는 경비가 아니에요.</p>`)}</div></div>`;
+}
+
+function vMore() {
+  const { riskItems } = facts();
+  return pageTop(todayStr(), "더보기") + `
+    <div class="card" style="padding:4px 18px">
+      <button class="row chev" data-ai="ai"><span style="font-size:20px;margin-right:10px">✦</span><div class="t">AI 상담<small>바로 물어보기</small></div></button>
+      <button class="row chev" data-ai="pro"><span style="font-size:20px;margin-right:10px">👩‍💼</span><div class="t">세무사 상담<small>사람에게 물어보기</small></div></button>
+      <button class="row chev" data-nav="risk"><span style="font-size:20px;margin-right:10px">⚠️</span><div class="t">위험 점검<small>${riskItems.length}개</small></div></button>
+      <button class="row chev" data-nav="report"><span style="font-size:20px;margin-right:10px">📄</span><div class="t">세무사 보고서</div></button>
+      <button class="row chev" data-diag><span style="font-size:20px;margin-right:10px">🩺</span><div class="t">가게 진단</div></button>
+      <button class="row chev" data-picker><span style="font-size:20px;margin-right:10px">🏪</span><div class="t">가게 바꾸기<small>${esc(S.biz.biz_name)}</small></div></button>
+    </div>
+    <div class="card" style="padding:4px 18px;margin-top:14px">
+      ${S.user ? `<div class="row"><span style="font-size:20px;margin-right:10px">😊</span><div class="t">${esc(S.user.name)} 사장님<small>${esc(S.user.via)} 계정 · 시연용</small></div></div><button class="row" data-logout style="color:var(--r)"><div class="t">로그아웃</div></button>`
+        : `<button class="row chev" data-signup="save"><span style="font-size:20px;margin-right:10px">💾</span><div class="t" style="color:var(--b);font-weight:700">가입하고 저장하기</div></button>`}
+      <div class="row"><div class="t small">데이터: ${BIX.mode === "core" ? "Core 실시간 자료" : "데모 데이터 (Core 바삭치킨 자료 사본)"}</div></div>
+      <button class="row chev" data-nav=""><div class="t">첫 화면으로</div></button>
+    </div>`;
+}
+
+/* --- 상담: AI 상담 / 세무사 상담 창을 나눠요 --- */
+function talkHtml() {
+  const tab = S.talk || "ai";
+  const tabs = `<div class="seg" style="margin:0 22px 10px;display:flex">${[["ai", "✦ AI 상담"], ["pro", "👩‍💼 세무사 상담"]].map(([k, l]) => `<button class="${tab === k ? "on" : ""}" style="flex:1" data-talk="${k}">${l}</button>`).join("")}</div>`;
+  const hd = `<div class="hd"><div><h3 style="font-size:21px;margin:0">상담</h3><p class="small" style="margin:4px 0 0">${esc(S.biz?.biz_name || "")}</p></div><button class="x" data-close style="margin-left:auto;width:32px;height:32px;border-radius:50%;background:#e8e8ed;color:var(--s)">✕</button></div>`;
+  if (tab === "pro") {
+    const p = S.pro || {};
+    const body = p.sent ? `<div class="bubble me">${esc(p.topic)}${p.msg ? "\n" + esc(p.msg) : ""}${p.report ? "\n📄 세무사 보고서 첨부" : ""}</div>
+        <div class="bubble"><b>접수됐어요 ✅</b>\n보통 1영업일 안에 ${esc(p.via || "카카오톡")}으로 연락드려요.\n(시연 사이트라 실제로 접수·연락되지는 않아요)</div>
+        <button class="btn w full" data-pronew style="margin-top:8px">새로 신청하기</button>`
+      : `<div class="card pad" style="display:flex;gap:12px;align-items:center"><div style="font-size:34px">👩‍💼</div><div><b>제휴 세무사에게 물어보기</b><div class="small">AI가 어려운 건 사람이 답해요 · 시연용 화면</div></div></div>
+        <div class="k" style="margin:18px 0 8px">무엇이 궁금하세요?</div>
+        <div class="qchips">${["부가세 신고 맡기기", "종합소득세 신고", "직원 급여·4대보험", "통장·장부 정리", "세무조사·가산세", "기타"].map((t) => `<button class="qchip ${p.topic === t ? "on" : ""}" data-protopic="${t}">${t}</button>`).join("")}</div>
+        <textarea class="inp ta" id="promsg" placeholder="상황을 짧게 적어 주세요 (선택)" maxlength="400">${esc(p.msg || "")}</textarea>
+        <button class="row" data-prorep style="border:0"><span class="toggle ${p.report !== false ? "on" : ""}"></span><div class="t">세무사 보고서 같이 보내기<small>가게 숫자 요약 한 장</small></div></button>
+        <div class="k" style="margin:6px 0 8px">연락 방법</div>
+        <div class="qchips">${["카카오톡", "전화", "문자"].map((t) => `<button class="qchip ${(p.via || "카카오톡") === t ? "on" : ""}" data-provia="${t}">${t}</button>`).join("")}</div>
+        <button class="btn p full" data-prosend style="margin-top:18px" ${p.topic ? "" : "disabled"}>상담 신청하기</button>`;
+    return hd + tabs + `<div class="bd">${body}</div><div style="height:18px"></div>`;
+  }
+  const sug = S.page === "tax" ? ["의제매입세액공제가 뭐예요?", "프리랜서한테 3.3%를 왜 떼요?", "노란우산공제를 들면 얼마나 줄어요?"] : ["세금을 줄이려면 지금 뭘 하면 돼요?", "작년에 놓친 혜택은 어떻게 돌려받아요?", "창업 감면은 언제까지 받아요?"];
+  return hd + tabs + `<div class="bd" id="chat">${S.chat.map((m) => `<div class="bubble ${m.me ? "me" : ""}">${m.busy ? '<span class="spin"></span>생각하는 중…' : esc(m.t)}</div>`).join("") || `<div class="qchips" style="margin:10px 0">${sug.map((q) => `<button class="qchip" style="background:#fff" data-q="${esc(q)}">${esc(q)}</button>`).join("")}</div>`}</div>
+    <div class="ft"><input class="inp" id="aq" placeholder="궁금한 걸 적어 주세요" maxlength="300"><button class="btn p" style="padding:0 18px" data-ask>보내기</button></div>
+    <p class="small" style="margin:-12px 22px 16px">AI 답변은 참고용이에요. 어려우면 '세무사 상담'으로 물어보세요.</p>`;
+}
+
+/* --- 세금 공통 --- */
 function calcRows(rows) { return `<div class="calc">${rows.filter(Boolean).map(([t, v, cls, sub]) => `<div class="row ${cls || ""}"><div class="t">${t}${sub ? `<small>${sub}</small>` : ""}</div><div class="r ${v < 0 ? "neg" : ""}">${v == null ? "" : (v < 0 ? "− " : "") + won(Math.abs(v)) + "원"}</div></div>`).join("")}</div>`; }
 function amtCard(label, lo, hi, due, note, extra = "") {
   return `<div class="card"><div class="k">${label}</div><div class="amt">${amt(lo, hi)}</div><div style="font-weight:600">${fd(due)}까지 <span class="pill pb">${dday(due)}</span></div>${note ? `<p class="small" style="margin:10px 0 0">${note}</p>` : ""}${extra}</div>`;
 }
 const aiCard = (qs) => `<div class="card"><h3>✦ AI에게 물어보기</h3><p class="small" style="margin:0 0 12px">우리 가게 숫자를 보고 쉬운 말로 답해요</p><div class="qchips">${qs.map((q) => `<button class="qchip" data-q="${esc(q)}">${esc(q)}</button>`).join("")}</div></div>`;
-function vTax() {
-  const { d, g } = TX.data;
-  const segs = [["vat", "부가세"], ["income", "종합소득세"], ["wh", "원천세"]];
-  const [left, right] = S.taxSeg === "vat" ? (g.vat === "간이" ? taxSimple(d, g) : g.vat === "일반" ? taxVat(d, g) : [`<div class="card">과세유형이 입력되지 않았어요.</div>`, ""])
-    : S.taxSeg === "income" ? taxIncome(d, g) : taxWh(d, g);
-  return pageTop("세금", segs.find(([k]) => k === S.taxSeg)[1]) + `<div class="seg">${segs.map(([k, l]) => `<button class="${S.taxSeg === k ? "on" : ""}" data-nav="tax/${k}">${l}</button>`).join("")}</div>
-    <div class="g2"><div class="col">${left}</div><div class="col">${right}</div></div>`;
-}
-function taxVat(d, g) {
-  const hs = txHalves(d);
-  if (!hs.length) return [`<div class="card">매출 자료가 없어요.</div>`, ""];
-  const hf = hs.find((x) => x.key === S.half) || hs.find((x) => x.key === txHalfKey(TODAY().slice(0, 7))) || hs[hs.length - 1];
-  const v = txVat(d, g, hf);
-  const left = `<div class="halves">${hs.map((x) => `<button class="${x.key === hf.key ? "on" : ""}" data-half="${x.key}">${x.y}년 ${x.h}기</button>`).join("")}</div>`
-    + amtCard(`${hf.y}년 ${hf.h}기 예상 부가세 (일반과세)`, v.low, v.high, v.due, `입력된 ${v.months.length}개월 자료로 미리 계산했어요. 증빙을 다 인정받으면 왼쪽, 확실한 것만 인정받으면 오른쪽 금액이에요.`)
-    + `<div class="card"><h3>어떻게 계산했나요?</h3>${calcRows([["매출세액", v.outVat, "", "손님에게 받은 부가세"], ["매입세액 공제", -v.okV, "", "재료·경비를 살 때 낸 부가세"], v.ckV ? ["확인 필요 매입세액", -v.ckV, "", "증빙에 따라 빠질 수 있어요"] : null,
-      v.deemed.amount ? ["의제매입세액 공제", -v.deemed.amount, "", "면세 재료(닭·채소 등) 공제 · 최대치"] : null, v.card.amount ? ["카드매출 세액공제", -v.card.amount, "", "카드·현금영수증 매출의 1.3%"] : null,
-      v.prepaid ? ["이미 낸 예정고지", -v.prepaid] : null, ["낼 세금 (예상)", v.high, "tot"]])}</div>`;
-  const right = `<div class="card"><h3>알아 두면 좋아요</h3>${[v.deemed.text, v.card.text].filter(Boolean).map((t) => `<div class="row"><span class="dot dg"></span><div class="t" style="font-size:14px">${esc(t)}</div></div>`).join("") || `<p class="small">증빙(세금계산서·카드 영수증)을 잘 모아 두면 매입세액을 더 인정받아요.</p>`}</div>`
-    + aiCard(["의제매입세액공제가 뭐예요?", "부가세를 줄이려면 뭘 하면 돼요?", "확인 필요 매입세액은 왜 빠져요?"]);
-  return [left, right];
-}
-function taxSimple(d, g) {
-  const ys = txYears(d); if (!ys.length) return [`<div class="card">매출 자료가 없어요.</div>`, ""];
-  const v = txSimpleVat(d, g, ys.includes(d.Y) ? d.Y : ys[0]);
-  if (v.rate == null) return [`<div class="card">업종이 없어 계산할 수 없어요.</div>`, ""];
-  const left = (v.exempt ? `<div class="card" style="background:var(--gb)"><b style="color:var(--g)">납부 면제 대상일 수 있어요</b><p class="small">연 매출이 4,800만원 미만이에요. 신고는 해야 해요.</p></div>` : amtCard(`${v.y}년 예상 부가세 (간이과세)`, v.low, v.high, v.due, `간이과세자는 1년에 한 번 신고해요. 입력된 ${v.months.length}개월 자료 기준이에요.`))
-    + `<div class="card"><h3>어떻게 계산했나요?</h3>${calcRows([["매출 (부가세 포함)", v.salesGross], ["업종 부가가치율", null, "", `${Math.round(v.rate * 100)}% × 세율 10%`], ["계산된 세액", v.tax], ["매입 공제 (0.5%)", -v.inputOk], v.card ? ["카드매출 세액공제", -v.card] : null, ["낼 세금 (예상)", v.exempt ? 0 : v.high, "tot"]])}</div>`;
-  const right = `<div class="card"><h3>일반과세자였다면?</h3><p class="sub" style="margin:6px 0 0">같은 자료로 약 <b>${man(v.genPay)}</b>를 냈을 거예요. 지금은 ${v.exempt || v.high <= v.genPay ? "간이과세가 유리해요" : "일반과세가 더 유리할 수도 있어요"}.</p></div>`
-    + aiCard(["간이과세자는 뭐가 달라요?", "세금을 줄이려면 지금 뭘 하면 돼요?"]);
-  return [left, right];
-}
-function taxIncome(d, g) {
-  if (g.entity !== "개인") return [`<div class="card">법인세 계산은 준비 중이에요.</div>`, ""];
-  const ys = txYears(d); if (!ys.length) return [`<div class="card">매출 자료가 없어요.</div>`, ""];
-  const iy = ys.includes(txIncomeYear(d, g)) ? txIncomeYear(d, g) : ys[0];
-  const v = txIncome(d, g, iy), w = TX.whatif || {};
-  const due = g.faithful?.[iy]?.over ? txDue(iy + 1, 6, 30) : v.due;
-  const good = v.hi.red ? `<div class="good">🎉 창업 감면으로 소득세 ${man(v.hi.red)}이 줄어들 수 있어요</div>` : "";
-  const left = amtCard(`${iy}년분 예상 종합소득세 (지방세 포함)`, v.lo.fin + v.lo.local, v.hi.fin + v.hi.local, due, v.partial ? "올해 자료를 1년으로 늘려 미리 계산했어요." : "", good)
-    + `<div class="card"><h3>어떻게 계산했나요?</h3>${calcRows([["수입 (매출)", v.revenue], ["필요경비", -v.okExp, "", v.ckExp ? `확인 필요 경비 ${man(v.ckExp)}는 빼고 계산` : ""], ["소득금액", v.hi.income], ["소득공제", -v.hi.ded, "", "기본공제·노란우산 등"], ["과세표준", v.hi.base], ["산출세액", v.hi.tax, "", "세율 6~45%"],
-      v.hi.red ? ["창업 감면", -v.hi.red] : null, v.hi.cred ? ["고용 세액공제", -v.hi.cred] : null, ["지방소득세 (10%)", v.hi.local], ["낼 세금 (예상)", v.hi.fin + v.hi.local, "tot"]])}</div>`;
-  const right = `<div class="card"><h3>만약에…</h3><p class="small" style="margin:0">바꿔 보면 왼쪽 금액이 바로 바뀌어요 (저장 안 됨)</p>
-      <div style="display:flex;justify-content:space-between;margin-top:18px;font-weight:700">노란우산공제 연 납입<span class="neg">${man(+w.yellow || 0)}</span></div>
-      <input type="range" min="0" max="6000000" step="500000" value="${+w.yellow || 0}" data-wi="yellow">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;font-weight:700">부양가족 (본인 제외)
-        <span><button class="pill px" data-dep="-1" style="font-size:16px;padding:3px 12px">−</button> <b style="margin:0 8px">${+w.dependents || 0}명</b> <button class="pill px" data-dep="1" style="font-size:16px;padding:3px 12px">+</button></span></div></div>`
-    + aiCard(["노란우산공제를 들면 세금이 얼마나 줄어요?", "필요경비가 뭐예요?", "창업 감면은 언제까지 받아요?"]);
-  return [left, right];
-}
-function taxWh(d, g) {
-  const months = d.monthList.slice(-12).map((m) => m.k);
-  const fl = (k) => d.recs.filter((r) => r.tag === "hr.pay.freelance" && txMonth(r) === k).reduce((a, r) => a + r.value, 0);
-  const last = [...months].reverse().find((k) => fl(k) > 0);
-  let left = "";
-  if (last) {
-    // 사업소득 원천징수 3% + 지방소득세 0.3% (소득세법 제129조 ①3호, 지방세법 제103조의13) · 2026년 기준
-    const pay = fl(last), tax = Math.floor((pay * 0.03) / 10) * 10, loc = Math.floor((tax * 0.1) / 10) * 10;
-    const [y, m] = last.split("-").map(Number), ny = m === 12 ? y + 1 : y, nm = m === 12 ? 1 : m + 1;
-    left = amtCard(`프리랜서 원천세 · ${m}월 지급분`, null, tax + loc, txDue(ny, nm, 10), `용역비 ${won(pay)}원에서 3.3%를 떼고 ${won(pay - tax - loc)}원을 드려요. 간이지급명세서는 ${fd(txDue(ny, nm, new Date(Date.UTC(ny, nm, 0)).getUTCDate()))}까지 내요.`)
-      + `<div class="card"><h3>어떻게 계산했나요?</h3>${calcRows([["용역비 (떼기 전)", pay], ["소득세 3%", tax], ["지방소득세 0.3%", loc], ["실제 드릴 돈", pay - tax - loc, "tot"]])}</div>`;
-  } else left = `<div class="card"><h3>프리랜서 지급 기록이 없어요</h3><p class="small">3.3%를 떼고 돈을 준 분이 있으면 다음 달 10일까지 원천세를 내요.</p></div>`;
-  const fr = d.staff.filter((s) => /프리랜서/.test(s.value?.type || ""));
-  const right = `<div class="card"><h3>직원 급여 (${d.staff.length - fr.length}명)</h3><p class="sub" style="margin:6px 0 0">직원 원천세는 급여와 부양가족 수로 정해져서 급여 프로그램이나 세무사가 계산해요. 매달 10일까지 신고해요.</p></div>`
-    + (fr.length ? `<div class="card"><h3>프리랜서 ${fr.length}명</h3>${fr.map((s) => `<div class="row"><span class="dot ${+s.value?.weekly_hours >= 40 ? "dr" : "dg"}"></span><div class="t">${esc(s.item_key)}<small>주 ${esc(s.value?.weekly_hours ?? "?")}시간 · ${esc(s.value?.withholding || "3.3%")}</small></div>${+s.value?.weekly_hours >= 40 ? `<span class="pill pr">직원처럼 일해요</span>` : ""}</div>`).join("")}</div>` : "")
-    + aiCard(["프리랜서한테 3.3%를 왜 떼요?", "간이지급명세서가 뭐예요?"]);
-  return [left, right];
-}
-
 /* --- 혜택 --- */
 function vBen() {
   const list = S.benSeg === "now" ? TX.data.benefitsNow : TX.data.benefitsPast;
@@ -699,30 +1100,6 @@ function vBen() {
     <p class="sub" style="margin:-6px 0 16px">${S.benSeg === "now" ? `${y}년 소득에 대해 내년 5월 신고 때 받을 수 있어요.` : `${y}년에 받을 수 있었는데 놓쳤다면 5년 안에 돌려받을 수 있어요 (경정청구).`}</p>
     <div class="bens">${list.map((b, i) => [b, i]).sort((a, b) => order(a[0]) - order(b[0])).map(([b, i]) => { const [c, w] = STAT(b.status); return `<button class="card ben" data-ben="${i}"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><b style="font-size:17px">${esc(b.name)}</b><span class="pill ${c}">${w}</span></div>
       <p class="sub" style="margin:8px 0 0">${/가능성 높음/.test(b.status) && (b.amount || b.rate != null) ? `<b style="color:var(--g)">${esc(benLine(b))}</b>` : esc(benLine(b))}</p><div class="small" style="margin-top:8px">${esc(b.kind)} · ${esc(b.law[0] || "")} ›</div></button>`; }).join("")}</div>`;
-}
-
-/* --- 일정·영수증 --- */
-function vCal() {
-  const list = upcoming(12), rc = S.rc;
-  return pageTop("일정·영수증", "일정과 영수증", `<button class="btn p sm" data-ics>📅 내 캘린더에 모두 추가</button>`) + `
-    <div class="g2">
-      <div class="card"><h3>다가오는 신고 일정</h3>
-        ${list.map((i) => `<div class="row calrow"><div class="dd ${days(i.due) <= 7 ? "pr" : "pb"}">${+i.due.slice(5, 7)}월<b>${+i.due.slice(8)}</b></div><div class="t">${esc(i.name)}<small>${esc(i.what)}</small></div><div class="r small">${dday(i.due)}</div></div>`).join("")}
-        <p class="small" style="margin:8px 0 0">매달 반복되는 원천세는 가장 가까운 것만 보여요. 캘린더에 넣으면 마감 이틀 전에 알림이 와요.</p>
-      </div>
-      <div class="card"><h3>🧾 영수증 정리</h3>
-        ${rc?.busy ? `<p><span class="spin"></span>AI가 영수증을 읽는 중…</p>` : rc?.data ? receiptView(rc.data) : `<p class="sub" style="margin:0 0 14px">재료를 산 영수증을 찍거나 올리면 AI가 품목·금액·면세 여부를 읽어 정리해요.</p>
-        <label class="btn w full" style="cursor:pointer">📷 영수증 찍기 / 고르기<input type="file" accept="image/*" id="rcFile" hidden></label>`}
-      </div>
-    </div>`;
-}
-function receiptView(r) {
-  const lines = r.lines || [], sum = lines.reduce((a, l) => a + (+l.amount || 0), 0);
-  return `<div style="display:flex;justify-content:space-between"><b>${esc(r.supplier || "거래처")}</b><span class="small">${fd(r.date)}</span></div>
-    <div class="calc" style="margin:8px 0">${lines.map((l) => `<div class="row"><div class="t">${esc(l.item)} <span class="pill ${l.tax === "면세" ? "pg" : "px"}">${esc(l.tax)}</span><small>${esc(l.qty)} ${esc(l.unit || "")}</small></div><div class="r">${won(l.amount)}원</div></div>`).join("")}
-    <div class="row tot"><div class="t">합계</div><div class="r">${won(sum)}원</div></div></div>
-    <p class="small" style="margin:0 0 12px">${sum === +r.total ? "✅ 영수증 합계와 같아요" : `⚠️ 영수증 합계(${won(r.total)}원)와 달라요. 확인해 주세요`} · AI가 읽은 값이라 확인이 필요해요.</p>
-    <div style="display:flex;gap:8px"><button class="btn p" data-rcsave style="flex:1">매입에 더하기</button><button class="btn w" data-rcreset>다시 찍기</button></div>`;
 }
 
 /* --- 위험 점검 --- */
@@ -751,24 +1128,6 @@ function vReport() {
       <h4>4. 위험 신호 (${riskItems.length}개)</h4><table>${riskItems.map((i) => `<tr><td style="width:24%">${esc(i.cat)}</td><td>${i.level === "주의" ? "🔴" : "🟡"} ${esc(i.text)}</td></tr>`).join("") || `<tr><td>특이 사항 없음</td></tr>`}</table>
       <h4>5. 세무사에게 물어볼 것</h4><table>${todos.slice(0, 6).map((x) => `<tr><td>☐ ${esc(x.text)}</td></tr>`).join("")}</table>
       <p class="small" style="margin-top:22px">이 요약은 ${esc(b.biz_name)}의 입력 자료(${d.monthList[0]?.k || ""}~${d.monthList.at(-1)?.k || ""})로 자동 계산한 참고 자료예요. 계산 기준·근거 법령과 기준 연도(2026년)는 BIX 세무 팀 근거 문서를 따릅니다. 신고 전 세무사 확인이 필요해요.</p>
-    </div>`;
-}
-
-/* --- 더보기 (폰) --- */
-function vMore() {
-  const { riskItems } = facts();
-  return pageTop(todayStr(), "더보기") + `
-    <div class="card" style="padding:4px 18px">
-      <button class="row chev" data-nav="risk"><span style="font-size:20px;margin-right:10px">⚠️</span><div class="t">위험 점검<small>챙길 위험 신호 ${riskItems.length}개</small></div></button>
-      <button class="row chev" data-nav="report"><span style="font-size:20px;margin-right:10px">📄</span><div class="t">세무사 보고서<small>상담할 때 보여 줄 한 장 요약</small></div></button>
-      <button class="row chev" data-diag><span style="font-size:20px;margin-right:10px">🩺</span><div class="t">가게 진단<small>사업자 유형·내야 하는 세금</small></div></button>
-      <button class="row chev" data-picker><span style="font-size:20px;margin-right:10px">🏪</span><div class="t">가게 바꾸기<small>${esc(S.biz.biz_name)}</small></div></button>
-    </div>
-    <div class="card" style="padding:4px 18px;margin-top:14px">
-      ${S.user ? `<div class="row"><span style="font-size:20px;margin-right:10px">😊</span><div class="t">${esc(S.user.name)} 사장님<small>${esc(S.user.via)} 계정 · 시연용</small></div></div><button class="row" data-logout style="color:var(--r)"><div class="t">로그아웃</div></button>`
-        : `<button class="row chev" data-signup="save"><span style="font-size:20px;margin-right:10px">💾</span><div class="t" style="color:var(--b);font-weight:700">가입하고 저장하기<small>지금 결과를 저장해요</small></div></button>`}
-      <div class="row"><div class="t small">데이터: ${BIX.mode === "core" ? "Core 실시간 자료" : "데모 데이터"}</div></div>
-      <button class="row chev" data-nav=""><div class="t">첫 화면으로</div></button>
     </div>`;
 }
 
@@ -807,18 +1166,11 @@ function mSignup() {
     <div style="display:grid;gap:10px"><button class="btn k full" data-via="카카오">카카오로 계속하기</button><button class="btn ap full" data-via="Apple"> Apple로 계속하기</button><button class="btn w full" data-via="이메일">이메일로 계속하기</button></div>
     <p class="small" style="text-align:center;margin:14px 0 0">발표용 시연 화면이에요. 실제 로그인은 하지 않고 이 브라우저에만 기억해요.</p>`;
 }
-function aiHtml() {
-  const sug = S.page === "tax" ? ["의제매입세액공제가 뭐예요?", "프리랜서한테 3.3%를 왜 떼요?", "노란우산공제를 들면 얼마나 줄어요?"] : ["세금을 줄이려면 지금 뭘 하면 돼요?", "작년에 놓친 혜택은 어떻게 돌려받아요?", "창업 감면은 언제까지 받아요?"];
-  return `<div class="hd"><div><h3 style="font-size:21px;margin:0">✦ AI에게 물어보기</h3><p class="small" style="margin:4px 0 0">${esc(S.biz?.biz_name || "")} 숫자를 보고 쉬운 말로 답해요</p></div><button class="x" data-close style="margin-left:auto;width:32px;height:32px;border-radius:50%;background:#e8e8ed;color:var(--s)">✕</button></div>
-    <div class="bd" id="chat">${S.chat.map((m) => `<div class="bubble ${m.me ? "me" : ""}">${m.busy ? '<span class="spin"></span>생각하는 중…' : esc(m.t)}</div>`).join("") || `<div class="qchips" style="margin:10px 0">${sug.map((q) => `<button class="qchip" style="background:#fff" data-q="${esc(q)}">${esc(q)}</button>`).join("")}</div>`}</div>
-    <div class="ft"><input class="inp" id="aq" placeholder="궁금한 걸 적어 주세요" maxlength="300"><button class="btn p" style="padding:0 18px" data-ask>보내기</button></div>
-    <p class="small" style="margin:-12px 22px 16px">AI 답변은 참고용이에요. 정확한 금액은 세무사와 확인하세요.</p>`;
-}
-const openAi = () => { openOv(aiHtml(), "drawer"); const c = $("#chat"); if (c) c.scrollTop = c.scrollHeight; };
+const openAi = (tab) => { if (tab) S.talk = tab; openOv(talkHtml(), "drawer"); const c = $("#chat"); if (c) c.scrollTop = c.scrollHeight; };
 async function ask(q) {
   q = (q || "").trim(); if (!q || !TX.data) return;
   if (S.chat.at(-1)?.busy) return;
-  S.chat.push({ me: true, t: q }, { busy: true }); openAi();
+  S.chat.push({ me: true, t: q }, { busy: true }); openAi("ai");
   const { d, g } = TX.data, nt = txNextTax(d, g);
   try {
     const r = await BIX.ask(q, { context_tags: ["profile", "sales", "cogs", "hr", "expense", "tax"],
@@ -827,7 +1179,7 @@ async function ask(q) {
 혜택: ${TX.data.benefitsNow.map((b) => `${b.name}=${b.status}`).join(", ")}` });
     S.chat[S.chat.length - 1] = { t: (r?.answer || "").trim() || "AI가 답을 주지 않았어요. 잠시 뒤 다시 물어봐 주세요." };
   } catch (ex) { S.chat[S.chat.length - 1] = { t: "답을 받지 못했어요: " + ex.message }; }
-  if (S.ov === "drawer") openAi();
+  if (S.ov === "drawer" && (S.talk || "ai") === "ai") openAi();
 }
 
 /* ---------- 캘린더 파일 ---------- */
@@ -850,10 +1202,10 @@ function render() {
   else if (!TX.data || S.loading || S.err) html = shell(loadingView());
   else {
     if (S.page === "more" && innerWidth >= 900) S.page = "home";
-    html = shell({ home: vHome, tax: vTax, ben: vBen, cal: vCal, risk: vRisk, report: vReport, more: vMore }[S.page]());
+    html = shell({ home: vHome, tax: vTax, ben: vBen, docs: vDocs, risk: vRisk, report: vReport, more: vMore }[S.page]());
   }
   $("#app").innerHTML = html;
-  document.title = S.view === "app" && S.biz ? `${{ home: "홈", tax: "세금", ben: "혜택", cal: "일정·영수증", risk: "위험 점검", report: "세무사 보고서", more: "더보기" }[S.page]} · 돈워리택스` : "돈워리택스";
+  document.title = S.view === "app" && S.biz ? `${{ home: "홈", tax: "세금", ben: "혜택", docs: "영수증·통장", risk: "위험 점검", report: "세무사 보고서", more: "더보기" }[S.page]} · 돈워리택스` : "돈워리택스";
 }
 
 /* ---------- 누르기 ---------- */
@@ -878,15 +1230,30 @@ document.addEventListener("click", async (e) => {
   }
   if (t("[data-obback]")) { if (S.obi) { S.obi--; return render(); } return nav(""); }
   /* 앱 */
-  if ((el = t("[data-half]"))) { S.half = el.dataset.half; return render(); }
-  if ((el = t("[data-dep]"))) { TX.whatif = { ...(TX.whatif || {}), dependents: Math.max(0, (+TX.whatif?.dependents || 0) + +el.dataset.dep) }; return render(); }
+  if ((el = t("[data-cmp]"))) { S.cmp = el.dataset.cmp; return openOv(cmpModal()); }
+  if ((el = t("[data-iy]"))) { S.iy = +el.dataset.iy; return render(); }
+  if ((el = t("[data-calm]"))) { const n = +el.dataset.calm, [y, m] = (S.calYm || TODAY().slice(0, 7)).split("-").map(Number); S.calDay = null; S.calYm = n ? new Date(Date.UTC(y, m - 1 + n, 1)).toISOString().slice(0, 7) : null; return render(); }
+  if ((el = t("[data-calday]"))) { S.calDay = el.dataset.calday; return render(); }
+  /* 영수증 · 통장 */
+  if ((el = t("[data-rctax]"))) { const l = S.rc.data.lines[+el.dataset.rctax]; l.tax = l.tax === "면세" ? "과세" : "면세"; l.diff = false; l.by = "사장님"; return render(); }
+  if (t("[data-banksample]")) { S.bank = { title: `샘플 통장 · ${TX.data.d.monthList.at(-1)?.k.replace("-", "년 ")}월`, rows: bankSample(TX.data.d).map((r) => ({ ...r, guess: bankGuess(r.name, r.inflow) })), over: {} }; S.bankF = "all"; return render(); }
+  if ((el = t("[data-bankf]"))) { S.bankF = el.dataset.bankf; return render(); }
+  if ((el = t("[data-banknot]"))) { const i = +el.dataset.banknot, r = S.bank.rows[i]; return bankSet(i, r.inflow ? "대표 자금(매출 아님)" : "개인 지출(경비 아님)"); }
+  if (t("[data-bankai]")) return bankAi();
+  /* 상담 */
+  if ((el = t("[data-talk]"))) { S.talk = el.dataset.talk; return openAi(); }
+  if ((el = t("[data-protopic]"))) { S.pro = { ...S.pro, msg: $("#promsg")?.value, topic: el.dataset.protopic }; return openAi(); }
+  if ((el = t("[data-provia]"))) { S.pro = { ...S.pro, msg: $("#promsg")?.value, via: el.dataset.provia }; return openAi(); }
+  if (t("[data-prorep]")) { S.pro = { ...S.pro, msg: $("#promsg")?.value, report: S.pro.report === false }; return openAi(); }
+  if (t("[data-prosend]")) { S.pro = { ...S.pro, msg: $("#promsg")?.value.trim(), report: S.pro.report !== false, sent: true }; return openAi(); }
+  if (t("[data-pronew]")) { S.pro = {}; return openAi(); }
   if ((el = t("[data-todo]"))) { const x = facts().todos[+el.dataset.todo]; return openOv(`<span class="pill ${x.lv === "need" ? "pr" : "pa"}">${x.lv === "need" ? "꼭 챙기세요" : "확인해 보세요"}</span><h3 style="margin-top:10px">${esc(txShort(x.text))}</h3><div class="card pad" style="line-height:1.65">${esc(x.text)}</div><button class="btn w full" style="margin-top:14px" data-q="${esc(txShort(x.text) + " — 어떻게 하면 돼요?")}">✦ AI에게 자세히 묻기</button>`); }
   if (t("[data-diag]")) return openOv(mDiag());
   if ((el = t("[data-ben]"))) { const list = S.benSeg === "now" ? TX.data.benefitsNow : TX.data.benefitsPast; return openOv(mBen(list[+el.dataset.ben])); }
   if ((el = t("[data-doc]"))) return el.querySelector(".toggle").classList.toggle("on");
   if (t("[data-picker]")) { openOv(mPicker()); if (!S.list) { await bizList().catch((ex) => toast(ex.message)); if (S.ov === "modal" && $("#pq")) openOv(mPicker()); } return; }
   if ((el = t("[data-pick]"))) { S.biz = S.list.find((b) => b.business_id === el.dataset.pick); S.fromOb = false; S.chat = []; S.rc = null; S.half = null; saveUser(); closeOv(); toast(`'${S.biz.biz_name}' 자료로 바꿨어요`); return loadData(); }
-  if (t("[data-ai]")) return openAi();
+  if ((el = t("[data-ai]"))) return openAi(el.dataset.ai || "ai");
   if ((el = t("[data-q]"))) return ask(el.dataset.q);
   if (t("[data-ask]")) return ask($("#aq").value);
   if (t("[data-ics]")) return downloadIcs();
@@ -916,15 +1283,70 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && e.target.id === "nm" && !e.isComposing) $("[data-sudone]")?.click();
 });
 document.addEventListener("change", async (e) => {
-  if (e.target.id !== "rcFile" || !e.target.files[0]) return;
+  const el = e.target;
+  if (el.dataset.wsel) { TX.whatif = { ...(TX.whatif || {}), [el.dataset.wsel]: +el.value }; const y = scrollY; render(); return scrollTo(0, y); }
+  if (el.dataset.whsel != null) { S.wh[+el.dataset.whsel][el.dataset.k] = +el.value; const y = scrollY; render(); return scrollTo(0, y); }
+  if (el.dataset.whpay != null) { S.wh[+el.dataset.whpay].pay = Number(el.value.replace(/[^\d]/g, "")) || 0; const y = scrollY; render(); return scrollTo(0, y); }
+  if (el.dataset.bankset != null) return bankSet(+el.dataset.bankset, el.value);
+  if (el.id === "bankFile" && el.files[0]) return bankFile(el.files[0]);
+  if (el.id !== "rcFile" || !el.files[0]) return;
   S.rc = { busy: true }; render();
-  try {
-    const r = await BIX.ask('이 영수증을 읽어 JSON 객체 하나로만 답하세요. 형식: {"date":"YYYY-MM-DD","supplier":"상호","payment":"card|cash_receipt|tax_invoice|invoice|cash|unknown","total":숫자,"lines":[{"item":"품목명","qty":숫자,"unit":"단위","amount":숫자,"tax":"과세|면세"}]}',
-      { images: [e.target.files[0]], instructions: "숫자는 쉼표 없이. amount는 부가세 포함 결제액. 가공하지 않은 농·축·수산물은 면세." });
-    const a = r.answer || ""; S.rc = { data: JSON.parse(a.slice(a.indexOf("{"), a.lastIndexOf("}") + 1)) };
-  } catch (ex) { S.rc = null; toast("영수증을 읽지 못했어요: " + ex.message); }
+  try { S.rc = { data: await readReceipt(el.files[0]) }; }
+  catch (ex) { S.rc = null; toast("영수증을 읽지 못했어요: " + ex.message); }
   render();
 });
+/* 영수증 읽기: AI가 줄마다 '영수증 표기 그대로(raw)'와 '상표·용량 뺀 품목(item)'을 주고, 규칙(RC_RULES)으로 한 번 더 맞춰요 */
+async function readReceipt(file) {
+  const known = knownItems();
+  const r = await BIX.ask('이 영수증을 읽어 JSON 하나로만 답하세요: {"date":"YYYY-MM-DD","supplier":"상호","payment":"card|cash_receipt|tax_invoice|invoice|cash|unknown","total":숫자,"lines":[{"raw":"영수증에 적힌 품목명 그대로","item":"상표·용량·원산지를 뺀 일반 품목명","qty":숫자,"unit":"단위","amount":숫자,"tax":"과세|면세"}]}', {
+    images: [file], max_tokens: 4000,
+    instructions: `영수증의 품목 줄을 하나도 빼지 말고 그대로 옮기세요. 숫자는 쉼표 없이, amount는 그 줄의 결제 금액(부가세 포함).
+item 규칙: 상표·제조사·용량·개수·원산지·냉장/냉동 표시는 빼고 일반 이름만 (예: '곰표 중력밀가루 20kg'→'밀가루', 'CJ백설 바삭튀김가루'→'튀김가루', '해표 콩기름 18L'→'식용유', '하림 닭정육 2kg'→'닭정육'). 같은 재료는 상표가 달라도 같은 이름.
+이 가게가 자주 사는 품목: ${known.join(", ") || "없음"} — 같은 것이면 이 이름을 그대로 쓰세요.
+tax: 영수증에 면세 표시(*, 면세, 비과세)가 있으면 그대로. 없으면 가공하지 않은 농·축·수산물(생닭·닭정육·채소·과일·쌀·계란·밀가루·고춧가루)은 면세, 튀김가루·부침가루·식용유·소스·설탕·음료·주류·포장재·공산품은 과세.` });
+  const a = r?.answer || "", j = JSON.parse(a.slice(a.indexOf("{"), a.lastIndexOf("}") + 1));
+  if (!Array.isArray(j.lines) || !j.lines.length) throw new Error("품목 줄을 찾지 못했어요");
+  j.lines = j.lines.map((l) => rcNorm(l, known));
+  return j;
+}
+/* 통장: 계정 바꾸면 같은 이름 거래도 같이 */
+function bankSet(i, a) {
+  const b = S.bank, key = b.rows[i].name.replace(/\s|\d{1,2}월/g, "");
+  let n = 0; b.rows.forEach((r, k) => { if (k === i || (r.name.replace(/\s|\d{1,2}월/g, "") === key && r.inflow === b.rows[i].inflow)) { b.over[k] = a; if (k !== i) n++; } });
+  render(); toast(n ? `같은 이름 ${n}건도 '${a}'로 바꿨어요` : `'${a}'로 바꿨어요`);
+}
+async function bankFile(f) {
+  try {
+    let table;
+    if (/\.xlsx?$/i.test(f.name)) {
+      if (!window.XLSX) await loadScript("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js");
+      const wb = XLSX.read(await f.arrayBuffer(), { type: "array" });
+      table = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { header: 1, raw: true, defval: "" });
+    } else {
+      const buf = await f.arrayBuffer();
+      let text = new TextDecoder("utf-8").decode(buf);
+      if (text.includes("\uFFFD")) text = new TextDecoder("euc-kr").decode(buf);   // 은행 CSV는 EUC-KR이 많아요
+      table = csvRows(text.replace(/^\uFEFF/, ""));
+    }
+    const rows = bankParse(table);
+    S.bank = { title: f.name, rows: rows.map((r) => ({ ...r, guess: bankGuess(r.name + " " + r.memo, r.inflow) })), over: {} }; S.bankF = "all";
+    render(); toast(`${rows.length}건을 읽었어요`);
+  } catch (ex) { toast(ex.message); }
+}
+async function bankAi() {
+  const b = S.bank, idx = b.rows.map((r, i) => i).filter((i) => (b.over[i] || b.rows[i].guess) === "확인 필요");
+  if (!idx.length || S.bankBusy) return;
+  S.bankBusy = true; render();
+  try {
+    const names = [...new Set(idx.map((i) => b.rows[i].name))].slice(0, 30);
+    const r = await BIX.ask("통장 분류: 아래 받는 사람이 어떤 계정인지 JSON 객체 {이름: 계정} 하나로만 답하세요.", {
+      max_tokens: 2500, instructions: `가게: ${TX.data.g.ind}. 계정은 이 중에서만: ${ACCTS.join(", ")}. 모르면 '확인 필요'.\n받는 사람: ${names.join(" / ")}` });
+    const a = r?.answer || "", j = JSON.parse(a.slice(a.indexOf("{"), a.lastIndexOf("}") + 1));
+    let n = 0; idx.forEach((i) => { const v = j[b.rows[i].name]; if (ACCTS.includes(v) && v !== "확인 필요") { b.over[i] = v; n++; } });
+    toast(n ? `AI가 ${n}건을 나눴어요. 맞는지 봐 주세요` : "AI도 잘 모르겠대요. 직접 골라 주세요");
+  } catch (ex) { toast("AI에게 묻지 못했어요: " + ex.message); }
+  S.bankBusy = false; render();
+}
 let rw = innerWidth >= 900;
 addEventListener("resize", () => { const w = innerWidth >= 900; if (w !== rw) { rw = w; if (S.view === "app") render(); } });
 addEventListener("hashchange", route);

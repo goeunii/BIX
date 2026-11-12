@@ -13,7 +13,7 @@ const ALLOWED = {
   "tags.list": (b) => ({ q: b.q, prefix: b.prefix }),
   "business.list": () => ({}),
   "records.read": (b) => ({ business_id: b.business_id, tags: b.tags, period: b.period, history: b.history }),
-  "ai.ask": (b) => ({ question: b.question, business_id: b.business_id, context_tags: b.context_tags, instructions: b.instructions, images: b.images, max_tokens: Math.min(Number(b.max_tokens) || 900, 1200) }),
+  "ai.ask": (b) => ({ question: b.question, business_id: b.business_id, context_tags: b.context_tags, instructions: b.instructions, images: b.images, max_tokens: Math.min(Number(b.max_tokens) || 1500, 4000) }),   // AI가 생각하는 데도 토큰을 써서 영수증 JSON은 넉넉히 (4000까지)
 };
 
 const hits = new Map();          // ip → 최근 AI 질문 시각들 (서버가 깨어 있는 동안만 기억)
