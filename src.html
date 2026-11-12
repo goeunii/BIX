@@ -1163,6 +1163,21 @@ function mSignup() {
     <p class="small" style="text-align:center;margin:14px 0 0">발표용 시연 화면이에요. 실제 로그인은 하지 않고 이 브라우저에만 기억해요.</p>`;
 }
 const openAi = (tab) => { if (tab) S.talk = tab; openOv(talkHtml(), "drawer"); const c = $("#chat"); if (c) c.scrollTop = c.scrollHeight; };
+/* AI에게 넘길 '이미 계산한 숫자' (AI가 새로 계산하지 않게) */
+function aiFacts(d, g) {
+  const out = [];
+  try {
+    if (g.vat === "일반") { const x = vatPlus(d, g, curHalf(d)); out.push(`부가세 ${halfName(x.hf)}: 낼 세금 약 ${man(x.pay)}, 의제매입세액 ${man(x.deemed)}, 카드매출 세액공제 ${man(x.card)}`); }
+    if (g.entity === "개인") {
+      const ys = txYears(d), iy = ys.includes(txIncomeYear(d, g)) ? txIncomeYear(d, g) : ys[0], keep = TX.whatif;
+      const at = (yellow) => { TX.whatif = { ...(keep || {}), yellow }; const h = txIncome(d, g, iy).hi; return { tax: h.fin + h.local, income: h.income }; };
+      const now = at(+keep?.yellow || 0), y3 = at(3000000); TX.whatif = keep;
+      out.push(`종합소득세 ${iy}년분: 사업소득금액 ${man(now.income)}, 낼 세금 약 ${man(now.tax)}. 노란우산공제 연 300만원 넣으면 약 ${man(Math.max(0, now.tax - y3.tax))} 줄어요${now.tax === 0 ? " (지금 낼 세금이 0원이라 더 줄 게 없어요)" : ""}`);
+    }
+    const st = d.staff || []; if (st.length) out.push(`직원 ${st.length}명, 직원 월급 원천세 월 약 ${man(st.reduce((a, s) => { const t = wageTax(monthPay(s), 1, 0); return a + t + tenth(t); }, 0))} (본인 1인 기준)`);
+  } catch { /* 계산 못 하면 빼고 물어봐요 */ }
+  return out.length ? "이미 계산한 숫자:\n" + out.join("\n") : "";
+}
 async function ask(q) {
   q = (q || "").trim(); if (!q || !TX.data) return;
   if (S.chat.at(-1)?.busy) return;
@@ -1172,7 +1187,8 @@ async function ask(q) {
   const opt = { context_tags: ["profile", "sales", "cogs", "hr", "expense", "tax"],
     instructions: `바로 답하세요. 오래 고민하지 말고 짧게. 세무를 잘 모르는 소상공인 사장님께 쉬운 말로 3문장, 250자 이내. 꾸밈 기호(**, #, -) 없이. 숫자는 아래 계산 결과를 쓰고 새 금액을 만들지 마세요. 마지막 줄: '정확한 금액은 세무사와 확인하세요'.
 가게: ${g.entity}사업자, ${g.ind}, ${g.vat}과세${nt ? `\n다음 세금: ${nt.name}, ${nt.due}까지, 예상 약 ${man(nt.hi)}` : ""}
-혜택: ${TX.data.benefitsNow.map((b) => `${b.name}=${b.status}`).join(", ")}` };
+혜택: ${TX.data.benefitsNow.map((b) => `${b.name}=${b.status}`).join(", ")}
+${aiFacts(d, g)}` };
   let t = "";
   try {
     for (let k = 0; k < 2 && !t; k++) {
