@@ -16,6 +16,8 @@ BIX 2026 세무 팀의 **발표용 웹 프로토타입**이에요. 질문 다섯
 | `data/demo-core.json` | 데모 자료. Core의 해운대 바삭치킨·광안 소금빵 자료를 그대로 받아 둔 사본 |
 | `data/wage-table-2026.json` | 근로소득 간이세액표 원본 (소득세법 시행령 별표2, 2026.2.27 개정) — 직원 원천세 계산용 |
 | `data/answers.json` | AI 상담 "직접 쓴 답" — 질문에 키워드가 있으면 Core AI 대신 이 답을 바로 보여 줘요. `{부가세}` 같은 자리는 사이트 계산 숫자로 바뀌어요. 고친 뒤 `python3 build.py` |
+| `api/toss.js` | 토스 POS 매출 가져오기 서버 함수 — Vercel에 넣은 **토스 테스트 매장** 키로 주문을 읽어 매출 이벤트로 바꿔요 (POS 연동 담당자 코드 2026-11-12 기준). 화면: 영수증·통장 → 🖥️ POS 매출 |
+| `pos/core-template.xlsx` | Core 엑셀 양식 BIX-IMPORT-1.5 (시트 16개·숨긴 _meta 그대로). POS 매출을 Core용 엑셀로 만들 때 써요 |
 | `tools/snapshot.py` | 배포된 사이트로 Core 자료를 다시 받아 `data/demo-core.json`을 새로 만들어요 (키 필요 없음) |
 | `index.html` | 실제로 열리는 페이지 (자동 생성, 직접 고치지 않기) |
 | `api/core.js` | Vercel 서버 함수. 팀 키를 서버에만 두고 Core에 대신 물어봐요 |
@@ -50,6 +52,8 @@ python3 tools/snapshot.py https://bix-phi.vercel.app && python3 build.py
 3. Framework Preset은 **Other** 그대로, 다른 설정은 건드리지 않기
 4. **Environment Variables**에 추가
    - `CORE_KEY` = 세무 팀 키 (Core에서 받은 키. 코드·채팅·단체방에 붙여 넣지 말 것)
+   - (POS 매출, 선택) `TOSS_ACCESS_KEY` · `TOSS_SECRET_KEY` · `TOSS_MERCHANT_ID` = 토스 개발자센터의 **테스트 매장** API 키 한 쌍과 MerchantId.
+     링크를 가진 누구나 이 매장 매출을 볼 수 있으니 **실제 매장 키는 넣지 말 것.** 없으면 POS 화면에서 "예시 자료로 보기"만 돼요.
 5. **Deploy** → `https://<프로젝트이름>.vercel.app` 주소가 생겨요. 이 링크를 누구에게나 보내면 돼요.
 
 키를 바꾸려면 Vercel → Project → Settings → Environment Variables에서 고치고 **Redeploy** 해요.

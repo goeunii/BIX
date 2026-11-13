@@ -1536,7 +1536,7 @@ function route() {
     S.view = "app"; S.page = a;
     if (a === "tax" && ["vat", "income", "wh"].includes(b)) S.taxSeg = b;
     if (a === "ben" && ["now", "past"].includes(b)) S.benSeg = b;
-    if (a === "docs") S.docSeg = b === "bank" ? "bank" : "rc";
+    if (a === "docs") S.docSeg = ["bank", "pos"].includes(b) ? b : "rc";
   } else S.view = "landing";
   closeOv();
   if (prev !== S.view + S.page) window.scrollTo(0, 0);
@@ -2011,8 +2011,8 @@ function taxWh(d, g) {
 
 /* --- 영수증 · 통장 --- */
 function vDocs() {
-  const segs = [["rc", "🧾 영수증"], ["bank", "🏦 통장"]];
-  return pageTop("정리", S.docSeg === "bank" ? "통장 내역 정리" : "영수증 정리") + `<div class="seg">${segs.map(([k, l]) => `<button class="${S.docSeg === k ? "on" : ""}" data-nav="docs/${k}">${l}</button>`).join("")}</div>` + (S.docSeg === "bank" ? bankView() : rcView());
+  const segs = [["rc", "🧾 영수증"], ["bank", "🏦 통장"], ["pos", "🖥️ POS 매출"]];
+  return pageTop("정리", { bank: "통장 내역 정리", pos: "POS 매출 가져오기" }[S.docSeg] || "영수증 정리") + `<div class="seg">${segs.map(([k, l]) => `<button class="${S.docSeg === k ? "on" : ""}" data-nav="docs/${k}">${l}</button>`).join("")}</div>` + (S.docSeg === "bank" ? bankView() : S.docSeg === "pos" ? posView() : rcView());
 }
 function rcView() {
   const rc = S.rc;
@@ -2036,6 +2036,107 @@ function receiptView(r) {
     <p class="small" style="margin:10px 0 12px">${sum === Math.round(+r.total) ? "✅ 영수증 합계와 같아요" : `⚠️ 영수증 합계 ${won(r.total)}원과 달라요`} · 틀린 건 '면세로/과세로'를 눌러 고쳐요</p>
     ${more("어떻게 나눴나요?", `<p class="small" style="margin:0">상표·용량·원산지를 떼고 같은 재료로 묶어요 (예: 곰표 중력밀가루 20kg → 밀가루). 가공 안 한 농·축·수산물(생닭·닭정육·채소·밀가루·계란)은 면세, 튀김가루·식용유·소스·음료·포장재는 과세예요 (부가가치세법 제26조). '규칙'으로 못 정한 건 AI 판단을 따라요.</p>`)}
     <button class="btn p full" data-rcsave style="margin-top:12px">매입에 더하기</button>`;
+}
+/* ---------- POS 매출 (토스 POS → 매출 정리 → Core용 엑셀) ----------
+   서버 함수 /api/toss 가 Vercel에 넣어 둔 토스 "테스트 매장" 키로 주문을 읽어요. 키는 화면에 오지 않아요.
+   분류·집계·엑셀 규칙은 POS 연동 담당자 코드(sales.ts·workbook.ts, 2026-11-12)를 옮겼어요:
+   - 금액은 부가세 포함·수수료 빼기 전. 1.1로 나누지 않아요 (세금 계산은 Core·세무 모듈이 해요).
+   - 승인은 승인한 달, 취소는 취소한 달에 − 로 넣어요. 면세 부분은 면세매출에 한 번만.
+   - 같은 거래 ID·같은 내용은 한 번만, 같은 ID인데 내용이 다르면 오류로 막아요. */
+const POS_CAT = [["card", "카드매출", 8], ["cash_receipt", "현금영수증", 9], ["cash", "기타 현금·계좌이체", 10], ["easy_pay", "매장 간편결제", 11], ["delivery_app", "배달앱", 12], ["online", "온라인", 13], ["local_currency", "지역화폐·상품권", 14], ["receivable", "외상", 15], ["tax_invoice", "세금계산서", 16], ["exempt", "면세매출", 17]];
+const posCatName = (k) => POS_CAT.find((c) => c[0] === k)?.[1] || "미분류";
+function posSample(year) {   // 키가 없을 때 보여 주는 예시 (담당자 코드의 예시 자료)
+  const s = (id, md, amount, method, category, exempt = 0) => ({ id, date: `${year}-${md}`, amount, exempt, method, category });
+  return [s("DEMO-001:sale", "10-03", 32000, "CARD", "card"), s("DEMO-002:sale", "10-03", 18000, "CASH", "cash"), s("DEMO-003:sale", "10-04", 26000, "현금영수증", "cash_receipt"), s("DEMO-004:sale", "10-05", 24000, "EASY_PAY", "easy_pay"), s("DEMO-005:sale", "10-06", 15000, "CARD", "card", 5000), s("DEMO-006:sale", "10-07", 12000, "CARD", "card"), s("DEMO-006:refund", "10-08", -12000, "CARD", "card"), s("DEMO-007:sale", "10-31", 20000, "CARD", "card"), s("DEMO-008:sale", "11-01", 30000, "CARD", "card"), s("DEMO-007:refund", "11-02", -20000, "CARD", "card"), s("DEMO-009:sale", "11-03", 22000, "CASH", "cash"), s("DEMO-010:sale", "11-04", 18000, "EASY_PAY", "easy_pay"), s("DEMO-001:sale", "10-03", 32000, "CARD", "card")];
+}
+function posCheck(sales, issues0 = []) {
+  const issues = [...issues0], seen = new Map(), ok = []; let dup = 0;
+  sales.forEach((x) => {
+    if (Math.abs(x.exempt) > Math.abs(x.amount) || (x.exempt && Math.sign(x.exempt) !== Math.sign(x.amount))) return issues.push(`${x.date} ${won(x.amount)}원: 면세금액이 결제금액보다 커요`);
+    if (!x.category) return issues.push(`${x.date} ${won(x.amount)}원: 결제수단 '${x.method}'을 어느 매출로 넣을지 몰라요`);
+    if (x.id) { const f = JSON.stringify([x.date, x.amount, x.exempt, x.category]); if (seen.has(x.id)) { if (seen.get(x.id) !== f) issues.push(`거래 ${x.id}: 같은 거래인데 내용이 달라요`); else dup++; return; } seen.set(x.id, f); }
+    ok.push(x);
+  });
+  return { sales: ok, issues, dup };
+}
+function posAgg(sales, year, months) {
+  const cells = {}; let gross = 0, refunds = 0, exempt = 0, count = 0;
+  for (const x of sales) {
+    const m = +x.date.slice(5, 7); if (!x.date.startsWith(year + "-") || !months.includes(m)) continue;
+    count++; if (x.amount >= 0) gross += x.amount; else refunds -= x.amount; exempt += x.exempt;
+    const add = (c, n) => (cells[`${m}:${c}`] = (cells[`${m}:${c}`] || 0) + n);
+    if (x.exempt) add("exempt", x.exempt);
+    if (x.amount - x.exempt && x.category) add(x.category, x.amount - x.exempt);
+  }
+  return { cells, gross, refunds, net: gross - refunds, exempt, count };
+}
+async function posLoad(year) {
+  S.pos = { busy: true }; render();
+  try {
+    const r = await fetch("/api/toss", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ year }) });
+    let j; try { j = await r.json(); } catch { throw Object.assign(new Error("POS 매출 서버가 아직 없어요 (이 컴퓨터에서 연 화면이에요)"), { noServer: true }); }
+    if (!j.ok) throw Object.assign(new Error(j.message || "불러오지 못했어요"), { noServer: j.configured === false });
+    const c = posCheck(j.sales, j.issues);
+    S.pos = { year, asOf: j.asOf, ...c, more: Math.max(0, (j.issueCount || 0) - (j.issues || []).length), months: posMonths(c.sales, year) };
+  } catch (ex) { S.pos = { err: ex.message, noServer: !!ex.noServer, year }; }
+  render();
+}
+const posMonths = (sales, year) => [...new Set(sales.filter((x) => x.date.startsWith(year + "-")).map((x) => +x.date.slice(5, 7)))].sort((a, b) => a - b);
+function posView() {
+  const P = S.pos, y = new Date(TODAY() + "T00:00:00").getFullYear();
+  if (!P || P.err) return `<div class="card"><div style="text-align:center;padding:18px 0"><div style="font-size:44px">🖥️</div><h3 style="margin:8px 0 4px">토스 POS 매출 불러오기</h3>
+      <p class="sub" style="margin:0 auto 18px;max-width:460px">POS에서 결제한 매출을 카드·현금·현금영수증별로 정리하고, Core에 올릴 엑셀로 만들어 드려요.</p>
+      <button class="btn p" style="min-width:240px" data-posload="${y}">📥 ${y}년 POS 매출 불러오기</button>
+      ${P?.err ? `<p class="small" style="color:var(--r);margin:14px 0 0">${esc(P.err)}</p>${P.noServer ? `<button class="btn w" style="margin-top:10px" data-possample="${y}">예시 자료로 보기</button>` : ""}` : ""}</div>
+      <p class="small" style="margin:6px 0 0;text-align:center">시연용 토스 테스트 매장과 연결돼 있어요 · 키는 서버에만 있고 화면에는 오지 않아요</p></div>`;
+  if (P.busy) return `<div class="card"><p><span class="spin"></span>토스 POS에서 매출을 불러오는 중…</p></div>`;
+  const months = posMonths(P.sales, P.year), all = posAgg(P.sales, P.year, months), sel = P.months || [];
+  const usedCats = POS_CAT.filter(([k]) => months.some((m) => all.cells[`${m}:${k}`]));
+  const rows = months.map((m) => { const a = posAgg(P.sales, P.year, [m]); return `<tr><td>${m}월</td>${usedCats.map(([k]) => `<td>${won(a.cells[`${m}:${k}`] || 0)}</td>`).join("")}<td><b>${won(a.net)}</b></td></tr>`; }).join("");
+  const recent = [...P.sales].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 12);
+  return `${P.sample ? `<div class="card pad" style="background:#fff8e6;margin-bottom:14px">⚠️ 예시 자료예요. 실제 토스 매장 매출이 아니에요.</div>` : ""}
+    <div class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><div><div class="k">${P.year}년 POS 매출 · 부가세 포함 결제금액</div><div style="font-size:30px;font-weight:800;margin:4px 0">${won(all.net)}원</div>
+      <div class="sub">결제 ${won(all.gross)}원 − 취소 ${won(all.refunds)}원${all.exempt ? ` · 그중 면세 ${won(all.exempt)}원` : ""} · ${all.count}건${P.dup ? ` · 겹친 거래 ${P.dup}건은 한 번만 셌어요` : ""}</div></div>
+      <button class="btn w" data-posload="${P.year}">🔄 다시 불러오기</button></div>
+      ${P.asOf && !P.sample ? `<p class="small" style="margin:8px 0 0">${new Date(P.asOf).toLocaleString("ko-KR")} 기준</p>` : ""}</div>
+    ${P.issues.length ? `<div class="card pad" style="margin-top:14px;border:1px solid #ffd6d6"><b style="color:var(--r)">⚠️ 확인이 필요한 거래 ${P.issues.length + (P.more || 0)}건 (합계에 안 넣었어요)</b><ul class="small" style="margin:6px 0 0;padding-left:18px">${P.issues.slice(0, 8).map((i) => `<li>${esc(i)}</li>`).join("")}</ul></div>` : ""}
+    <div class="card" style="margin-top:14px"><h3 style="margin:0 0 10px">달마다 · 결제수단별</h3>${months.length ? `<div style="overflow-x:auto"><table class="tbl"><tr><th>월</th>${usedCats.map(([, n]) => `<th>${n}</th>`).join("")}<th>합계</th></tr>${rows}</table></div>` : `<p class="sub">${P.year}년 매출이 아직 없어요.</p>`}
+      <p class="small" style="margin:8px 0 0">부가세 포함 금액이에요. 세금 화면의 "매출"은 부가세를 뺀 금액이라 더 작게 보여요 (예: 10,000원 → 9,091원). 취소는 취소한 달에 빼요.</p></div>
+    ${months.length ? `<div class="card" style="margin-top:14px"><h3 style="margin:0 0 6px">📊 Core에 올리기</h3><p class="sub" style="margin:0 0 12px">Core "엑셀로 불러오기"에 그대로 올리면 돼요. 고른 달·위 표에 있는 결제수단 칸만 채우고 나머지는 비워 둬요 (Core가 그 칸만 덮어써요).</p>
+      <label class="small">Core에 등록된 상호</label><input id="posBiz" class="inp" value="${esc(P.biz ?? "BIX 테스트 매장")}" style="margin:4px 0 12px;width:100%;max-width:320px">
+      <div class="small" style="margin-bottom:6px">넣을 달</div><div class="halves" style="margin:0 0 14px">${months.map((m) => `<button class="${sel.includes(m) ? "on" : ""}" data-posmonth="${m}">${sel.includes(m) ? "✓ " : ""}${m}월</button>`).join("")}</div>
+      <button class="btn p" data-posxlsx ${sel.length ? "" : "disabled"}>📊 Core용 엑셀 받기</button>
+      <p class="small" style="margin:10px 0 0">한 달 전체를 다시 불러와서 올려요. 새로 생긴 결제만 넣으면 그 달 합계를 덮어써서 줄어들어요. 받은 파일은 한셀·엑셀에서 다시 저장하지 말고 그대로 올려 주세요.</p></div>` : ""}
+    <div class="card" style="margin-top:14px"><h3 style="margin:0 0 10px">최근 거래</h3>${recent.map((x) => `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f2f2f7"><span>${x.date.slice(5).replace("-", "/")} · ${posCatName(x.category)}${x.exempt ? " (면세 포함)" : ""}</span><b style="${x.amount < 0 ? "color:var(--r)" : ""}">${x.amount < 0 ? "취소 −" : ""}${won(Math.abs(x.amount))}원</b></div>`).join("")}</div>`;
+}
+/* Core 양식(BIX-IMPORT-1.5)에 숫자 넣기 — 시트·_meta·셀 위치는 그대로 둬요 */
+async function posWorkbook(biz, year, months, sales) {
+  const { unzipSync, zipSync, strFromU8, strToU8 } = await import("https://cdn.jsdelivr.net/npm/fflate@0.8.2/esm/browser.js");
+  const tpl = new Uint8Array(await (await fetch("/pos/core-template.xlsx")).arrayBuffer());
+  const agg = posAgg(sales, year, months), scope = POS_CAT.filter(([k]) => months.some((m) => agg.cells[`${m}:${k}`])).map((c) => c[0]);
+  for (const [k, n] of Object.entries(agg.cells)) if (n < 0) throw new Error(`${k.split(":")[0]}월 ${posCatName(k.split(":")[1])} 합계가 마이너스라 Core에 못 넣어요`);
+  const files = unzipSync(tpl), NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
+  const X = (t) => new DOMParser().parseFromString(t, "application/xml"), tags = (n, name) => [...n.getElementsByTagNameNS("*", name)];
+  const col = (r) => r.replace(/\d/g, "").split("").reduce((n, c) => n * 26 + c.charCodeAt(0) - 64, 0) - 1;
+  const book = X(strFromU8(files["xl/workbook.xml"])), rels = Object.fromEntries(tags(X(strFromU8(files["xl/_rels/workbook.xml.rels"])), "Relationship").map((r) => [r.getAttribute("Id"), r.getAttribute("Target")]));
+  const sheets = tags(book, "sheet").map((s) => { const t = rels[s.getAttribute("r:id")] || ""; return { name: s.getAttribute("name"), path: t.startsWith("/") ? t.slice(1) : "xl/" + t.replace(/^\.\//, "") }; });
+  const docs = new Map(sheets.map((s) => { const d = X(strFromU8(files[s.path])); tags(d, "c").forEach((c) => { if (tags(c, "f").length) tags(c, "v").forEach((v) => v.remove()); }); return [s.name, d]; }));
+  const set = (d, ref, v) => {
+    let c = tags(d, "c").find((x) => x.getAttribute("r") === ref);
+    if (!c) { const row = tags(d, "row").find((r) => r.getAttribute("r") === ref.replace(/\D/g, "")); if (!row) throw new Error(`양식에 ${ref} 칸이 없어요`); c = d.createElementNS(NS, "c"); c.setAttribute("r", ref); row.insertBefore(c, tags(row, "c").find((x) => col(x.getAttribute("r") || "") > col(ref)) || null); }
+    while (c.firstChild) c.removeChild(c.firstChild); c.removeAttribute("t");
+    if (typeof v === "string") { c.setAttribute("t", "inlineStr"); const is = d.createElementNS(NS, "is"), t = d.createElementNS(NS, "t"); t.textContent = v; is.appendChild(t); c.appendChild(is); }
+    else { const e = d.createElementNS(NS, "v"); e.textContent = String(v); c.appendChild(e); }
+  };
+  const basic = docs.get("기본정보"), monthly = docs.get("월별 실적"), meta = docs.get("_meta");
+  if (!basic || !monthly || !meta) throw new Error("Core 양식 시트를 찾지 못했어요");
+  set(basic, "C6", biz); set(monthly, "C3", year); set(monthly, "E3", "부가세 포함");
+  for (const m of months) { const L = String.fromCharCode(67 + m); for (const [k, , row] of POS_CAT) if (scope.includes(k)) set(monthly, L + row, agg.cells[`${m}:${k}`] || 0); }
+  set(meta, "B6", new Date().toISOString()); set(meta, "B7", biz); set(meta, "B8", year);
+  tags(book, "sheet").find((s) => s.getAttribute("name") === "_meta")?.setAttribute("state", "hidden");
+  let calc = tags(book, "calcPr")[0]; if (!calc) { calc = book.createElementNS(NS, "calcPr"); book.documentElement.appendChild(calc); } calc.setAttribute("fullCalcOnLoad", "1"); calc.setAttribute("forceFullCalc", "1");
+  const ser = new XMLSerializer(); sheets.forEach((s) => (files[s.path] = strToU8(ser.serializeToString(docs.get(s.name))))); files["xl/workbook.xml"] = strToU8(ser.serializeToString(book));
+  return zipSync(files, { level: 6 });
 }
 function bankView() {
   const b = S.bank;
@@ -2302,6 +2403,16 @@ document.addEventListener("click", async (e) => {
   if (t("[data-stafflist]")) return openOv(staffModal());
   if (t("[data-staffsave]")) { const nm = $("#sfName").value.trim(), pay = Number($("#sfPay").value.replace(/[^\d]/g, "")); if (!nm || !pay) return toast("이름과 월급을 넣어 주세요"); const k = "staff." + S.biz.business_id; store.set(k, [...extraStaff(), { name: nm, type: $("#sfType").value, wage_type: "월급", wage: pay }]); toast(`${nm} 님을 명단에 넣었어요`); render(); return openOv(staffModal()); }
   if ((el = t("[data-staffdel]"))) { const i = +el.dataset.staffdel, k = "staff." + S.biz.business_id, a = extraStaff(); a.splice(i, 1); store.set(k, a); S.wh = {}; render(); return openOv(staffModal()); }
+  if ((el = t("[data-posload]"))) return posLoad(+el.dataset.posload);
+  if ((el = t("[data-possample]"))) { const y = +el.dataset.possample, c = posCheck(posSample(y)); S.pos = { year: y, sample: true, ...c, months: posMonths(c.sales, y) }; return render(); }
+  if ((el = t("[data-posmonth]"))) { const m = +el.dataset.posmonth, a = S.pos.months || []; S.pos.biz = $("#posBiz")?.value; S.pos.months = a.includes(m) ? a.filter((x) => x !== m) : [...a, m].sort((x, y) => x - y); return render(); }
+  if (t("[data-posxlsx]")) {
+    const P = S.pos, biz = ($("#posBiz")?.value || "").trim(); P.biz = biz;
+    if (!biz) return toast("Core에 등록된 상호를 넣어 주세요");
+    try { const bytes = await posWorkbook(biz, P.year, P.months, P.sales); const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([bytes], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" })); a.download = `Core_POS매출_${P.year}_${P.months.join("-")}월.xlsx`; document.body.appendChild(a); a.click(); a.remove(); toast("엑셀을 받았어요. Core '엑셀로 불러오기'에 올려 주세요"); }
+    catch (ex) { toast(ex.message); }
+    return;
+  }
   if ((el = t("[data-calcopen]"))) { const k = el.dataset.calcopen; S.calcOpen = { ...S.calcOpen, [k]: !S.calcOpen?.[k] }; return render(); }
   if (t("[data-ckinfo]")) { const { d, g } = TX.data, x = vatPlus(d, g, curHalf(d)); const its = [...x.list.filter((i) => !i.ex && !i.ok).map((i) => [i.name, i.vat]), ...x.exp.filter((r) => r.cls === "check").map((r) => [r.label, r.vat])]; return openOv(`<h3>왜 ${man(x.inCk)} 더 줄어요?</h3><p class="sub" style="margin:0 0 10px">아래 매입은 부가세를 낸 건 맞지만, 거래처가 세금계산서를 주는 곳인지 자료에 없어요. 세금계산서·카드영수증·현금영수증(지출증빙)이 있으면 이 부가세도 빼 줘서 낼 세금이 줄어요. 없으면 못 빼요.</p><div class="card pad">${calcRows([...its.map(([n, v]) => [n, v, "", "매입세액"]), ["확인되면 줄어드는 세금", x.inCk, "tot"]])}</div><button class="btn w full" style="margin-top:12px" data-nav="docs" data-close>🗂️ 영수증 정리하러 가기</button>`); }
   if ((el = t("[data-iy]"))) { S.iy = +el.dataset.iy; return render(); }
