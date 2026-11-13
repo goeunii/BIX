@@ -172,8 +172,8 @@ input[type=range]{width:100%;accent-color:var(--b);margin-top:8px}
 .td2 .ib{flex:0 0 28px;height:28px;font-size:18px;color:#d1d1d6}.td2 .ib:hover{color:#f5c26b}.td2 .ib.on{color:#f5a623}
 .g3b{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}.g3b .btn{padding-left:6px;padding-right:6px}.btn.onb{box-shadow:0 0 0 2px var(--b) inset;color:var(--b)}
 .cmpc{border:2px solid var(--bb)}.tbl .pv{color:var(--b);background:#f3f7ff}.tbl th.pv small{color:var(--b)}.cmpc .halves{margin:0}.x2{width:28px;height:28px;border-radius:50%;background:#f2f2f7;color:var(--s);font-size:13px}.lk{color:var(--b);font-weight:700;text-decoration:underline;font-size:13px}
-.benhero{display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(135deg,#34c759,#1f9e48);color:#fff;border-radius:22px;padding:22px 24px;margin-bottom:16px}.benhero .v{font-size:30px;font-weight:800;margin:4px 0}.benhero .bi{font-size:56px;line-height:1}
-.ben{border-left:5px solid #e5e5ea}.ben.pg{border-left-color:var(--g)}.ben.pa{border-left-color:var(--y)}.ben.px{opacity:.75}.bico{display:inline-flex;width:34px;height:34px;border-radius:10px;background:#f2f2f7;align-items:center;justify-content:center;margin-right:10px;font-size:18px;vertical-align:middle}
+.benhero{display:inline-flex;align-items:center;gap:10px;background:#e8f8ed;color:#1f7a3a;border-radius:14px;padding:10px 16px;margin-bottom:14px;font-size:15px}.benhero b{font-size:18px}
+.ben.pg{box-shadow:inset 4px 0 0 var(--g)}
 .morel{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.morel a{display:block;color:inherit;text-decoration:none}.morel a:hover b{color:var(--b)}.morel .me{font-size:28px;display:block;margin-bottom:6px}.morel b{display:block;font-size:16px}.morel small{color:var(--s);font-size:13px;line-height:1.45;display:block;margin-top:2px}
 .lnk{display:block;color:var(--b);font-weight:700;font-size:14px;padding:3px 0}
 .calsel{margin-top:14px;border-top:1px solid var(--l);padding-top:12px}
@@ -262,7 +262,7 @@ input[type=range]{width:100%;accent-color:var(--b);margin-top:8px}
   .tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:600;color:#8e8e93}
   .tabbar svg{width:25px;height:25px}.tabbar button.on{color:var(--b)}
   .top h1{font-size:28px}.top .rt{margin-left:0;width:100%}.top .rt .btn{flex:1}.top .rt.hrt{min-width:0}.top .rt.hrt .dgb{min-width:0;flex:1.4;padding:14px}.top .rt.hrt .btn{flex:1;justify-content:center;padding:0 10px;font-size:14px}.dgb em{font-size:26px}.dgb b{font-size:17px}
-  .morel{grid-template-columns:1fr 1fr}.benhero .v{font-size:24px}.benhero .bi{font-size:40px}
+  .morel{grid-template-columns:1fr 1fr}
   .g3,.g2,.g2.hm,.g2e,.bens{grid-template-columns:minmax(0,1fr);gap:12px}
   .g3{grid-template-columns:1fr 1fr}.g3 .big{grid-column:1/-1}
   .big{padding:20px}.big .v,.amt{font-size:32px;letter-spacing:-1px}
@@ -1209,13 +1209,12 @@ function vBen() {
   const order = (b) => (/가능성 높음/.test(b.status) ? 0 : /제외/.test(b.status) ? 2 : 1);
   return pageTop("혜택", S.benSeg === "now" ? "올해 받을 혜택" : "작년에 놓친 혜택") + obNote() + `<div class="seg"><button class="${S.benSeg === "now" ? "on" : ""}" data-nav="ben/now">올해 받을 혜택</button><button class="${S.benSeg === "past" ? "on" : ""}" data-nav="ben/past">작년에 놓친 혜택</button></div>
     <p class="sub" style="margin:-6px 0 16px">${S.benSeg === "now" ? `${y}년 소득에 대해 내년 5월 신고 때 받을 수 있어요.` : `${y}년에 받을 수 있었는데 놓쳤다면 5년 안에 돌려받을 수 있어요 (경정청구).`}</p>
-    ${(() => { const hi = list.filter((b) => /가능성 높음/.test(b.status)), tot = hi.reduce((a, b) => a + (+b.amount || 0), 0); return `<div class="benhero"><div><div class="k" style="color:#fff;opacity:.85">${S.benSeg === "now" ? "받을 가능성이 높은 혜택" : "돌려받을 수 있는 혜택"}</div><div class="v">${hi.length}개${tot ? ` · 약 ${man(tot)}` : ""}</div><div style="opacity:.85;font-size:14px">${list.length}개 중 · 눌러서 조건·서류 보기</div></div><div class="bi">🎁</div></div>`; })()}
-    <div class="bens">${list.map((b, i) => [b, i]).sort((a, b) => order(a[0]) - order(b[0])).map(([b, i]) => { const [c, w] = STAT(b.status); return `<button class="card ben ${c}" data-ben="${i}"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><b style="font-size:17px"><span class="bico">${benIcon(b.name)}</span>${esc(b.name)}</b><span class="pill ${c}">${w}</span></div>
+    ${(() => { const hi = list.filter((b) => /가능성 높음/.test(b.status)), tot = hi.reduce((a, b) => a + (+b.amount || 0), 0); return hi.length ? `<div class="benhero">🎁 ${S.benSeg === "now" ? "받을 가능성이 높은 혜택" : "돌려받을 수 있는 혜택"} <b>${hi.length}개${tot ? ` · 약 ${man(tot)}` : ""}</b></div>` : ""; })()}
+    <div class="bens">${list.map((b, i) => [b, i]).sort((a, b) => order(a[0]) - order(b[0])).map(([b, i]) => { const [c, w] = STAT(b.status); return `<button class="card ben ${c}" data-ben="${i}"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><b style="font-size:17px">${esc(b.name)}</b><span class="pill ${c}">${w}</span></div>
       <p class="sub" style="margin:8px 0 0">${/가능성 높음/.test(b.status) && (b.amount || b.rate != null) ? `<b style="color:var(--g)">${esc(benLine(b))}</b>` : esc(benLine(b))}</p><div class="small" style="margin-top:8px">${esc(b.kind)} · ${esc(b.law[0] || "")} ›</div></button>`; }).join("")}</div>
     <h3 style="margin:28px 0 12px">🔎 다른 혜택 더 알아보기</h3>
     <div class="morel">${BEN_LINKS.map(([e, t, s2, u]) => `<a class="card" href="${u}" target="_blank" rel="noopener"><span class="me">${e}</span><b>${t} ↗</b><small>${s2}</small></a>`).join("")}</div>`;
 }
-const benIcon = (n) => (/창업/.test(n) ? "🚀" : /고용|청년|직원/.test(n) ? "👥" : /노란우산/.test(n) ? "☂️" : /카드/.test(n) ? "💳" : /의제|농/.test(n) ? "🥬" : /연금/.test(n) ? "🏦" : /경정|환급/.test(n) ? "↩️" : "🎁");
 const BEN_LINKS = [
   ["🏛️", "보조금24", "나와 가게가 받을 수 있는 정부 지원금 한 번에 찾기", "https://www.gov.kr/portal/rcvfvrSvc/main"],
   ["🏪", "소상공인24", "소상공인 정책자금·지원사업 신청", "https://www.sbiz24.kr"],
