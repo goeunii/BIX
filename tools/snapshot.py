@@ -5,7 +5,7 @@ import json, sys, urllib.request
 from pathlib import Path
 
 SITE = (sys.argv[1] if len(sys.argv) > 1 else "https://bix-phi.vercel.app").rstrip("/")
-PICK = {"해운대 바삭치킨": "demo-a", "광안 소금빵": "demo-b"}
+PICK = {"해운대 바삭치킨": "demo-a", "광안 소금빵": "demo-b", "(주)서면숯불한우": "demo-c"}
 # 사이트(txLoad)가 읽는 것과 똑같은 묶음 — 바뀌면 같이 고쳐요
 READS = [(["profile", "tax", "hr.employee"], None), (["sales", "cogs", "hr", "expense"], None), (["derived"], "PY"),
          (["ops.purchase", "ops.supplier"], None), (["finance.interest", "capital", "liability.deferred_revenue", "ops.sales", "ops.collected"], None)]
