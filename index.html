@@ -2103,7 +2103,7 @@ function posView() {
     <div class="card" style="margin-top:14px"><h3 style="margin:0 0 10px">달마다 · 결제수단별</h3>${months.length ? `<div style="overflow-x:auto"><table class="tbl"><tr><th>월</th>${usedCats.map(([, n]) => `<th>${n}</th>`).join("")}<th>합계</th></tr>${rows}</table></div>` : `<p class="sub">${P.year}년 매출이 아직 없어요.</p>`}
       <p class="small" style="margin:8px 0 0">부가세 포함 금액이에요. 세금 화면의 "매출"은 부가세를 뺀 금액이라 더 작게 보여요 (예: 10,000원 → 9,091원). 취소는 취소한 달에 빼요.</p></div>
     ${months.length ? `<div class="card" style="margin-top:14px"><h3 style="margin:0 0 6px">📊 Core에 올리기</h3><p class="sub" style="margin:0 0 12px">Core "엑셀로 불러오기"에 그대로 올리면 돼요. 고른 달·위 표에 있는 결제수단 칸만 채우고 나머지는 비워 둬요 (Core가 그 칸만 덮어써요).</p>
-      <label class="small">Core에 등록된 상호</label><input id="posBiz" class="inp" value="${esc(P.biz ?? "BIX 테스트 매장")}" style="margin:4px 0 12px;width:100%;max-width:320px">
+      <label class="small" style="display:block">Core에 등록된 상호</label><input id="posBiz" class="inp" value="${esc(P.biz ?? "BIX 테스트 매장")}" style="margin:4px 0 12px;width:100%;max-width:320px">
       <div class="small" style="margin-bottom:6px">넣을 달</div><div class="halves" style="margin:0 0 14px">${months.map((m) => `<button class="${sel.includes(m) ? "on" : ""}" data-posmonth="${m}">${sel.includes(m) ? "✓ " : ""}${m}월</button>`).join("")}</div>
       <button class="btn p" data-posxlsx ${sel.length ? "" : "disabled"}>📊 Core용 엑셀 받기</button>
       <p class="small" style="margin:10px 0 0">한 달 전체를 다시 불러와서 올려요. 새로 생긴 결제만 넣으면 그 달 합계를 덮어써서 줄어들어요. 받은 파일은 한셀·엑셀에서 다시 저장하지 말고 그대로 올려 주세요.</p></div>` : ""}
