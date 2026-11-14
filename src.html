@@ -174,6 +174,7 @@ input[type=range]{width:100%;accent-color:var(--b);margin-top:8px}
 .cmpc{border:2px solid var(--bb)}.tbl .pv{color:var(--b);background:#f3f7ff}.tbl th.pv small{color:var(--b)}.cmpc .halves{margin:0}.x2{width:28px;height:28px;border-radius:50%;background:#f2f2f7;color:var(--s);font-size:13px}.lk{color:var(--b);font-weight:700;text-decoration:underline;font-size:13px}
 .benhero{display:inline-flex;align-items:center;gap:10px;background:#e8f8ed;color:#1f7a3a;border-radius:14px;padding:10px 16px;margin-bottom:14px;font-size:15px}.benhero b{font-size:18px}
 .ben.pg{box-shadow:inset 4px 0 0 var(--g)}
+.hpc.mine{box-shadow:0 0 0 2px var(--b)}.hpb{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.hpb .btn{text-decoration:none}
 .morel{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.morel a{display:block;color:inherit;text-decoration:none}.morel a:hover b{color:var(--b)}.morel .me{font-size:28px;display:block;margin-bottom:6px}.morel b{display:block;font-size:16px}.morel small{color:var(--s);font-size:13px;line-height:1.45;display:block;margin-top:2px}
 .lnk{display:block;color:var(--b);font-weight:700;font-size:14px;padding:3px 0}
 .calsel{margin-top:14px;border-top:1px solid var(--l);padding-top:12px}
@@ -615,10 +616,10 @@ const ICON = {
   sales: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21h18M6 17v-5M11 17V7M16 17v-8M21 17V4"/></svg>',
   more: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>',
 };
-const NAV = [["home", "🏠", "홈"], ["sales", "💰", "매출"], ["tax", "🧾", "세금"], ["ben", "🎁", "혜택"], ["docs", "🗂️", "영수증·통장"], ["report", "📄", "세무사 보고서"]];
+const NAV = [["home", "🏠", "홈"], ["sales", "💰", "매출"], ["tax", "🧾", "세금"], ["ben", "🎁", "혜택"], ["docs", "🗂️", "영수증·통장"], ["report", "📄", "세무사 보고서"], ["help", "🏛️", "도움받을 곳"]];
 
 /* ---------- 주소(#/home 등)로 화면 고르기 ---------- */
-const PAGES = ["home", "sales", "tax", "ben", "docs", "report", "more"];
+const PAGES = ["home", "sales", "tax", "ben", "docs", "report", "help", "more"];
 function route() {
   const [a, b] = location.hash.replace(/^#\/?/, "").split("/");
   const prev = S.view + S.page;
@@ -798,7 +799,7 @@ function shell(inner) {
       <div style="margin-top:8px"><span class="mode ${BIX.mode === "core" ? "live" : ""}">${BIX.mode === "core" ? "● Core 실시간 자료" : "데모 데이터"}</span></div></div>
   </aside>`;
   const tabs = [["home", "홈"], ["sales", "매출"], ["tax", "세금"], ["ben", "혜택"], ["docs", "정리"], ["more", "더보기"]];
-  const onTab = ["risk", "report"].includes(S.page) ? "more" : S.page;
+  const onTab = ["risk", "report", "help"].includes(S.page) ? "more" : S.page;
   return `<div class="app">${side}
     <main class="main">
       <div class="mtop"><button class="logo" data-nav="" style="font-size:17px"><i style="width:26px;height:26px;font-size:14px">₩</i>돈워리택스</button><button class="sb" data-picker>${esc(S.biz?.biz_name || "…")} ⌄</button></div>
@@ -1301,6 +1302,7 @@ function vMore() {
       <button class="row chev" data-ai="ai"><span style="font-size:20px;margin-right:10px">✦</span><div class="t">AI 상담<small>바로 물어보기</small></div></button>
       <button class="row chev" data-ai="pro"><span style="font-size:20px;margin-right:10px">👩‍💼</span><div class="t">세무사 상담<small>사람에게 물어보기</small></div></button>
       <button class="row chev" data-nav="report"><span style="font-size:20px;margin-right:10px">📄</span><div class="t">세무사 보고서</div></button>
+      <button class="row chev" data-nav="help"><span style="font-size:20px;margin-right:10px">🏛️</span><div class="t">도움받을 곳<small>관할 세무서·소상공인 지원센터</small></div></button>
       <button class="row chev" data-diag><span style="font-size:20px;margin-right:10px">🩺</span><div class="t">가게 진단</div></button>
       <button class="row chev" data-picker><span style="font-size:20px;margin-right:10px">🏪</span><div class="t">가게 바꾸기<small>${esc(S.biz.biz_name)}</small></div></button>
     </div>
@@ -1345,6 +1347,72 @@ function amtCard(label, lo, hi, due, note, extra = "") {
 }
 const aiCard = (qs) => `<div class="card"><h3>✦ AI에게 물어보기</h3><p class="small" style="margin:0 0 12px">우리 가게 숫자를 보고 쉬운 말로 답해요</p><div class="qchips">${qs.map((q) => `<button class="qchip" data-q="${esc(q)}">${esc(q)}</button>`).join("")}</div></div>`;
 /* --- 혜택 --- */
+/* ---------- 도움받을 곳 (부산) ----------
+   출처: 팀 정리 자료 "국세청 소속 부산세무서" (2026-11) — 주소·전화·관할은 국세청·소진공 홈페이지에서 다시 확인해요.
+   KAKAO_JS_KEY: 카카오맵 JavaScript 키 (원래 웹페이지에 공개되는 키예요. 카카오 개발자센터에서 사이트 도메인을 등록해야 지도가 떠요)
+   REST API 키·Admin 키는 여기에 넣지 않아요. */
+const KAKAO_JS_KEY = "";
+const HELP_PLACES = [
+  { kind: "tax", name: "금정세무서", addr: "부산 금정구 중앙대로 1636", tel: "051-580-6200", area: ["금정구", "기장군"] },
+  { kind: "tax", name: "동래세무서", addr: "부산 연제구 거제천로269번길 16", tel: "051-860-2200", area: ["동래구", "연제구"] },
+  { kind: "tax", name: "부산강서세무서", addr: "부산 강서구 명지국제7로 44", tel: "051-740-9200", area: ["강서구"] },
+  { kind: "tax", name: "부산진세무서", addr: "부산 동구 진성로 23", tel: "051-461-9200", area: ["부산진구", "동구"] },
+  { kind: "tax", name: "북부산세무서", addr: "부산 사상구 학감대로 263", tel: "051-310-6200", area: ["북구", "사상구"] },
+  { kind: "tax", name: "서부산세무서", addr: "부산 서구 대영로 10", tel: "051-250-6200", area: ["서구", "사하구"] },
+  { kind: "tax", name: "수영세무서", addr: "부산 수영구 남천동로19번길 28", tel: "051-620-9200", area: ["남구", "수영구"] },
+  { kind: "tax", name: "중부산세무서", addr: "부산 중구 충장대로 6", tel: "051-240-0200", area: ["중구", "영도구"] },
+  { kind: "tax", name: "해운대세무서", addr: "부산 해운대구 좌동순환로 17", tel: "051-660-9200", area: ["해운대구"] },
+  { kind: "nts", name: "부산지방국세청", addr: "부산 연제구 연제로 12", tel: "051-750-7200", area: [], note: "부산·울산·경남 세무서를 총괄해요. 세무서에서 해결이 안 될 때" },
+  { kind: "semas", name: "소진공 부산중부센터", addr: "부산 중구 중앙대로 63", floor: "부산우체국 12층", tel: "051-469-1644", area: ["중구", "영도구", "서구", "사하구", "동구"] },
+  { kind: "semas", name: "소진공 부산북부센터", addr: "부산 북구 기찰로 12", floor: "이수타워 9층", tel: "051-341-8052", area: ["북구", "사상구", "강서구"] },
+  { kind: "semas", name: "소진공 부산남부센터", addr: "부산 연제구 중앙대로 1090", floor: "프라임시티 6층", tel: "051-633-6562", area: ["부산진구", "연제구", "동래구", "금정구"] },
+  { kind: "semas", name: "소진공 부산동부센터", addr: "부산 수영구 과정로 46", floor: "SMC빌딩 6층", tel: "051-761-2561", area: ["남구", "수영구", "해운대구", "기장군"] },
+];
+const HELP_KIND = { tax: ["🏛️", "세무서", "신고·납부, 사업자등록, 각종 증명 발급"], nts: ["🏢", "지방국세청", ""], semas: ["🤝", "소상공인 지원센터", "정책자금, 무료 컨설팅, 지원사업 안내"] };
+const myGu = () => { const r = S.biz?.region || ""; return /부산/.test(r) ? r.split(/\s+/).find((w) => /[구군]$/.test(w)) || null : null; };
+function placeCard(p, mine) {
+  const [e, kn] = HELP_KIND[p.kind];
+  return `<div class="card hpc ${mine ? "mine" : ""}" data-place="${esc(p.name)}"><div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start"><div><div class="small">${e} ${kn}${mine ? ` · <b style="color:var(--b)">우리 가게 관할</b>` : ""}</div><b style="font-size:18px">${esc(p.name)}</b></div></div>
+    <div class="sub" style="margin:6px 0 0">${esc(p.addr)}${p.floor ? `, ${esc(p.floor)}` : ""}</div>
+    ${p.area.length ? `<div class="small" style="margin-top:4px">관할: ${p.area.join(", ")}</div>` : p.note ? `<div class="small" style="margin-top:4px">${esc(p.note)}</div>` : ""}
+    <div class="hpb"><a class="btn w sm" href="tel:${p.tel.replace(/-/g, "")}">📞 ${p.tel}</a><a class="btn w sm" href="https://map.kakao.com/link/search/${encodeURIComponent(p.addr)}" target="_blank" rel="noopener">🧭 길찾기</a><button class="btn w sm" data-copyaddr="${esc(p.addr + (p.floor ? " " + p.floor : ""))}">📋 주소 복사</button></div></div>`;
+}
+function vHelp() {
+  const gu = myGu(), mine = HELP_PLACES.filter((p) => gu && p.area.includes(gu));
+  const grp = (k) => HELP_PLACES.filter((p) => p.kind === k || (k === "tax" && p.kind === "nts"));
+  return pageTop("도움받을 곳", "세금 문제로 도움받을 곳") + `
+    ${gu ? `<h3 style="margin:0 0 10px">📍 ${esc(S.biz.biz_name)}(${esc(gu)}) 관할</h3><div class="g2">${mine.map((p) => placeCard(p, true)).join("")}</div>`
+      : `<div class="card pad" style="background:#fff8e6">지금은 <b>부산</b> 지역만 정리돼 있어요. ${esc(S.biz?.region || "")} 가게의 관할은 국세청 홈페이지에서 찾아 주세요 <a class="lk" href="https://www.nts.go.kr" target="_blank" rel="noopener">국세청 ↗</a></div>`}
+    <div class="card" style="margin-top:16px;padding:0;overflow:hidden">${KAKAO_JS_KEY ? `<div id="kmap" style="height:420px"></div>` : `<div style="height:200px;display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center;background:#f2f2f7;color:var(--s);text-align:center;padding:16px"><span>🗺️ 지도는 카카오맵 키를 넣으면 보여요</span><span class="small">아래 "길찾기"는 지금도 카카오맵으로 열려요</span></div>`}
+      <div class="small" style="padding:10px 16px;display:flex;gap:14px;flex-wrap:wrap"><span>🔵 세무서</span><span>🟣 지방국세청</span><span>🟢 소상공인 지원센터</span>${gu ? `<span>⭐ 우리 가게 관할</span>` : ""}</div></div>
+    <h3 style="margin:24px 0 10px">🏛️ 부산 세무서 (9곳 + 지방국세청)</h3><div class="g2">${grp("tax").map((p) => placeCard(p, mine.includes(p))).join("")}</div>
+    <h3 style="margin:24px 0 10px">🤝 소상공인시장진흥공단 부산 지원센터 (4곳)</h3><div class="g2">${grp("semas").map((p) => placeCard(p, mine.includes(p))).join("")}</div>
+    <p class="small" style="margin:16px 0 0">2026년 11월 팀 정리 자료 기준이에요. 방문 전에 전화로 확인해 주세요 · <a class="lk" href="https://www.nts.go.kr" target="_blank" rel="noopener">국세청</a> · <a class="lk" href="https://www.semas.or.kr" target="_blank" rel="noopener">소상공인시장진흥공단</a></p>`;
+}
+/* 카카오맵: 키가 있을 때만 불러와요. 주소 → 좌표는 한 번 찾으면 브라우저에 기억해요 */
+let kakaoP = null;
+function kakaoLoad() {
+  if (!kakaoP) kakaoP = new Promise((ok, no) => { const sc = document.createElement("script"); sc.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}&autoload=false&libraries=services`; sc.onload = () => kakao.maps.load(ok); sc.onerror = () => { kakaoP = null; no(new Error("카카오맵을 불러오지 못했어요 (키·도메인 등록 확인)")); }; document.head.appendChild(sc); });
+  return kakaoP;
+}
+async function helpMap() {
+  const el = document.getElementById("kmap"); if (!el || el.dataset.done) return; el.dataset.done = 1;
+  try {
+    await kakaoLoad(); if (!document.body.contains(el)) return;
+    const map = new kakao.maps.Map(el, { center: new kakao.maps.LatLng(35.17, 129.07), level: 8 }), geo = new kakao.maps.services.Geocoder();
+    const cache = store.get("geo") || {}, bounds = new kakao.maps.LatLngBounds(), gu = myGu(), info = new kakao.maps.InfoWindow({ removable: true });
+    const where = (a) => cache[a] ? Promise.resolve(cache[a]) : new Promise((ok) => geo.addressSearch(a, (r, st) => ok(st === kakao.maps.services.Status.OK ? (cache[a] = [+r[0].y, +r[0].x]) : null)));
+    const color = { tax: "#0a64ff", nts: "#8e44ad", semas: "#1f9d55" };
+    for (const p of HELP_PLACES) {
+      const c = await where(p.addr); if (!c) continue;
+      const pos = new kakao.maps.LatLng(c[0], c[1]), mine = gu && p.area.includes(gu); bounds.extend(pos);
+      const dot = `<div style="background:${color[p.kind]};color:#fff;border-radius:14px;padding:4px 9px;font-size:12px;font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.25);white-space:nowrap;cursor:pointer;${mine ? "outline:3px solid #ffcc00" : ""}">${mine ? "⭐ " : ""}${esc(p.name.replace("소진공 ", ""))}</div>`;
+      const ov = new kakao.maps.CustomOverlay({ position: pos, content: dot, yAnchor: 1.2 }); ov.setMap(map);
+    }
+    store.set("geo", cache);
+    if (!bounds.isEmpty()) map.setBounds(bounds);
+  } catch (ex) { el.innerHTML = `<div style="padding:24px;color:var(--r)">${esc(ex.message)}</div>`; }
+}
 function vBen() {
   const list = S.benSeg === "now" ? TX.data.benefitsNow : TX.data.benefitsPast;
   const y = S.benSeg === "now" ? TX.data.d.Y : TX.data.d.PY;
@@ -1500,10 +1568,11 @@ function render() {
   else if (!TX.data || S.loading || S.err) html = shell(loadingView());
   else {
     if (S.page === "more" && innerWidth >= 900) S.page = "home";
-    html = shell({ home: vHome, sales: vSales, tax: vTax, ben: vBen, docs: vDocs, report: vReport, more: vMore }[S.page]());
+    html = shell({ home: vHome, help: vHelp, sales: vSales, tax: vTax, ben: vBen, docs: vDocs, report: vReport, more: vMore }[S.page]());
   }
   $("#app").innerHTML = html;
-  document.title = S.view === "app" && S.biz ? `${{ home: "홈", sales: "매출", tax: "세금", ben: "혜택", docs: "영수증·통장", report: "세무사 보고서", more: "더보기" }[S.page]} · 돈워리택스` : "돈워리택스";
+  if (S.view === "app" && S.page === "help" && KAKAO_JS_KEY) setTimeout(helpMap);
+  document.title = S.view === "app" && S.biz ? `${{ home: "홈", help: "도움받을 곳", sales: "매출", tax: "세금", ben: "혜택", docs: "영수증·통장", report: "세무사 보고서", more: "더보기" }[S.page]} · 돈워리택스` : "돈워리택스";
 }
 
 /* ---------- 누르기 ---------- */
@@ -1531,6 +1600,7 @@ document.addEventListener("click", async (e) => {
   if ((el = t("[data-cmp]"))) { const k = el.dataset.cmp; S.cmp = k && S.cmp !== k ? k : null; return render(); }
   if ((el = t("[data-icmp]"))) { const k = +el.dataset.icmp || null; S.icmp = k && S.icmp !== k ? k : null; return render(); }
   if (t("[data-stafflist]")) return openOv(staffModal());
+  if ((el = t("[data-copyaddr]"))) { try { await navigator.clipboard.writeText(el.dataset.copyaddr); toast("주소를 복사했어요"); } catch { toast(el.dataset.copyaddr); } return; }
   if (t("[data-staffsave]")) { const nm = $("#sfName").value.trim(), pay = Number($("#sfPay").value.replace(/[^\d]/g, "")); if (!nm || !pay) return toast("이름과 월급을 넣어 주세요"); const k = "staff." + S.biz.business_id; store.set(k, [...extraStaff(), { name: nm, type: $("#sfType").value, wage_type: "월급", wage: pay }]); toast(`${nm} 님을 명단에 넣었어요`); render(); return openOv(staffModal()); }
   if ((el = t("[data-staffdel]"))) { const i = +el.dataset.staffdel, k = "staff." + S.biz.business_id, a = extraStaff(); a.splice(i, 1); store.set(k, a); S.wh = {}; render(); return openOv(staffModal()); }
   if ((el = t("[data-posload]"))) return posLoad(+el.dataset.posload);
