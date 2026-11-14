@@ -2311,17 +2311,25 @@ async function helpMap() {
   try {
     await kakaoLoad(); if (!document.body.contains(el)) return;
     const map = new kakao.maps.Map(el, { center: new kakao.maps.LatLng(35.17, 129.07), level: 8 }), geo = new kakao.maps.services.Geocoder();
-    const cache = store.get("geo") || {}, bounds = new kakao.maps.LatLngBounds(), gu = myGu(), info = new kakao.maps.InfoWindow({ removable: true });
+    const near = [], cache = store.get("geo") || {}, bounds = new kakao.maps.LatLngBounds(), gu = myGu(), info = new kakao.maps.InfoWindow({ removable: true });
     const where = (a) => cache[a] ? Promise.resolve(cache[a]) : new Promise((ok) => geo.addressSearch(a, (r, st) => ok(st === kakao.maps.services.Status.OK ? (cache[a] = [+r[0].y, +r[0].x]) : null)));
     const color = { tax: "#0a64ff", nts: "#8e44ad", semas: "#1f9d55" };
     for (const p of HELP_PLACES) {
       const c = await where(p.addr); if (!c) continue;
-      const pos = new kakao.maps.LatLng(c[0], c[1]), mine = gu && p.area.includes(gu); bounds.extend(pos);
+      const pos = new kakao.maps.LatLng(c[0], c[1]), mine = gu && p.area.includes(gu); bounds.extend(pos); if (mine) near.push(pos);
       const dot = `<div style="background:${color[p.kind]};color:#fff;border-radius:14px;padding:4px 9px;font-size:12px;font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.25);white-space:nowrap;cursor:pointer;${mine ? "outline:3px solid #ffcc00" : ""}">${mine ? "⭐ " : ""}${esc(p.name.replace("소진공 ", ""))}</div>`;
       const ov = new kakao.maps.CustomOverlay({ position: pos, content: dot, yAnchor: 1.2 }); ov.setMap(map);
     }
+    // 시작 화면: 가게가 있는 구·군을 크게. 못 찾으면 부산 전체
+    const home = S.biz?.region ? await where(S.biz.region) : null;
     store.set("geo", cache);
-    if (!bounds.isEmpty()) map.setBounds(bounds);
+    const all = () => { if (!bounds.isEmpty()) map.setBounds(bounds); };
+    const focus = () => { const hb = new kakao.maps.LatLngBounds(), hp = new kakao.maps.LatLng(home[0], home[1]); hb.extend(hp); near.forEach((x) => hb.extend(x)); if (near.length) map.setBounds(hb, 60, 60, 60, 60); else { map.setLevel(6); map.setCenter(hp); } };
+    if (home) { focus(); new kakao.maps.CustomOverlay({ position: new kakao.maps.LatLng(home[0], home[1]), content: `<div style="background:#1d1d1f;color:#fff;border-radius:14px;padding:4px 9px;font-size:12px;font-weight:700;white-space:nowrap">📍 ${esc(S.biz.biz_name)} 동네</div>`, yAnchor: 1.2, zIndex: 3 }).setMap(map); }
+    else all();
+    const b = document.createElement("button"); b.className = "btn w sm"; b.textContent = "부산 전체 보기"; b.style.cssText = "position:absolute;top:10px;right:10px;z-index:10";
+    let wide = !home; b.onclick = () => { wide = !wide; if (wide) all(); else if (home) focus(); b.textContent = wide && home ? "우리 동네로" : "부산 전체 보기"; };
+    if (home) { el.style.position = "relative"; el.appendChild(b); }
   } catch (ex) { el.innerHTML = `<div style="padding:24px;color:var(--r)">${esc(ex.message)}</div>`; }
 }
 function vBen() {
