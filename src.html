@@ -316,7 +316,7 @@ const API = "/api/core";
 /* ---------- Core 연결 (서버 함수를 거쳐서) + 데모 데이터 ---------- */
 const BIX = (() => {
   let mode = "demo", business = null, me = null;
-  const tags = new Map();
+  const tags = new Map(), cache = new Map();   // 같은 가게 자료는 한 번만 읽어요 (POS 반영 켜고 끌 때 바로 다시 계산)
   async function call(action, body = {}, ms = 45000) {
     const ctl = new AbortController(); const tm = setTimeout(() => ctl.abort(), ms);
     let res;
@@ -339,7 +339,7 @@ const BIX = (() => {
   }
   return {
     get mode() { return mode; }, get me() { return me; }, get business() { return business; }, tags,
-    setBusiness(b) { business = b; },
+    setBusiness(b) { if (business?.business_id !== b?.business_id) cache.clear(); business = b; },
     useDemo() { mode = "demo"; me = null; Object.entries(DEMO.tags).forEach(([k, v]) => tags.set(k, { code: k, name_ko: v })); },
     /** 서버 함수(/api/core)가 살아 있으면 Core 모드로 바꿔요 */
     async connect() {
@@ -350,8 +350,11 @@ const BIX = (() => {
     },
     async listBusinesses() { return mode === "demo" ? DEMO.list : (await call("business.list")).data; },
     async read(t = [], { period } = {}) {
-      if (mode === "demo") return DEMO.read(business.business_id, t, period);
-      return (await call("records.read", { business_id: business.business_id, tags: t, period })).data;
+      const key = JSON.stringify([mode, business.business_id, t, period ?? null]);
+      if (!cache.has(key)) cache.set(key, (mode === "demo" ? Promise.resolve(DEMO.read(business.business_id, t, period)) : call("records.read", { business_id: business.business_id, tags: t, period }).then((j) => j.data)).catch((e) => { cache.delete(key); throw e; }));
+      const out = await cache.get(key);
+      const add = t.includes("sales") && !period ? posRecs() : [];   // POS 매출을 이 가게 매출에 더해요 (화면 계산만, Core는 그대로)
+      return add.length ? { ...out, records: [...out.records, ...add] } : out;
     },
     async ask(question, { instructions, images, context_tags, max_tokens } = {}) {
       if (mode === "demo") return DEMO.ask(question, images);
@@ -582,7 +585,8 @@ const loadScript = (src) => new Promise((ok, no) => { const s = document.createE
 const S = {
   view: "landing", page: "home", taxSeg: "vat", benSeg: "now", half: null,
   ob: store.get("ob") || {}, obi: 0,
-  user: store.get("user") || null,          // 가짜 가입 정보 { name, via }
+  user: store.get("user") || null,
+  pos: store.get("pos") || null, posOn: !!store.get("posOn"),   // POS 매출 (토스 테스트 매장) · 세금 계산에 더할지          // 가짜 가입 정보 { name, via }
   biz: store.get("biz") || null,             // 보고 있는 가게
   fromOb: store.get("fromOb") || false,      // 질문에 답해서 고른 샘플인지
   list: null, chat: [], rc: null, docSeg: "rc", talk: "ai", pro: {}, bank: null, wh: null, iy: null, cmp: null, calYm: null, calDay: null, loading: false, err: null, ov: null, su: null, matchAt: 0,
@@ -608,12 +612,13 @@ const ICON = {
   ben: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18M12 8c-2-4-6-4-6-1s6 1 6 1c2-4 6-4 6-1s-6 1-6 1"/></svg>',
   docs: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6" stroke-linecap="round"/></svg>',
   cal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+  sales: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21h18M6 17v-5M11 17V7M16 17v-8M21 17V4"/></svg>',
   more: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>',
 };
-const NAV = [["home", "🏠", "홈"], ["tax", "🧾", "세금"], ["ben", "🎁", "혜택"], ["docs", "🗂️", "영수증·통장"], ["report", "📄", "세무사 보고서"]];
+const NAV = [["home", "🏠", "홈"], ["sales", "💰", "매출"], ["tax", "🧾", "세금"], ["ben", "🎁", "혜택"], ["docs", "🗂️", "영수증·통장"], ["report", "📄", "세무사 보고서"]];
 
 /* ---------- 주소(#/home 등)로 화면 고르기 ---------- */
-const PAGES = ["home", "tax", "ben", "docs", "report", "more"];
+const PAGES = ["home", "sales", "tax", "ben", "docs", "report", "more"];
 function route() {
   const [a, b] = location.hash.replace(/^#\/?/, "").split("/");
   const prev = S.view + S.page;
@@ -625,7 +630,8 @@ function route() {
     S.view = "app"; S.page = a;
     if (a === "tax" && ["vat", "income", "wh"].includes(b)) S.taxSeg = b;
     if (a === "ben" && ["now", "past"].includes(b)) S.benSeg = b;
-    if (a === "docs") S.docSeg = ["bank", "pos"].includes(b) ? b : "rc";
+    if (a === "docs" && b === "pos") S.page = "sales";   // 예전 주소: POS 매출은 매출 탭으로 옮겼어요
+    if (a === "docs") S.docSeg = b === "bank" ? "bank" : "rc";
   } else S.view = "landing";
   closeOv();
   if (prev !== S.view + S.page) window.scrollTo(0, 0);
@@ -791,7 +797,7 @@ function shell(inner) {
     <div class="bt">${S.user ? `<b style="color:var(--t)">${esc(S.user.name)} 사장님</b> · ${esc(S.user.via)}<br>결과가 저장돼 있어요 · <button data-logout>로그아웃</button>` : `게스트로 보는 중<br><button data-signup="save">가입하고 저장하기 →</button>`}
       <div style="margin-top:8px"><span class="mode ${BIX.mode === "core" ? "live" : ""}">${BIX.mode === "core" ? "● Core 실시간 자료" : "데모 데이터"}</span></div></div>
   </aside>`;
-  const tabs = [["home", "홈"], ["tax", "세금"], ["ben", "혜택"], ["docs", "정리"], ["more", "더보기"]];
+  const tabs = [["home", "홈"], ["sales", "매출"], ["tax", "세금"], ["ben", "혜택"], ["docs", "정리"], ["more", "더보기"]];
   const onTab = ["risk", "report"].includes(S.page) ? "more" : S.page;
   return `<div class="app">${side}
     <main class="main">
@@ -935,6 +941,7 @@ function taxVat(d, g) {
   const sum = (a, k) => a.reduce((s, i) => s + i[k], 0);
   const head = `<div class="card"><div class="k">${halfName(hf)} 부가세 (${halfMonths(hf)})</div><div class="amt">약 ${man(x.pay)}</div>
       <div style="font-weight:600">${fd(x.due)}까지 <span class="pill pb">${dday(x.due)}</span></div>
+      ${S.posOn && d.recs.some((r) => r.pos) ? `<p class="small" style="margin:10px 0 0;color:var(--b)">🖥️ POS 매출을 더해서 계산했어요 <button class="lk" data-nav="sales">반영 전과 비교</button></p>` : ""}
       <p class="small" style="margin:10px 0 0">${x.months.length < 6 ? `${x.months.length}개월 자료로 계산 · ` : ""}${x.inCk ? `세금계산서·카드영수증이 확인되면 ${man(x.inCk)} 더 줄어요 <button class="lk" data-ckinfo>무슨 뜻?</button>` : "공제 다 반영했어요"}</p>
       <div class="halves" style="margin:16px 0 0"><span class="small" style="align-self:center;margin-right:2px">지난 기와 비교</span>${hs.filter((h) => h.key !== hf.key).map((h) => `<button class="${S.cmp === h.key ? "on" : ""}" data-cmp="${h.key}">${halfName(h)}</button>`).join("")}</div></div>
     ${S.cmp && hs.some((h) => h.key === S.cmp && h.key !== hf.key) ? cmpCard() : ""}`;
@@ -1100,8 +1107,8 @@ function taxWh(d, g) {
 
 /* --- 영수증 · 통장 --- */
 function vDocs() {
-  const segs = [["rc", "🧾 영수증"], ["bank", "🏦 통장"], ["pos", "🖥️ POS 매출"]];
-  return pageTop("정리", { bank: "통장 내역 정리", pos: "POS 매출 가져오기" }[S.docSeg] || "영수증 정리") + `<div class="seg">${segs.map(([k, l]) => `<button class="${S.docSeg === k ? "on" : ""}" data-nav="docs/${k}">${l}</button>`).join("")}</div>` + (S.docSeg === "bank" ? bankView() : S.docSeg === "pos" ? posView() : rcView());
+  const segs = [["rc", "🧾 영수증"], ["bank", "🏦 통장"]];
+  return pageTop("정리", S.docSeg === "bank" ? "통장 내역 정리" : "영수증 정리") + `<div class="seg">${segs.map(([k, l]) => `<button class="${S.docSeg === k ? "on" : ""}" data-nav="docs/${k}">${l}</button>`).join("")}</div>` + (S.docSeg === "bank" ? bankView() : rcView());
 }
 function rcView() {
   const rc = S.rc;
@@ -1167,10 +1174,44 @@ async function posLoad(year) {
     if (!j.ok) throw Object.assign(new Error(j.message || "불러오지 못했어요"), { noServer: j.configured === false });
     const c = posCheck(j.sales, j.issues);
     S.pos = { year, asOf: j.asOf, ...c, more: Math.max(0, (j.issueCount || 0) - (j.issues || []).length), months: posMonths(c.sales, year) };
+    posSave(); if (S.posOn) return posApply();
   } catch (ex) { S.pos = { err: ex.message, noServer: !!ex.noServer, year }; }
   render();
 }
 const posMonths = (sales, year) => [...new Set(sales.filter((x) => x.date.startsWith(year + "-")).map((x) => +x.date.slice(5, 7)))].sort((a, b) => a - b);
+/* POS 매출 → 이 가게의 달별 매출 기록 (Core 기록과 같은 모양, pos 표시) */
+function posRecs() {
+  if (!S.posOn || !S.pos?.sales?.length) return [];
+  const m = {};
+  for (const x of S.pos.sales) {
+    const ym = x.date.slice(0, 7), add = (c, n) => { if (n) m[ym + "|" + c] = (m[ym + "|" + c] || 0) + n; };
+    if (x.exempt) add("exempt", x.exempt);
+    if (x.category) add(x.category, x.amount - x.exempt);
+  }
+  return Object.entries(m).filter(([, v]) => v > 0).map(([k, value]) => {
+    const [ym, c] = k.split("|"), end = new Date(Date.UTC(+ym.slice(0, 4), +ym.slice(5, 7), 0)).toISOString().slice(0, 10);
+    return { tag: "sales." + c, value, period_start: ym + "-01", period_end: end, evidence: "pos", pos: true };
+  });
+}
+function posSave() { const P = S.pos; if (P?.sales) store.set("pos", { year: P.year, asOf: P.asOf, sales: P.sales, issues: P.issues, dup: P.dup, more: P.more, sample: P.sample, months: P.months }); }
+function posApply() { TX.data = null; S.cmp = null; return loadData(); }   // 자료는 한 번 읽어 둔 걸 써서 바로 다시 계산돼요
+function vSales() {
+  const P = S.pos, has = !!P?.sales?.length;
+  let sw = "";
+  if (has) {
+    const { d, g } = TX.data, hf = curHalf(d);
+    let eff = "";
+    if (S.posOn && hf && g.vat === "일반") {
+      const x = vatPlus(d, g, hf), x0 = vatPlus({ ...d, recs: d.recs.filter((r) => !r.pos) }, g, hf);
+      const add = d.recs.filter((r) => r.pos && txHalfKey(txMonth(r)) === hf.key).reduce((a, r) => a + r.value, 0);
+      eff = `<div class="card pad" style="margin-top:10px;background:var(--bb)"><div class="small">${halfName(hf)} 부가세 (${halfMonths(hf)})</div><div style="font-size:19px;font-weight:800;margin:4px 0">반영 전 ${won(x0.pay)}원 → 반영 후 ${won(x.pay)}원 <span style="color:var(--b)">(${x.pay - x0.pay >= 0 ? "+" : "−"}${won(Math.abs(x.pay - x0.pay))}원)</span></div><div class="small">이번 기간 POS 매출 ${won(add)}원이 더해졌어요 · 세금 화면·종합소득세·혜택도 같이 바뀌어요 <button class="lk" data-nav="tax/vat">세금 화면 보기</button></div></div>`;
+    }
+    const cash = P.sales.filter((x) => x.category === "cash").reduce((a, x) => a + x.amount - x.exempt, 0), rate = TX_RULES.cardCredit.rate;
+    sw = `<div class="card"><button class="row" data-postoggle style="border:0;padding:0;width:100%;text-align:left"><span class="toggle ${S.posOn ? "on" : ""}"></span><div class="t"><b>세금 계산에 반영</b><small>토스 테스트 매장 POS 매출을 '${esc(S.biz?.biz_name || "")}' 매출에 더해서 계산해요 · 시연용, Core 자료는 그대로예요</small></div></button>${eff}
+      ${cash > 0 ? `<p class="small" style="margin:12px 0 0">💡 현금·계좌이체로 받은 ${won(cash)}원을 카드나 현금영수증으로 받았다면 부가세를 약 ${won(Math.round(cash * rate))}원 더 줄일 수 있어요 (신용카드매출세액공제 ${(rate * 100).toFixed(1)}% · 개인 일반과세자 · ${TX_RULES.cardCredit.until.slice(0, 4)}년 기준, 연 1,000만원 한도).</p>` : ""}</div><div style="height:14px"></div>`;
+  }
+  return pageTop("매출", "POS 매출") + sw + posView();
+}
 function posView() {
   const P = S.pos, y = new Date(TODAY() + "T00:00:00").getFullYear();
   if (!P || P.err) return `<div class="card"><div style="text-align:center;padding:18px 0"><div style="font-size:44px">🖥️</div><h3 style="margin:8px 0 4px">토스 POS 매출 불러오기</h3>
@@ -1459,10 +1500,10 @@ function render() {
   else if (!TX.data || S.loading || S.err) html = shell(loadingView());
   else {
     if (S.page === "more" && innerWidth >= 900) S.page = "home";
-    html = shell({ home: vHome, tax: vTax, ben: vBen, docs: vDocs, report: vReport, more: vMore }[S.page]());
+    html = shell({ home: vHome, sales: vSales, tax: vTax, ben: vBen, docs: vDocs, report: vReport, more: vMore }[S.page]());
   }
   $("#app").innerHTML = html;
-  document.title = S.view === "app" && S.biz ? `${{ home: "홈", tax: "세금", ben: "혜택", docs: "영수증·통장", report: "세무사 보고서", more: "더보기" }[S.page]} · 돈워리택스` : "돈워리택스";
+  document.title = S.view === "app" && S.biz ? `${{ home: "홈", sales: "매출", tax: "세금", ben: "혜택", docs: "영수증·통장", report: "세무사 보고서", more: "더보기" }[S.page]} · 돈워리택스` : "돈워리택스";
 }
 
 /* ---------- 누르기 ---------- */
@@ -1493,7 +1534,8 @@ document.addEventListener("click", async (e) => {
   if (t("[data-staffsave]")) { const nm = $("#sfName").value.trim(), pay = Number($("#sfPay").value.replace(/[^\d]/g, "")); if (!nm || !pay) return toast("이름과 월급을 넣어 주세요"); const k = "staff." + S.biz.business_id; store.set(k, [...extraStaff(), { name: nm, type: $("#sfType").value, wage_type: "월급", wage: pay }]); toast(`${nm} 님을 명단에 넣었어요`); render(); return openOv(staffModal()); }
   if ((el = t("[data-staffdel]"))) { const i = +el.dataset.staffdel, k = "staff." + S.biz.business_id, a = extraStaff(); a.splice(i, 1); store.set(k, a); S.wh = {}; render(); return openOv(staffModal()); }
   if ((el = t("[data-posload]"))) return posLoad(+el.dataset.posload);
-  if ((el = t("[data-possample]"))) { const y = +el.dataset.possample, c = posCheck(posSample(y)); S.pos = { year: y, sample: true, ...c, months: posMonths(c.sales, y) }; return render(); }
+  if ((el = t("[data-possample]"))) { const y = +el.dataset.possample, c = posCheck(posSample(y)); S.pos = { year: y, sample: true, ...c, months: posMonths(c.sales, y) }; posSave(); return S.posOn ? posApply() : render(); }
+  if (t("[data-postoggle]")) { S.posOn = !S.posOn; store.set("posOn", S.posOn); toast(S.posOn ? "POS 매출을 세금 계산에 넣었어요" : "POS 매출을 세금 계산에서 뺐어요"); return posApply(); }
   if ((el = t("[data-posmonth]"))) { const m = +el.dataset.posmonth, a = S.pos.months || []; S.pos.biz = $("#posBiz")?.value; S.pos.months = a.includes(m) ? a.filter((x) => x !== m) : [...a, m].sort((x, y) => x - y); return render(); }
   if (t("[data-posxlsx]")) {
     const P = S.pos, biz = ($("#posBiz")?.value || "").trim(); P.biz = biz;
